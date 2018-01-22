@@ -5,6 +5,7 @@
  */
 package arabitogrill;
 
+import arabitogrill.util.ArabitoGrillUtil;
 import java.io.IOException;
 import javafx.application.Application;
 
@@ -27,6 +28,7 @@ public class ArabitoGrill extends Application {
         Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
+        ArabitoGrillUtil.setStageIcon(primaryStage);
         primaryStage.show();
         primaryStage.setTitle("Library Assistant Login");
     }

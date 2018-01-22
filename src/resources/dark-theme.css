@@ -114,6 +114,13 @@
     -fx-text-alignment: center;
 }
 
+.main-text-2
+{
+    -fx-fill: -fx-secondary;
+    -fx-font-size: 19pt;
+    -fx-text-alignment: center;
+    -fx-text-shadow: 1px 2px #999;
+}
 .submission-container{
     -fx-background-color: derive(-fx-primary, 10%);
 }

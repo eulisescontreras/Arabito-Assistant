@@ -11,26 +11,22 @@ import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
-import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import arabitogrill.util.ArabitoGrillUtil;
 /**
  *
  * @author eulis
@@ -115,6 +111,10 @@ public class MainController  implements Initializable {
     
     @FXML
     private void handleMenuFullScreen(ActionEvent event) {
+        executeMenuFullScreen();
+    }
+    
+    private void executeMenuFullScreen(){
         Stage stage = ((Stage) rootPane.getScene().getWindow());
         stage.setFullScreen(!stage.isFullScreen());
     }
@@ -122,6 +122,11 @@ public class MainController  implements Initializable {
     @FXML
     private void handleMenuClose(ActionEvent event) {
         ((Stage) rootPane.getScene().getWindow()).close();
+    }
+    
+    @FXML
+    private void handleMenuAddMember(ActionEvent event) {
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addmember/member_add.fxml"), "Add New Member", null);
     }
 
 }

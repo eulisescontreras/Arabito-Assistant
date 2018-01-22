@@ -5,6 +5,7 @@
  */
 package arabitogrill.login;
 
+import arabitogrill.util.ArabitoGrillUtil;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class LoginController {
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Library Assistant");
             stage.setScene(new Scene(parent));
+            ArabitoGrillUtil.setStageIcon(stage);
             stage.show();
         } catch (IOException ex) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);

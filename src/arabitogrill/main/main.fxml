@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="1000.0" stylesheets="@../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="arabitogrill.main.MainController">
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1000.0" stylesheets="@../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="arabitogrill.main.MainController">
    <children>
       <AnchorPane fx:id="rootAnchorPane">
          <children>
@@ -33,14 +33,14 @@
                       </Menu>
                       <Menu mnemonicParsing="false" text="Add" styleClass="top-button">
                         <items>
-                          <MenuItem mnemonicParsing="false"  text="Add Book" />
-                              <MenuItem mnemonicParsing="false"  text="Add Member" />
+                            <MenuItem mnemonicParsing="false"  text="Add Bill" />
+                            <MenuItem mnemonicParsing="false" onAction="#handleMenuAddMember" text="Add Worker" />
                         </items>
                       </Menu>
                         <Menu mnemonicParsing="false" text="View" styleClass="top-button">
                            <items>
-                              <MenuItem mnemonicParsing="false"  text="View Book" />
-                              <MenuItem mnemonicParsing="false"  text="View Members" />
+                              <MenuItem mnemonicParsing="false"  text="View Bills" />
+                              <MenuItem mnemonicParsing="false"  text="View Workers" />
                               <MenuItem mnemonicParsing="false" onAction="#handleMenuFullScreen" text="Full Screen" />
                            </items>
                         </Menu>
@@ -70,8 +70,7 @@
                                                             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <FontAwesomeIconView glyphName="BOOK" size="30" />
-                                                            <JFXTextField fx:id="bookIDInput" labelFloat="true"  prefHeight="26.0" prefWidth="230.0" promptText="Book ID" />
+                                                                <!--Presentacion-->
                                                          </children>
                                                       </VBox>
                                                       <StackPane fx:id="bookInfoContainer">
@@ -112,8 +111,7 @@
                                                             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <FontAwesomeIconView glyphName="USER" size="30" />
-                                                            <JFXTextField fx:id="memberIDInput" labelFloat="true"  prefWidth="230.0" promptText="Member ID" />
+                                                           <!--Presentacion-->
                                                          </children>
                                                       </VBox>
                                                       <StackPane fx:id="memberInfoContainer">
@@ -144,14 +142,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <JFXButton  prefHeight="44.0" prefWidth="151.0" text="Issue">
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                         <padding>
-                                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                         </padding>
-                                                      </JFXButton>
+                                                       <!--footer-->
                                                    </children>
                                                 </HBox>
                                              </children>
