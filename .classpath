@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="dist/ArabitoGrill.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="dist/lib/derby.jar"/>
+	<classpathentry kind="lib" path="dist/lib/derbyclient.jar"/>
+	<classpathentry kind="lib" path="dist/lib/fontawesomefx-commons-8.15.jar"/>
+	<classpathentry kind="lib" path="dist/lib/fontawesomefx-fontawesome-4.7.0-5.jar"/>
+	<classpathentry kind="lib" path="dist/lib/gson-2.8.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jfoenix.jar"/>
+	<classpathentry kind="lib" path="postgresql-42.2.0.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

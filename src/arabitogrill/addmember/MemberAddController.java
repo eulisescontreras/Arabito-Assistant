@@ -5,10 +5,15 @@
  */
 package arabitogrill.addmember;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import com.jfoenix.controls.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -20,15 +25,33 @@ public class MemberAddController {
     @FXML
     private JFXTextField name;
     @FXML
-    private JFXTextField id;
+    private JFXTextField charge;
+    @FXML
+    private JFXDatePicker birth;
     @FXML
     private JFXTextField mobile;
     @FXML
     private JFXTextField email;
     @FXML
+    private JFXTextField dailyS;
+    @FXML
     private JFXButton saveButton;
     @FXML
     private JFXButton cancelButton;
+    
+    // location and resources will be automatically injected by the FXML loader
+    @FXML
+    private URL location;
+    @FXML
+    private ResourceBundle resources;
+
+    // Public no-args constructor
+    public MemberAddController() {
+    }
+    
+    @FXML
+    private void initialize() {
+    }
     
     @FXML
     private void cancel(ActionEvent event) {

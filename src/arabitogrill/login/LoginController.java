@@ -56,7 +56,7 @@ public class LoginController {
         try {
             Parent parent = FXMLLoader.load(getClass().getResource("/arabitogrill/main/main.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("Library Assistant");
+            stage.setTitle("Arabito Assistant");
             stage.setScene(new Scene(parent));
             ArabitoGrillUtil.setStageIcon(stage);
             stage.show();
