@@ -179,6 +179,14 @@
      -fx-background-size: cover;
 }
 
+#presentationTab{
+    -fx-border-color: -fx-secondary;
+}
+
+#calendarTab{
+    -fx-border-color: -fx-secondary;
+}
+
 #menuTop{
     -fx-background-color: #300000;
     -fx-border-color: -fx-secondary;

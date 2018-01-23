@@ -27,83 +27,39 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import arabitogrill.util.ArabitoGrillUtil;
+import javafx.scene.control.ScrollPane;
 /**
  *
  * @author eulis
  */
 public class MainController  implements Initializable {
-    
-    @FXML
-    private HBox book_info;
-    @FXML
-    private HBox member_info;
-    @FXML
-    private TextField bookIDInput;
-    @FXML
-    private Text bookName;
-    @FXML
-    private Text bookAuthor;
-    @FXML
-    private Text bookStatus;
-    @FXML
-    private TextField memberIDInput;
-    @FXML
-    private Text memberName;
-    @FXML
-    private Text memberMobile;
-    @FXML
-    private JFXTextField bookID;
+
     @FXML
     private StackPane rootPane;
     @FXML
-    private JFXHamburger hamburger;
+    private JFXTabPane footerTabPane;    
     @FXML
     private JFXDrawer drawer;
     @FXML
-    private Text memberNameHolder;
-    @FXML
-    private Text memberEmailHolder;
-    @FXML
-    private Text memberContactHolder;
-    @FXML
-    private Text bookNameHolder;
-    @FXML
-    private Text bookAuthorHolder;
-    @FXML
-    private Text bookPublisherHolder;
-    @FXML
-    private Text issueDateHolder;
-    @FXML
-    private Text numberDaysHolder;
-    @FXML
-    private Text fineInfoHolder;
-    @FXML
-    private AnchorPane rootAnchorPane;
-    @FXML
-    private JFXButton renewButton;
-    @FXML
-    private JFXButton submissionButton;
-    @FXML
-    private HBox submissionDataContainer;
-    @FXML
-    private StackPane bookInfoContainer;
-    @FXML
-    private StackPane memberInfoContainer;
-    @FXML
-    private Tab bookIssueTab;
-    @FXML
-    private Tab renewTab;
+    private JFXDrawer drawerUsers;
     @FXML
     private JFXTabPane mainTabPane;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        JFXDepthManager.setDepth(book_info, 1);
-        JFXDepthManager.setDepth(member_info, 1);
+        ScrollPane scrollPane = new ScrollPane();
+        footerTabPane.getTabs().add(new Tab("2018"));
+        footerTabPane.getTabs().add(new Tab("2018"));
+        footerTabPane.getTabs().add(new Tab("2018"));
+        footerTabPane.getTabs().add(new Tab("2018"));
         try {
             VBox toolbar = FXMLLoader.load(getClass().getResource("/arabitogrill/main/toolbar/toolbar.fxml"));
+            VBox toolbarUsers  = FXMLLoader.load(getClass().getResource("/arabitogrill/main/toolbaruser/toolbar.fxml"));
+            scrollPane.setContent(toolbarUsers);
             drawer.setSidePane(toolbar);
             drawer.open();
+            drawerUsers.setSidePane(toolbarUsers);
+            drawerUsers.open();
         } catch (IOException ex) {
             //Logger.getLogger(library.assistant.ui.main.MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
