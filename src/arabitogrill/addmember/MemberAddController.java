@@ -13,6 +13,8 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.*;
 
 import arabitogrill.model.ConnectionFactory;
+import arabitogrill.model.Workers;
+import arabitogrill.model.WorkersDAO;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.event.ActionEvent;
@@ -53,16 +55,14 @@ public class MemberAddController {
     public MemberAddController() {
     }
     
+    private WorkersDAO wdao;
+    
     @FXML
     private void initialize() {
-    	try {
-    		Connection connection = new ConnectionFactory().getConnection();
-    		System.out.println("Conexión exitosa");
-    		connection.close();
-    	}
-    	catch(RuntimeException | SQLException e) {
-    		System.out.println("Fallo de conexión");
-    		e.printStackTrace();
+    	wdao = new WorkersDAO();
+    	
+    	for(Workers worker : wdao.read("")) {
+    		System.out.println(worker);
     	}
     	
     }
