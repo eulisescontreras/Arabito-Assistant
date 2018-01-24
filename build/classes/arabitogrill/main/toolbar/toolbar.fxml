@@ -16,7 +16,7 @@
             <FontAwesomeIconView glyphName="BOOK" size="25" />
          </graphic>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false"  prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Workers List">
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadListWorker"  prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Workers List">
          <graphic>
             <FontAwesomeIconView glyphName="TABLE" size="25" />
          </graphic>

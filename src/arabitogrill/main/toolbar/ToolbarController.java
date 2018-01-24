@@ -24,6 +24,11 @@ public class ToolbarController  implements Initializable {
     
     @FXML
     private void loadAddMember(ActionEvent event) {
-        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addmember/member_add.fxml"), "Add New Member", null);
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addmember/member_add.fxml"), "Add New Worker", null);
+    }
+    
+    @FXML
+    private void loadListWorker(ActionEvent event) {
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listWorker/list_worker.fxml"), "Worker List", null);
     }
 }
