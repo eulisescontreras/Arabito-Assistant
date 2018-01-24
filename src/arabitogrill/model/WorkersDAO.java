@@ -100,7 +100,7 @@ public class WorkersDAO {
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			
-			statement.setInt(5, idWorker);
+			statement.setInt(1, idWorker);
 			
 			statement.execute();
 			statement.close();

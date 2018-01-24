@@ -1,6 +1,6 @@
 package arabitogrill.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Days {
 	private Integer id;
