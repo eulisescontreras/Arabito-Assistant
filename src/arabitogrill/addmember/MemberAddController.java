@@ -6,9 +6,13 @@
 package arabitogrill.addmember;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.*;
+
+import arabitogrill.model.ConnectionFactory;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.event.ActionEvent;
@@ -51,6 +55,16 @@ public class MemberAddController {
     
     @FXML
     private void initialize() {
+    	try {
+    		Connection connection = new ConnectionFactory().getConnection();
+    		System.out.println("Conexión exitosa");
+    		connection.close();
+    	}
+    	catch(RuntimeException | SQLException e) {
+    		System.out.println("Fallo de conexión");
+    		e.printStackTrace();
+    	}
+    	
     }
     
     @FXML
