@@ -5,12 +5,7 @@
  */
 package arabitogrill.main;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXTabPane;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.effects.JFXDepthManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,21 +14,36 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.TableColumn;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import arabitogrill.util.ArabitoGrillUtil;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableView;
+import com.jfoenix.controls.JFXTabPane;
 /**
  *
  * @author eulis
  */
 public class MainController  implements Initializable {
 
+    @FXML
+    private TableColumn mondayCol;
+    @FXML
+    private TableColumn tuesdayCol;
+    @FXML
+    private TableColumn wednesdayCol;
+    @FXML
+    private TableColumn thursdayCol;
+    @FXML
+    private TableColumn fridayCol;
+    @FXML
+    private TableColumn saturdayCol;
+    @FXML
+    private TableColumn sundayCol;
+    @FXML
+    private TableView tableView;
     @FXML
     private StackPane rootPane;
     @FXML
@@ -47,15 +57,22 @@ public class MainController  implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ScrollPane scrollPane = new ScrollPane();
+
         footerTabPane.getTabs().add(new Tab("2018"));
         footerTabPane.getTabs().add(new Tab("2018"));
         footerTabPane.getTabs().add(new Tab("2018"));
         footerTabPane.getTabs().add(new Tab("2018"));
+        
+        mondayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+        tuesdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+        wednesdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+        thursdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+        fridayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+        saturdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+        sundayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
         try {
             VBox toolbar = FXMLLoader.load(getClass().getResource("/arabitogrill/main/toolbar/toolbar.fxml"));
             VBox toolbarUsers  = FXMLLoader.load(getClass().getResource("/arabitogrill/main/toolbaruser/toolbar.fxml"));
-            scrollPane.setContent(toolbarUsers);
             drawer.setSidePane(toolbar);
             drawer.open();
             drawerUsers.setSidePane(toolbarUsers);

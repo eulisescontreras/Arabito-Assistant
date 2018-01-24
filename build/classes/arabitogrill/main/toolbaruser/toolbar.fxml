@@ -10,7 +10,7 @@
    <children>
       <TableView fx:id="tableView" prefHeight="500.0" prefWidth="600.0">
          <columns>
-            <TableColumn fx:id="nameCol" prefWidth="600" text=""/>
+            <TableColumn fx:id="nameCol" prefWidth="150" text="Workers"/>
          </columns>
       </TableView>
    </children>

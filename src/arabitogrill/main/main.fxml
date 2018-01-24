@@ -161,20 +161,6 @@
                                        <children>
                                           <BorderPane layoutX="251.0" layoutY="71.0" prefHeight="412.0" prefWidth="557.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <top>
- <!--                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="250.0">
-                                                    <children>
-                                                        <JFXTextField fx:id="startYear" labelFloat="true" promptText="Start Date">
-                                                            <VBox.margin>
-                                                               <Insets left="10.0" right="10.0" top="20.0" />
-                                                            </VBox.margin>
-                                                        </JFXTextField>
-                                                        <JFXTextField fx:id="endYear" labelFloat="true" promptText="End Date">
-                                                            <VBox.margin>
-                                                               <Insets left="10.0" right="10.0" top="20.0" />
-                                                            </VBox.margin>
-                                                        </JFXTextField>
-                                                    </children>
-                                                </AnchorPane>-->
                                                 <JFXTabPane fx:id="headerTabPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                     <tabs>
                                                          <Tab fx:id="january" text="January"></Tab>
@@ -201,13 +187,13 @@
                                              <center>
                                                  <TableView fx:id="tableView" prefHeight="150.0" prefWidth="300.0">
                                                     <columns>
-                                                       <TableColumn fx:id="mondayCol" prefWidth="100.0" text="Monday" />
-                                                       <TableColumn fx:id="tuesdayCol" prefWidth="100.0" text="Tuesday" />
-                                                       <TableColumn fx:id="wednesdayCol" prefWidth="100.0" text="Wednesday" />
-                                                       <TableColumn fx:id="thursdayCol" prefWidth="100.0" text="Thursday" />
-                                                       <TableColumn fx:id="fridayCol" prefWidth="100.0" text="Friday" />
-                                                       <TableColumn fx:id="saturdayCol" prefWidth="100.0" text="Saturday" />
-                                                       <TableColumn fx:id="sundayCol" prefWidth="100.0" text="Sunday" />
+                                                       <TableColumn fx:id="mondayCol"  text="Monday" />
+                                                       <TableColumn fx:id="tuesdayCol"  text="Tuesday" />
+                                                       <TableColumn fx:id="wednesdayCol"  text="Wednesday" />
+                                                       <TableColumn fx:id="thursdayCol"  text="Thursday" />
+                                                       <TableColumn fx:id="fridayCol"  text="Friday" />
+                                                       <TableColumn fx:id="saturdayCol"  text="Saturday" />
+                                                       <TableColumn fx:id="sundayCol" text="Sunday" />
                                                     </columns>
                                                  </TableView>
                                              </center>
