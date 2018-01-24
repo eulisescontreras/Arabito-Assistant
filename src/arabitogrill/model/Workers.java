@@ -1,6 +1,7 @@
 package arabitogrill.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.sql.Date;
 
 public class Workers {
 	private Integer id;
@@ -8,7 +9,7 @@ public class Workers {
 	private String email;
 	private String mobile;
 	private String charge;
-	private Double dailyS;
+	private BigDecimal dailyS;
 	private Date birth;
 	
 	public Integer getId() {
@@ -41,10 +42,10 @@ public class Workers {
 	public void setCharge(String charge) {
 		this.charge = charge;
 	}
-	public Double getDailyS() {
+	public BigDecimal getDailyS() {
 		return dailyS;
 	}
-	public void setDailyS(Double dailyS) {
+	public void setDailyS(BigDecimal dailyS) {
 		this.dailyS = dailyS;
 	}
 	public Date getBirth() {
