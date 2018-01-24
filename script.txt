@@ -1,0 +1,84 @@
+-- Database: "arabito-assistant"
+
+-- DROP DATABASE "arabito-assistant";
+
+CREATE DATABASE "arabito-assistant"
+  WITH OWNER = root
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'es_VE.UTF-8'
+       LC_CTYPE = 'es_VE.UTF-8'
+       CONNECTION LIMIT = -1;
+
+-- Schema: public
+
+-- DROP SCHEMA public;
+
+CREATE SCHEMA public
+  AUTHORIZATION postgres;
+
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
+COMMENT ON SCHEMA public
+  IS 'standard public schema';
+
+-- Table: public."Bills"
+
+-- DROP TABLE public."Bills";
+
+CREATE TABLE public."Bills"
+(
+  id integer NOT NULL DEFAULT nextval('"Bills_id_seq"'::regclass),
+  amount real,
+  created_at date,
+  expiration_at date,
+  spend integer,
+  CONSTRAINT "Bills_pkey" PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public."Bills"
+  OWNER TO root;
+  
+-- Table: public."Workers"
+
+-- DROP TABLE public."Workers";
+
+CREATE TABLE public."Workers"
+(
+  id integer NOT NULL DEFAULT nextval('"Workers_id_seq"'::regclass),
+  name character varying(100),
+  email character varying(100),
+  mobile character varying(100),
+  daily_s real,
+  charge character varying(100),
+  birth date,
+  CONSTRAINT "Workers_pkey" PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public."Workers"
+  OWNER TO root;
+
+-- Table: public."Days"
+
+-- DROP TABLE public."Days";
+
+CREATE TABLE public."Days"
+(
+  id integer NOT NULL DEFAULT nextval('"Days_id_seq"'::regclass),
+  date date,
+  worker integer,
+  CONSTRAINT "Days_pkey" PRIMARY KEY (id),
+  CONSTRAINT "Days_worker_fkey" FOREIGN KEY (worker)
+      REFERENCES public."Workers" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public."Days"
+  OWNER TO root;
+  
