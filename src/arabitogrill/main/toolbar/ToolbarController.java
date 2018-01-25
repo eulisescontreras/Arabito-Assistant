@@ -5,12 +5,17 @@
  */
 package arabitogrill.main.toolbar;
 
+import arabitogrill.listWorker.ListWorkerController;
 import arabitogrill.util.ArabitoGrillUtil;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 /**
  *
  * @author eulis
@@ -29,6 +34,6 @@ public class ToolbarController  implements Initializable {
     
     @FXML
     private void loadListWorker(ActionEvent event) {
-        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listWorker/list_worker.fxml"), "Worker List", null);
+    	ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listWorker/list_worker.fxml"), "Worker List", null);
     }
 }

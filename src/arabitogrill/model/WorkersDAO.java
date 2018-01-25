@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class WorkersDAO {
 	private Connection connection;
 	
@@ -41,6 +44,40 @@ public class WorkersDAO {
 		List<Workers> workersList = new ArrayList<>();
 		
 		String sql = "SELECT * FROM WORKERS WHERE NAME LIKE '%" + nameWorker + "%'";
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
+			
+			while(result.next()) {
+				Workers worker = new Workers();
+				
+				worker.setId(result.getInt("id"));
+				worker.setName(result.getString("name"));
+				worker.setEmail(result.getString("email"));
+				worker.setMobile(result.getString("mobile"));
+				worker.setCharge(result.getString("charge"));
+				worker.setDailyS(result.getBigDecimal("daily_s"));
+				worker.setBirth(result.getDate("birth"));
+				
+				workersList.add(worker);
+			}
+			
+			result.close();
+			statement.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		
+		return workersList;
+	}
+	
+	public ObservableList<Workers> getObservableWorker() {
+		ObservableList<Workers> workersList = FXCollections.observableArrayList();
+		
+		String sql = "SELECT * FROM WORKERS";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
