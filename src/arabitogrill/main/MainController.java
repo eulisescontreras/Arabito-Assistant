@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.List;
 import javafx.scene.control.cell.PropertyValueFactory;
 import arabitogrill.main.toolbaruser.ToolbarController;
+import arabitogrill.consts.Consts;
 /**
  *
  * @author eulis
@@ -67,10 +68,8 @@ public class MainController  implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
 
-        footerTabPane.getTabs().add(new Tab("2018"));
-        footerTabPane.getTabs().add(new Tab("2018"));
-        footerTabPane.getTabs().add(new Tab("2018"));
-        footerTabPane.getTabs().add(new Tab("2018"));
+        for(int i = Consts.startYears; i <= Consts.endYears; i++)
+            footerTabPane.getTabs().add(new Tab(""+i+""));
         
         mondayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
         tuesdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
@@ -79,9 +78,6 @@ public class MainController  implements Initializable {
         fridayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
         saturdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
         sundayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        
-        
-        /*tableView.getItems().add(list);*/
         try {
             VBox toolbar = FXMLLoader.load(getClass().getResource("/arabitogrill/main/toolbar/toolbar.fxml"));
             toolbarUsersFXML  = new FXMLLoader(getClass().getResource("/arabitogrill/main/toolbaruser/toolbar.fxml"));
@@ -90,9 +86,6 @@ public class MainController  implements Initializable {
             drawer.open();
             drawerUsers.setSidePane(toolbarUsers);
             drawerUsers.open();
-            //controller = toolbarUsersFXML.getController();
-            //System.out.print(controller);
-            //controller.addWorkers();
         } catch (Exception ex) {
             System.out.print(ex.getMessage());
             //Logger.getLogger(library.assistant.ui.main.MainController.class.getName()).log(Level.SEVERE, null, ex);

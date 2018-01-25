@@ -21,6 +21,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 
 <StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1000.0" stylesheets="@../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="arabitogrill.main.MainController">
    <children>
@@ -179,6 +180,16 @@
                                                 </JFXTabPane>
                                              </top>
                                              <bottom>
+                                                 <JFXDatePicker fx:id="startDate"  layoutX="20.0" layoutY="126.0" promptText="Start Date">
+                                                    <VBox.margin>
+                                                       <Insets left="10.0" right="10.0" top="20.0" />
+                                                    </VBox.margin>
+                                                 </JFXDatePicker>
+                                                 <JFXDatePicker fx:id="endDate" layoutX="20.0" layoutY="158.0" promptText="End Date">
+                                                    <VBox.margin>
+                                                       <Insets left="10.0" right="10.0" top="20.0" />
+                                                    </VBox.margin>
+                                                 </JFXDatePicker>
                                                  <JFXTabPane fx:id="footerTabPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                     <tabs>
                                                     </tabs>
