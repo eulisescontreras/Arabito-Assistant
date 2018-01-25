@@ -8,7 +8,7 @@
 
 <VBox prefHeight="445.0" prefWidth="154.0" stylesheets="@../../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="arabitogrill.main.toolbaruser.ToolbarController">
    <children>
-      <TableView fx:id="tableViewUser" prefHeight="700.0" prefWidth="400.0">
+      <TableView fx:id="tableView" prefHeight="700.0" prefWidth="400.0">
          <columns>
             <TableColumn fx:id="nameCol" prefWidth="150" text="Workers"/>
          </columns>

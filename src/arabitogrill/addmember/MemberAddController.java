@@ -15,6 +15,8 @@ import com.jfoenix.controls.*;
 import arabitogrill.model.ConnectionFactory;
 import arabitogrill.model.Workers;
 import arabitogrill.model.WorkersDAO;
+import java.math.BigDecimal;
+import java.sql.Date;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.event.ActionEvent;
@@ -61,9 +63,9 @@ public class MemberAddController {
     private void initialize() {
     	wdao = new WorkersDAO();
     	
-    	for(Workers worker : wdao.read("")) {
+    	/*for(Workers worker : wdao.read("")) {
     		System.out.println(worker);
-    	}
+    	}*/
     	
     }
     
@@ -71,6 +73,11 @@ public class MemberAddController {
     private void cancel(ActionEvent event) {
         Stage stage = (Stage)name.getScene().getWindow();
         stage.close();
+    }
+    
+    @FXML
+    private void save(ActionEvent event) {
+        //wdao.create(new Workers(name.getText(),email.getText().toString(),mobile.getText().toString(),charge.getText().toString(),new BigDecimal(dailyS.getText().toString()),new Date(birth.)));
     }
 
 }

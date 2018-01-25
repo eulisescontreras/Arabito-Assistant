@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import arabitogrill.model.*;
 
 /**
  *
@@ -24,12 +25,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class ToolbarController  implements Initializable {
 
     @FXML
-    private TableView tableViewUser;
-    
+    private TableView<Workers> tableView;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        List<String> list = new ArrayList<String>();
+        /*List<String> list = new ArrayList<String>();
         list.add("String one");
         list.add("String two");
         list.add("String three");
@@ -54,7 +54,7 @@ public class ToolbarController  implements Initializable {
                 list.add("String one");
         list.add("String two");
         list.add("String three");
-        tableViewUser.getItems().setAll(list);
+        tableViewUser.getItems().setAll(list);*/
     }
     
     public void addWorkers() {
