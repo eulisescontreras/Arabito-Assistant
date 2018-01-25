@@ -111,7 +111,9 @@ public class ListWorkerController {
         table.getColumns().add(nameColumn);
         table.getColumns().add(emailColumn);
         table.getColumns().add(mobileColumn);
+        table.getColumns().add(birthColumn);
         table.getColumns().add(chargeColumn);
+        table.getColumns().add(dailyColumn);
 
         
      // Initialize the person table with the two columns.
