@@ -77,9 +77,7 @@ public class WorkersDAO {
 	public ObservableList<Workers> getObservableWorker() {
 		ObservableList<Workers> workersList = FXCollections.observableArrayList();
 		
-		String sql = "SELECT *" +
-                             "FROM " +
-                             "  public.\"Workers\";";
+		String sql = "SELECT * FROM WORKERS";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);

@@ -8,6 +8,8 @@ package arabitogrill.addmember;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.*;
@@ -52,12 +54,12 @@ public class MemberAddController {
     private URL location;
     @FXML
     private ResourceBundle resources;
+    
+    private WorkersDAO wdao;
 
     // Public no-args constructor
     public MemberAddController() {
     }
-    
-    private WorkersDAO wdao;
     
     @FXML
     private void initialize() {
@@ -77,7 +79,27 @@ public class MemberAddController {
     
     @FXML
     private void save(ActionEvent event) {
-        //wdao.create(new Workers(name.getText(),email.getText().toString(),mobile.getText().toString(),charge.getText().toString(),new BigDecimal(dailyS.getText().toString()),new Date(birth.)));
+    	Workers worker = new Workers();
+    	String [] dateS = birth.getEditor().getText().split("/");
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(Integer.parseInt(dateS[2]), 
+    			Integer.parseInt(dateS[0])-1, 
+    			Integer.parseInt(dateS[1]));
+    	
+    	Date date = new Date(cal.getTimeInMillis());
+    	
+    	worker.setName(name.getText().toString());
+    	worker.setEmail(email.getText().toString());
+    	worker.setCharge(charge.getText().toString());
+    	worker.setMobile(mobile.getText().toString());
+    	worker.setDailyS(new BigDecimal(dailyS.getText()));
+    	worker.setBirth(date);
+    	
+        wdao.create(worker);
+        
+        Stage stage = (Stage)name.getScene().getWindow();
+        stage.close();
     }
 
 }
