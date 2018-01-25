@@ -5,6 +5,8 @@ import java.sql.Date;
 
 import arabitogrill.model.Workers;
 import arabitogrill.model.WorkersDAO;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleObjectProperty;
@@ -25,14 +27,13 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ListWorkerController {
-	public TableView<Workers> table = new TableView<>();
-	private ObservableList<Workers> workersList = FXCollections.observableArrayList();
-	private WorkersDAO workerdao = new WorkersDAO();
-	
-	 
-	
-	@FXML
-	private TableColumn<Workers,String> nameColumn = new TableColumn<Workers,String>("Name");
+    
+    public TableView<Workers> tableView = new TableView<>();
+    private ObservableList<Workers> workersList = FXCollections.observableArrayList();
+    private WorkersDAO workerdao = new WorkersDAO();
+
+    @FXML
+    private TableColumn<Workers,String> nameColumn = new TableColumn<Workers,String>("Name");
     @FXML
     private TableColumn<Workers,String> emailColumn = new TableColumn<Workers,String>("Email");
     @FXML
@@ -43,8 +44,7 @@ public class ListWorkerController {
     private TableColumn<Workers,BigDecimal> dailyColumn = new TableColumn<Workers,BigDecimal>("Daily Salary");
     @FXML
     private TableColumn<Workers,Date> birthColumn = new TableColumn<Workers,Date>("Date Birth");
-    
-    
+        
     @FXML
     private Label nameLabel;
     @FXML
@@ -58,13 +58,12 @@ public class ListWorkerController {
     @FXML
     private Label birthLabel;
 	
-	public ListWorkerController() {
-    }
+    public ListWorkerController() {}
 
     @FXML
     public void initialize() {
         this.workersList = workerdao.getObservableWorker();
-        this.table.setItems(workerdao.getObservableWorker());
+        this.tableView.setItems(workerdao.getObservableWorker());
         
         nameColumn.setCellValueFactory(new Callback<CellDataFeatures<Workers, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(CellDataFeatures<Workers, String> p) {
@@ -108,25 +107,39 @@ public class ListWorkerController {
             }
          });
         
-        table.getColumns().add(nameColumn);
-        table.getColumns().add(emailColumn);
-        table.getColumns().add(mobileColumn);
-        table.getColumns().add(birthColumn);
-        table.getColumns().add(chargeColumn);
-        table.getColumns().add(dailyColumn);
+        nameColumn.setId("nameColumn");
+        emailColumn.setId("emailColumn");
+        mobileColumn.setId("mobileColumn");
+        chargeColumn.setId("chargeColumn");
+        dailyColumn.setId("dailyColumn");
+        birthColumn.setId("birthColumn");
+        
+        nameColumn.prefWidthProperty().bind(tableView.widthProperty().divide(6));
+        emailColumn.prefWidthProperty().bind(tableView.widthProperty().divide(6));
+        mobileColumn.prefWidthProperty().bind(tableView.widthProperty().divide(6));
+        chargeColumn.prefWidthProperty().bind(tableView.widthProperty().divide(6));
+        dailyColumn.prefWidthProperty().bind(tableView.widthProperty().divide(6));
+        birthColumn.prefWidthProperty().bind(tableView.widthProperty().divide(6));
+        
+        tableView.getColumns().add(nameColumn);
+        tableView.getColumns().add(emailColumn);
+        tableView.getColumns().add(mobileColumn);
+        tableView.getColumns().add(birthColumn);
+        tableView.getColumns().add(chargeColumn);
+        tableView.getColumns().add(dailyColumn);
 
         
-     // Initialize the person table with the two columns.
+     // Initialize the person tableView with the two columns.
         //nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
         //emailColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmail()));
         //chargeColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getCharge()));
     }
     
     public ObservableList<Workers> getWorkersList() {
-		return workersList;
-	}
+            return workersList;
+    }
 
-	public void setWorkersList(ObservableList<Workers> workersList) {
-		this.workersList = workersList;
-	}
+    public void setWorkersList(ObservableList<Workers> workersList) {
+            this.workersList = workersList;
+    }
 }

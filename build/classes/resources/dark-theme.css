@@ -172,11 +172,12 @@
     -fx-background-color: derive(-fx-primary, 5%);
 }
 
-#mondayCol, #tuesdayCol, #wednesdayCol, #thursdayCol, #fridayCol, #saturdayCol, #sundayCol, #nameCol{
+#mobileColumn,#birthColumn,#chargeColumn,#dailyColumn,#emailColumn, #nameColumn, #mondayCol, #tuesdayCol, #wednesdayCol, #thursdayCol, #fridayCol, #saturdayCol, #sundayCol, #nameCol{
     -fx-background-color: #300000;
     -fx-border-color: -fx-secondary;
     -fx-color-text: white;
 }
+
 
 #tableView{
     -fx-background-color: derive(-fx-primary, 5%);
