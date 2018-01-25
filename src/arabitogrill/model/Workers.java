@@ -12,6 +12,16 @@ public class Workers {
 	private BigDecimal dailyS;
 	private Date birth;
 	
+        public Workers(){}
+        public Workers(String name, String email, String mobile, String charge, BigDecimal dailyS, Date birth){
+            this.name = name;
+            this.email = email;
+            this.mobile = mobile;
+            this.charge = charge;
+            this.dailyS = dailyS;
+            this.birth = birth;
+        } 
+
 	public Integer getId() {
 		return id;
 	}

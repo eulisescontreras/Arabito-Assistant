@@ -7,12 +7,16 @@ package arabitogrill.main.toolbaruser;
 
 import arabitogrill.util.ArabitoGrillUtil;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import arabitogrill.model.*;
 
 /**
  *
@@ -21,18 +25,41 @@ import javafx.scene.control.TableView;
 public class ToolbarController  implements Initializable {
 
     @FXML
-    private TableView toolbarUser;
-        @FXML
-    private TableColumn nameCol;
+    private TableView<Workers> tableView;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      //nameCol.prefWidthProperty().bind(toolbarUser.widthProperty().divide(2));
+        /*List<String> list = new ArrayList<String>();
+        list.add("String one");
+        list.add("String two");
+        list.add("String three");
+                list.add("String one");
+        list.add("String two");
+        list.add("String three");
+                list.add("String one");
+        list.add("String two");
+        list.add("String three");
+                list.add("String one");
+        list.add("String two");
+        list.add("String three");
+                list.add("String one");
+        list.add("String two");
+        list.add("String three");
+                list.add("String one");
+        list.add("String two");
+        list.add("String three");
+                list.add("String one");
+        list.add("String two");
+        list.add("String three");
+                list.add("String one");
+        list.add("String two");
+        list.add("String three");
+        tableViewUser.getItems().setAll(list);*/
     }
     
-    @FXML
-    private void loadAddMember(ActionEvent event) {
-        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addmember/member_add.fxml"), "Add New Member", null);
+    public void addWorkers() {
+        
     }
+   
 }
 

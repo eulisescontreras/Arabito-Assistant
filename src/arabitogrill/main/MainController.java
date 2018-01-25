@@ -22,6 +22,11 @@ import arabitogrill.util.ArabitoGrillUtil;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import com.jfoenix.controls.JFXTabPane;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javafx.scene.control.cell.PropertyValueFactory;
+import arabitogrill.main.toolbaruser.ToolbarController;
 /**
  *
  * @author eulis
@@ -55,7 +60,11 @@ public class MainController  implements Initializable {
     @FXML
     private JFXTabPane mainTabPane;
     
+    FXMLLoader toolbarUsersFXML;
+    ToolbarController controller;
+    
     @Override
+    @FXML
     public void initialize(URL url, ResourceBundle rb) {
 
         footerTabPane.getTabs().add(new Tab("2018"));
@@ -70,14 +79,22 @@ public class MainController  implements Initializable {
         fridayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
         saturdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
         sundayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+        
+        
+        /*tableView.getItems().add(list);*/
         try {
             VBox toolbar = FXMLLoader.load(getClass().getResource("/arabitogrill/main/toolbar/toolbar.fxml"));
-            VBox toolbarUsers  = FXMLLoader.load(getClass().getResource("/arabitogrill/main/toolbaruser/toolbar.fxml"));
+            toolbarUsersFXML  = new FXMLLoader(getClass().getResource("/arabitogrill/main/toolbaruser/toolbar.fxml"));
+            VBox toolbarUsers  =  (VBox)toolbarUsersFXML.load();
             drawer.setSidePane(toolbar);
             drawer.open();
             drawerUsers.setSidePane(toolbarUsers);
             drawerUsers.open();
-        } catch (IOException ex) {
+            //controller = toolbarUsersFXML.getController();
+            //System.out.print(controller);
+            //controller.addWorkers();
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
             //Logger.getLogger(library.assistant.ui.main.MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -101,5 +118,4 @@ public class MainController  implements Initializable {
     private void handleMenuAddMember(ActionEvent event) {
         ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addmember/member_add.fxml"), "Add New Member", null);
     }
-
 }
