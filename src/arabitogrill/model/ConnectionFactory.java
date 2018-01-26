@@ -8,7 +8,7 @@ public class ConnectionFactory {
 
 	public Connection getConnection( ){
 		try {
-			return DriverManager.getConnection("jdbc:postgresql://localhost:5432/arabito-assistant", "root", "23795053");
+			return DriverManager.getConnection("jdbc:postgresql:arabito-assistant", "root", "root");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

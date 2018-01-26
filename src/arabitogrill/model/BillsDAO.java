@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class BillsDAO {
 	private Connection connection;
 	
@@ -23,7 +26,7 @@ public class BillsDAO {
 			statement.setBigDecimal(1, bill.getAmount());
 			statement.setDate(2, bill.getCreatedAt());
 			statement.setDate(3, bill.getExpirationAt());
-			statement.setInt(4, bill.getSpend());
+			statement.setString(4, bill.getSpend());
 			
 			statement.execute();
 			statement.close();
@@ -49,7 +52,42 @@ public class BillsDAO {
 				
 				bill.setId(result.getInt("id"));
 				bill.setAmount(result.getBigDecimal("amount"));
-				bill.setSpend(result.getInt("spend"));
+				bill.setSpend(result.getString("spend"));
+				bill.setCreatedAt(result.getDate("created_at"));
+				bill.setExpirationAt(result.getDate("expiration_at"));
+				
+				billsList.add(bill);
+			}
+			
+			result.close();
+			statement.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		
+		return billsList;
+	}
+	
+	public ObservableList<Bills> getObservableBills() {
+		ObservableList<Bills> billsList = FXCollections.observableArrayList();
+		
+		String sql = "SELECT " +
+                             "  * " +
+                             "FROM " +
+                             "  BILLS;";
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
+			
+			while(result.next()) {
+				Bills bill = new Bills();
+				
+				bill.setId(result.getInt("id"));
+				bill.setAmount(result.getBigDecimal("amount"));
+				bill.setSpend(result.getString("spend"));
 				bill.setCreatedAt(result.getDate("created_at"));
 				bill.setExpirationAt(result.getDate("expiration_at"));
 				
@@ -76,7 +114,7 @@ public class BillsDAO {
 			statement.setBigDecimal(1, bill.getAmount());
 			statement.setDate(2, bill.getCreatedAt());
 			statement.setDate(3, bill.getExpirationAt());
-			statement.setInt(4, bill.getSpend());
+			statement.setString(4, bill.getSpend());
 			statement.setInt(5, bill.getId());
 			
 			statement.execute();

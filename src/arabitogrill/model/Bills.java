@@ -6,9 +6,10 @@ import java.sql.Date;
 public class Bills {
 	private Integer id;
 	private BigDecimal amount;
-	private Integer spend;
+	private String spend;
 	private Date createdAt;
 	private Date expirationAt;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -21,10 +22,10 @@ public class Bills {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	public Integer getSpend() {
+	public String getSpend() {
 		return spend;
 	}
-	public void setSpend(Integer spend) {
+	public void setSpend(String spend) {
 		this.spend = spend;
 	}
 	public Date getCreatedAt() {
