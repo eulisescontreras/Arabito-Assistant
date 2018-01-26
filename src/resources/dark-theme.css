@@ -176,6 +176,9 @@
     -fx-background-color: #300000;
     -fx-border-color: -fx-secondary;
     -fx-color-text: white;
+    -fx-text-fill: white;
+    -fx-font-weight:bold;
+    -fx-text-align: center;
 }
 
 
@@ -183,6 +186,17 @@
     -fx-background-color: derive(-fx-primary, 5%);
     -fx-border-color: -fx-secondary;
     -fx-color-text: white;
+    -fx-text-fill: white;
+    -fx-font-weight:bold;
+}
+
+#actionColumn, #updateColumn, #deleteColumn{
+    -fx-background-color: #300000;
+    -fx-border-color: -fx-secondary;
+    -fx-color-text: white;
+    -fx-text-fill: white;
+    -fx-font-weight:bold;
+    -fx-text-align: center;
 }
 
 #mainTabPane{

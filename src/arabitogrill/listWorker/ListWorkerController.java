@@ -45,7 +45,7 @@ public class ListWorkerController {
     @FXML
     private TableColumn<Workers,String> mobileColumn = new TableColumn<Workers,String>("Mobile");
     @FXML
-    private TableColumn<Workers,BigDecimal> dailyColumn = new TableColumn<Workers,BigDecimal>("Daily Salary");
+    private TableColumn<Workers,BigDecimal> dailyColumn = new TableColumn<Workers,BigDecimal>("Hour Salary");
     @FXML
     private TableColumn<Workers,Date> birthColumn = new TableColumn<Workers,Date>("Date Birth");
     @FXML
@@ -53,7 +53,7 @@ public class ListWorkerController {
     @FXML
     private TableColumn deleteColumn = new TableColumn("Delete");
     @FXML
-    private TableColumn asistenceColumn = new TableColumn("Assistance Today");
+    private TableColumn updateColumn = new TableColumn("Update");
     
     @FXML
     private Label nameLabel;
@@ -116,6 +116,9 @@ public class ListWorkerController {
         chargeColumn.setId("chargeColumn");
         dailyColumn.setId("dailyColumn");
         birthColumn.setId("birthColumn");
+        actionColumn.setId("actionColumn");
+        updateColumn.setId("updateColumn");
+        deleteColumn.setId("deleteColumn");
         
         nameColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
         emailColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
@@ -136,11 +139,6 @@ public class ListWorkerController {
         		dailyColumn,
         		actionColumn);
 
-        
-     // Initialize the person tableView with the two columns.
-        //nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
-        //emailColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmail()));
-        //chargeColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getCharge()));
     }
     
     private void addButtonToTable() {
@@ -156,6 +154,8 @@ public class ListWorkerController {
                         btn.setOnAction((ActionEvent event) -> {
                         	Workers data = getTableView().getItems().get(getIndex());
                         	workerdao.delete(data.getId());
+                                tableView.refresh();
+                                tableView.setItems(workerdao.getObservableWorker());
                         });
                     }
 
@@ -174,8 +174,9 @@ public class ListWorkerController {
         };
 
         deleteColumn.setCellFactory(cellFactory);
-        actionColumn.getColumns().addAll(asistenceColumn, deleteColumn);
-        actionColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-
+        actionColumn.getColumns().addAll(updateColumn, deleteColumn);
+        updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(13));
+        //deleteColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
+        //actionColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
     }
 }
