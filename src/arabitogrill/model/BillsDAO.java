@@ -18,7 +18,7 @@ public class BillsDAO {
 	}
 
 	public void create(Bills bill) {
-		String sql = "INSERT INTO BILLS (AMOUNT, CREATED_AT, EXPIRATION_AT, SPEND) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO public.\"Bills\" (AMOUNT, CREATED_AT, EXPIRATION_AT, SPEND) VALUES (?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -41,7 +41,7 @@ public class BillsDAO {
 	public List<Bills> read(Integer idBill) {
 		List<Bills> billsList = new ArrayList<>();
 		
-		String sql = "SELECT * FROM BILLS" + ((idBill!=null) ? " WHERE ID = " + idBill + "" : "");
+		String sql = "SELECT * FROM public.\"Bills\"" + ((idBill!=null) ? " WHERE ID = " + idBill + "" : "");
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -76,7 +76,7 @@ public class BillsDAO {
 		String sql = "SELECT " +
                              "  * " +
                              "FROM " +
-                             "  BILLS;";
+                             "  public.\"Bills\";";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -106,7 +106,7 @@ public class BillsDAO {
 	}
 	
 	public void update(Bills bill) {
-		String sql = "UPDATE BILLS SET (AMOUNT, CREATED_AT, EXPIRATION_AT, SPEND) VALUES (?, ?, ?, ?) WHERE ID=?";
+		String sql = "UPDATE public.\"Bills\" SET (AMOUNT, CREATED_AT, EXPIRATION_AT, SPEND) VALUES (?, ?, ?, ?) WHERE ID=?";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -127,7 +127,7 @@ public class BillsDAO {
 	}
 	
 	public void delete(Integer idBill) {
-		String sql = "DELETE FROM BILLS WHERE ID=?";
+		String sql = "DELETE FROM public.\"Bills\" WHERE ID=?";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);

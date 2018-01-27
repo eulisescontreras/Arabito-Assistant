@@ -64,12 +64,13 @@ public class MainController  implements Initializable {
     @FXML
     private JFXDrawer drawer;
     @FXML
-    private JFXDrawer drawerUsers;
+    public JFXDrawer drawerUsers;
     @FXML
     private JFXTabPane mainTabPane;
     
-    FXMLLoader toolbarUsersFXML;
+    static public FXMLLoader toolbarUsersFXML;
     ToolbarController controller;
+    static public VBox toolbarUsers;
     
     @Override
     @FXML
@@ -89,7 +90,7 @@ public class MainController  implements Initializable {
         try {
             VBox toolbar = FXMLLoader.load(getClass().getResource("/arabitogrill/main/toolbar/toolbar.fxml"));
             toolbarUsersFXML  = new FXMLLoader(getClass().getResource("/arabitogrill/main/toolbaruser/toolbar.fxml"));
-            VBox toolbarUsers  =  (VBox)toolbarUsersFXML.load();
+            toolbarUsers  =  (VBox)toolbarUsersFXML.load();
             drawer.setSidePane(toolbar);
             drawer.open();
             drawerUsers.setSidePane(toolbarUsers);

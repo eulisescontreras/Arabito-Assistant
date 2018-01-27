@@ -27,6 +27,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import arabitogrill.main.toolbaruser.ToolbarController;
 import arabitogrill.model.*;
+import arabitogrill.main.MainController;
+import static arabitogrill.main.MainController.toolbarUsersFXML;
+import javafx.fxml.FXMLLoader;
 /**
  *
  * @author eulis
