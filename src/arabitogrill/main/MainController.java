@@ -28,12 +28,19 @@ import java.util.List;
 import javafx.scene.control.cell.PropertyValueFactory;
 import arabitogrill.main.toolbaruser.ToolbarController;
 import arabitogrill.consts.Consts;
+import arabitogrill.model.Workers;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.util.Callback;
 /**
  *
  * @author eulis
  */
 public class MainController  implements Initializable {
 
+    private final Number NUMBER_CALENDAR = 1;
+    
     @FXML
     private TableColumn mondayCol;
     @FXML
@@ -78,6 +85,7 @@ public class MainController  implements Initializable {
         fridayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
         saturdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
         sundayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+
         try {
             VBox toolbar = FXMLLoader.load(getClass().getResource("/arabitogrill/main/toolbar/toolbar.fxml"));
             toolbarUsersFXML  = new FXMLLoader(getClass().getResource("/arabitogrill/main/toolbaruser/toolbar.fxml"));
@@ -86,9 +94,9 @@ public class MainController  implements Initializable {
             drawer.open();
             drawerUsers.setSidePane(toolbarUsers);
             drawerUsers.open();
+             
         } catch (Exception ex) {
             System.out.print(ex.getMessage());
-            //Logger.getLogger(library.assistant.ui.main.MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
