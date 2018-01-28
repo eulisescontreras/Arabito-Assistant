@@ -26,9 +26,9 @@ public class WorkersDAO {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			
 			statement.setString(1, worker.getFirstName());
-                        statement.setString(2, worker.getSecondName());
-                        statement.setString(3, worker.getSurname());
-                        statement.setString(4, worker.getSecondSurname());
+            statement.setString(2, worker.getSecondName());
+            statement.setString(3, worker.getSurname());
+            statement.setString(4, worker.getSecondSurname());
 			statement.setString(5, worker.getEmail());
 			statement.setString(6, worker.getMobile());
 			statement.setBigDecimal(7, worker.getDailyS());
@@ -59,9 +59,9 @@ public class WorkersDAO {
 				
 				worker.setId(result.getInt("id"));
 				worker.setFirstName(result.getString("first_name"));
-                                worker.setSecondName(result.getString("second_name"));
-                                worker.setSurname(result.getString("surname"));
-                                worker.setSecondSurname(result.getString("second_surname"));
+                worker.setSecondName(result.getString("second_name"));
+                worker.setSurname(result.getString("surname"));
+                worker.setSecondSurname(result.getString("second_surname"));
 				worker.setEmail(result.getString("email"));
 				worker.setMobile(result.getString("mobile"));
 				worker.setCharge(result.getString("charge"));
@@ -98,10 +98,10 @@ public class WorkersDAO {
 				Workers worker = new Workers();
 				
 				worker.setId(result.getInt("id"));
-                                worker.setFirstName(result.getString("first_name"));
-                                worker.setSecondName(result.getString("second_name"));
-                                worker.setSurname(result.getString("surname"));
-                                worker.setSecondSurname(result.getString("second_surname"));
+                worker.setFirstName(result.getString("first_name"));
+                worker.setSecondName(result.getString("second_name"));
+                worker.setSurname(result.getString("surname"));
+                worker.setSecondSurname(result.getString("second_surname"));
 				worker.setEmail(result.getString("email"));
 				worker.setMobile(result.getString("mobile"));
 				worker.setCharge(result.getString("charge"));
