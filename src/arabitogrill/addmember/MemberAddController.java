@@ -25,7 +25,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import arabitogrill.main.toolbaruser.ToolbarController;
+import arabitogrill.model.*;
+import arabitogrill.main.MainController;
+import static arabitogrill.main.MainController.toolbarUsersFXML;
+import javafx.fxml.FXMLLoader;
 /**
  *
  * @author eulis
@@ -68,7 +72,6 @@ public class MemberAddController {
     	/*for(Workers worker : wdao.read("")) {
     		System.out.println(worker);
     	}*/
-    	
     }
     
     @FXML

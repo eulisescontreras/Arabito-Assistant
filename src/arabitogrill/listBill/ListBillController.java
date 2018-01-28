@@ -183,8 +183,6 @@ public class ListBillController {
         deleteColumn.setCellFactory(cellFactory);
         updateColumn.setCellFactory(cellFactory2);
         actionColumn.getColumns().addAll(updateColumn, deleteColumn);
-        updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(13));
-        //deleteColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
-        //actionColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
+        updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(8));
     }
 }

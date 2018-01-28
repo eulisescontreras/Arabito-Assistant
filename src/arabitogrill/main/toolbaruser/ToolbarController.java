@@ -17,6 +17,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import arabitogrill.model.*;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
+import javafx.util.Callback;
 
 /**
  *
@@ -24,37 +27,25 @@ import arabitogrill.model.*;
  */
 public class ToolbarController  implements Initializable {
 
+    private WorkersDAO workerdao = new WorkersDAO();
     @FXML
-    private TableView<Workers> tableView;
+    public TableView<Workers> tableView;
+    @FXML
+    public TableColumn nameCol;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        /*List<String> list = new ArrayList<String>();
-        list.add("String one");
-        list.add("String two");
-        list.add("String three");
-                list.add("String one");
-        list.add("String two");
-        list.add("String three");
-                list.add("String one");
-        list.add("String two");
-        list.add("String three");
-                list.add("String one");
-        list.add("String two");
-        list.add("String three");
-                list.add("String one");
-        list.add("String two");
-        list.add("String three");
-                list.add("String one");
-        list.add("String two");
-        list.add("String three");
-                list.add("String one");
-        list.add("String two");
-        list.add("String three");
-                list.add("String one");
-        list.add("String two");
-        list.add("String three");
-        tableViewUser.getItems().setAll(list);*/
+        nameCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Workers, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Workers, String> p) {
+                return new ReadOnlyStringWrapper(p.getValue().getName());
+            }
+         });
+        tableView.setItems(workerdao.getObservableWorker());
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                System.out.print("hola katty");
+            }
+        });
     }
     
     public void addWorkers() {
