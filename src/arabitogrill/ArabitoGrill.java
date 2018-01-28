@@ -5,6 +5,10 @@
  */
 package arabitogrill;
 
+import arabitogrill.editbill.BillEditController;
+import arabitogrill.editmember.MemberEditController;
+import arabitogrill.model.Bills;
+import arabitogrill.model.Workers;
 import arabitogrill.util.ArabitoGrillUtil;
 import java.io.IOException;
 import javafx.application.Application;
@@ -38,6 +42,44 @@ public class ArabitoGrill extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public static void showEditWorker(Workers worker) {
+    	FXMLLoader fxmlLoader = new FXMLLoader();
+    	fxmlLoader.setLocation(ArabitoGrill.class.getResource("/arabitogrill/editmember/member_edit.fxml"));
+
+		try {
+			Parent root;
+			root = (Parent)fxmlLoader.load();
+			MemberEditController controller = fxmlLoader.<MemberEditController>getController();
+        	controller.initData(worker);
+        	Scene scene = new Scene(root);
+        	Stage stage = new Stage();
+        	stage.setScene(scene);
+        	stage.show(); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public static void showEditBill(Bills bill) {
+    	FXMLLoader fxmlLoader = new FXMLLoader();
+    	fxmlLoader.setLocation(ArabitoGrill.class.getResource("/arabitogrill/editbill/bill_edit.fxml"));
+
+		try {
+			Parent root;
+			root = (Parent)fxmlLoader.load();
+			BillEditController controller = fxmlLoader.<BillEditController>getController();
+        	controller.initData(bill);
+        	Scene scene = new Scene(root);
+        	Stage stage = new Stage();
+        	stage.setScene(scene);
+        	stage.show(); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
 }

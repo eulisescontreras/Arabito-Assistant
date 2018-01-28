@@ -106,17 +106,15 @@ public class BillsDAO {
 	}
 	
 	public void update(Bills bill) {
-		String sql = "UPDATE BILLS SET (AMOUNT, CREATED_AT, EXPIRATION_AT, SPEND) VALUES (?, ?, ?, ?) WHERE ID=?";
+		String sql = "UPDATE BILLS SET "
+				+ "AMOUNT=" + bill.getAmount() + ", "
+				+ "CREATED_AT='" + bill.getCreatedAt() + "', "
+				+ "EXPIRATION_AT='" + bill.getExpirationAt() + "', "
+				+ "SPEND='" + bill.getSpend() + "' "
+				+ "WHERE ID=" + bill.getId() + ";";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
-			
-			statement.setBigDecimal(1, bill.getAmount());
-			statement.setDate(2, bill.getCreatedAt());
-			statement.setDate(3, bill.getExpirationAt());
-			statement.setString(4, bill.getSpend());
-			statement.setInt(5, bill.getId());
-			
 			statement.execute();
 			statement.close();
 		} catch (SQLException e) {

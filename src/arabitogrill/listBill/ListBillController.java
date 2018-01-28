@@ -3,8 +3,10 @@ package arabitogrill.listBill;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import arabitogrill.ArabitoGrill;
 import arabitogrill.model.Bills;
 import arabitogrill.model.BillsDAO;
+import arabitogrill.model.Workers;
 import arabitogrill.model.Bills;
 import arabitogrill.model.BillsDAO;
 import java.util.HashSet;
@@ -60,6 +62,8 @@ public class ListBillController {
     private Label expirationAtLabel;
     @FXML
     private Label spendLabel;
+    
+    private ArabitoGrill arabitoGrill;
 	
     public ListBillController() {}
 
@@ -147,8 +151,37 @@ public class ListBillController {
                 return cell;
             }
         };
+        
+        Callback<TableColumn<Bills, Void>, TableCell<Bills, Void>> cellFactory2 = new Callback<TableColumn<Bills, Void>, TableCell<Bills, Void>>() {
+            @Override
+            public TableCell<Bills, Void> call(final TableColumn<Bills, Void> param) {
+                final TableCell<Bills, Void> cell = new TableCell<Bills, Void>() {
+
+                    private final Button btn = new Button("Edit");
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                        	Bills data = getTableView().getItems().get(getIndex());
+                        	arabitoGrill.showEditBill(data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
 
         deleteColumn.setCellFactory(cellFactory);
+        updateColumn.setCellFactory(cellFactory2);
         actionColumn.getColumns().addAll(updateColumn, deleteColumn);
         updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(13));
         //deleteColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));

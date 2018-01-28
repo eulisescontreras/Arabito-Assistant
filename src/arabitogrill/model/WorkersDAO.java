@@ -112,19 +112,17 @@ public class WorkersDAO {
 	}
 	
 	public void update(Workers worker) {
-		String sql = "UPDATE workers SET (NAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?) WHERE ID=?";
+		String sql = "UPDATE workers SET NAME='" + worker.getName() + "', "
+				+ "EMAIL='" + worker.getEmail() + "', "
+				+ "MOBILE='" + worker.getMobile() + "', "
+				+ "DAILY_S=" + worker.getDailyS() + ", "
+				+ "CHARGE='"+ worker.getCharge() +"', "
+				+ "BIRTH='"+ worker.getBirth() +"' "
+				+ "WHERE ID=" + worker.getId() + ";";
 		
 		try {
+			System.out.println(sql);
 			PreparedStatement statement = connection.prepareStatement(sql);
-			
-			statement.setString(1, worker.getName());
-			statement.setString(2, worker.getEmail());
-			statement.setString(3, worker.getMobile());
-			statement.setBigDecimal(4, worker.getDailyS());
-			statement.setString(5, worker.getCharge());
-			statement.setDate(6, worker.getBirth());
-			statement.setInt(7, worker.getId());
-			
 			statement.execute();
 			statement.close();
 		} catch (SQLException e) {

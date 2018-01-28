@@ -1,12 +1,18 @@
 package arabitogrill.listWorker;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import arabitogrill.ArabitoGrill;
+import arabitogrill.editmember.MemberEditController;
 import arabitogrill.model.Workers;
 import arabitogrill.model.WorkersDAO;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.jfoenix.controls.JFXTextField;
+
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -17,8 +23,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -53,7 +61,7 @@ public class ListWorkerController {
     @FXML
     private TableColumn deleteColumn = new TableColumn("Delete");
     @FXML
-    private TableColumn updateColumn = new TableColumn("Update");
+    private TableColumn editColumn = new TableColumn("Edit");
     
     @FXML
     private Label nameLabel;
@@ -67,6 +75,8 @@ public class ListWorkerController {
     private Label mobileLabel;
     @FXML
     private Label birthLabel;
+    
+    private ArabitoGrill arabitoGrill;
 	
     public ListWorkerController() {}
 
@@ -117,7 +127,7 @@ public class ListWorkerController {
         dailyColumn.setId("dailyColumn");
         birthColumn.setId("birthColumn");
         actionColumn.setId("actionColumn");
-        updateColumn.setId("updateColumn");
+        editColumn.setId("editColumn");
         deleteColumn.setId("deleteColumn");
         
         nameColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
@@ -172,10 +182,39 @@ public class ListWorkerController {
                 return cell;
             }
         };
+        
+        Callback<TableColumn<Workers, Void>, TableCell<Workers, Void>> cellFactory2 = new Callback<TableColumn<Workers, Void>, TableCell<Workers, Void>>() {
+            @Override
+            public TableCell<Workers, Void> call(final TableColumn<Workers, Void> param) {
+                final TableCell<Workers, Void> cell = new TableCell<Workers, Void>() {
+
+                    private final Button btn = new Button("Edit");
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                        	Workers data = getTableView().getItems().get(getIndex());
+                        	arabitoGrill.showEditWorker(data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
 
         deleteColumn.setCellFactory(cellFactory);
-        actionColumn.getColumns().addAll(updateColumn, deleteColumn);
-        updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(13));
+        editColumn.setCellFactory(cellFactory2);
+        actionColumn.getColumns().addAll(editColumn, deleteColumn);
+        editColumn.prefWidthProperty().bind(tableView.widthProperty().divide(13));
         //deleteColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
         //actionColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
     }
