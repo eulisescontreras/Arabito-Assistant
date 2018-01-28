@@ -16,13 +16,14 @@ public class DaysDAO {
 	}
 
 	public void create(Days day) {
-		String sql = "INSERT INTO DAYS (DATE, WORKER) VALUES (?, ?)";
+		String sql = "INSERT INTO DAYS (DATE, WORKER, HOURS) VALUES (?, ?, ?)";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			
 			statement.setDate(1, day.getDate());
 			statement.setInt(2, day.getWorker());
+                        statement.setTime(3, day.getHours());
 			
 			statement.execute();
 			statement.close();
@@ -51,7 +52,8 @@ public class DaysDAO {
 				day.setId(result.getInt("id"));
 				day.setWorker(result.getInt("worker"));
 				day.setDate(result.getDate("date"));
-				
+				day.setHours(result.getTime("hours"));
+                                
 				daysList.add(day);
 			}
 			
@@ -67,14 +69,15 @@ public class DaysDAO {
 	}
 	
 	public void update(Days day) {
-		String sql = "UPDATE DAYS SET (DATE, WORKER) VALUES (?, ?) WHERE ID=?";
+		String sql = "UPDATE DAYS SET (DATE, WORKER, HOURS) VALUES (?, ?, ?) WHERE ID=?";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			
 			statement.setDate(1, day.getDate());
 			statement.setInt(2, day.getWorker());
-			statement.setInt(3, day.getId());
+                        statement.setTime(3, day.getHours());
+			statement.setInt(4, day.getId());
 			
 			statement.execute();
 			statement.close();

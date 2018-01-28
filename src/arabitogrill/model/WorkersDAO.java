@@ -18,17 +18,20 @@ public class WorkersDAO {
 	}
 
 	public void create(Workers worker) {
-		String sql = "INSERT INTO public.\"Workers\" (NAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO public.\"Workers\" (FIRST_NAME, SECOND_NAME, SURNAME, SECOND_SURNAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			
-			statement.setString(1, worker.getName());
-			statement.setString(2, worker.getEmail());
-			statement.setString(3, worker.getMobile());
-			statement.setBigDecimal(4, worker.getDailyS());
-			statement.setString(5, worker.getCharge());
-			statement.setDate(6, worker.getBirth());
+			statement.setString(1, worker.getFirstName());
+                        statement.setString(2, worker.getSecondName());
+                        statement.setString(3, worker.getSurname());
+                        statement.setString(4, worker.getSecondSurname());
+			statement.setString(5, worker.getEmail());
+			statement.setString(6, worker.getMobile());
+			statement.setBigDecimal(7, worker.getDailyS());
+			statement.setString(8, worker.getCharge());
+			statement.setDate(9, worker.getBirth());
 			
 			statement.execute();
 			statement.close();
@@ -53,7 +56,10 @@ public class WorkersDAO {
 				Workers worker = new Workers();
 				
 				worker.setId(result.getInt("id"));
-				worker.setName(result.getString("name"));
+				worker.setFirstName(result.getString("first_name"));
+                                worker.setSecondName(result.getString("second_name"));
+                                worker.setSurname(result.getString("surname"));
+                                worker.setSecondSurname(result.getString("second_surname"));
 				worker.setEmail(result.getString("email"));
 				worker.setMobile(result.getString("mobile"));
 				worker.setCharge(result.getString("charge"));
@@ -90,7 +96,10 @@ public class WorkersDAO {
 				Workers worker = new Workers();
 				
 				worker.setId(result.getInt("id"));
-				worker.setName(result.getString("name"));
+                                worker.setFirstName(result.getString("first_name"));
+                                worker.setSecondName(result.getString("second_name"));
+                                worker.setSurname(result.getString("surname"));
+                                worker.setSecondSurname(result.getString("second_surname"));
 				worker.setEmail(result.getString("email"));
 				worker.setMobile(result.getString("mobile"));
 				worker.setCharge(result.getString("charge"));
@@ -112,18 +121,21 @@ public class WorkersDAO {
 	}
 	
 	public void update(Workers worker) {
-		String sql = "UPDATE public.\"Workers\" SET (NAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?) WHERE ID=?";
+		String sql = "UPDATE public.\"Workers\" SET (FIRST_NAME, SECOND_NAME, SURNAME, SECOND_SURNAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE ID=?";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
-			
-			statement.setString(1, worker.getName());
-			statement.setString(2, worker.getEmail());
-			statement.setString(3, worker.getMobile());
-			statement.setBigDecimal(4, worker.getDailyS());
-			statement.setString(5, worker.getCharge());
-			statement.setDate(6, worker.getBirth());
-			statement.setInt(7, worker.getId());
+		
+                        statement.setString(1, worker.getFirstName());
+                        statement.setString(2, worker.getSecondName());
+                        statement.setString(3, worker.getSurname());
+                        statement.setString(4, worker.getSecondSurname());
+			statement.setString(5, worker.getEmail());
+			statement.setString(6, worker.getMobile());
+			statement.setBigDecimal(7, worker.getDailyS());
+			statement.setString(8, worker.getCharge());
+			statement.setDate(9, worker.getBirth());
+			statement.setInt(10, worker.getId());
 			
 			statement.execute();
 			statement.close();

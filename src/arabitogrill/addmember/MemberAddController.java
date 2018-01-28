@@ -37,7 +37,13 @@ import javafx.fxml.FXMLLoader;
 public class MemberAddController {
     
     @FXML
-    private JFXTextField name;
+    private JFXTextField first_name;
+    @FXML
+    private JFXTextField second_name;
+    @FXML
+    private JFXTextField surname;
+    @FXML
+    private JFXTextField second_surname;
     @FXML
     private JFXTextField charge;
     @FXML
@@ -51,24 +57,25 @@ public class MemberAddController {
     @FXML
     private JFXButton saveButton;
     @FXML
-    private JFXButton cancelButton;
-    
-    // location and resources will be automatically injected by the FXML loader
+    private JFXButton cancelButton; 
     @FXML
     private URL location;
     @FXML
     private ResourceBundle resources;
-    
+    private MainController mainController;
     private WorkersDAO wdao;
 
     // Public no-args constructor
     public MemberAddController() {
     }
     
+    public void setMainController(MainController mainController){
+        this.mainController = mainController;
+    }
+    
     @FXML
     private void initialize() {
     	wdao = new WorkersDAO();
-    	
     	/*for(Workers worker : wdao.read("")) {
     		System.out.println(worker);
     	}*/
@@ -76,7 +83,7 @@ public class MemberAddController {
     
     @FXML
     private void cancel(ActionEvent event) {
-        Stage stage = (Stage)name.getScene().getWindow();
+        Stage stage = (Stage)first_name.getScene().getWindow();
         stage.close();
     }
     
@@ -92,7 +99,10 @@ public class MemberAddController {
     	
     	Date date = new Date(cal.getTimeInMillis());
     	
-    	worker.setName(name.getText().toString());
+    	worker.setFirstName(first_name.getText().toString());
+        worker.setSecondName(second_name.getText().toString());
+        worker.setSurname(surname.getText().toString());
+        worker.setSecondSurname(second_surname.getText().toString());
     	worker.setEmail(email.getText().toString());
     	worker.setCharge(charge.getText().toString());
     	worker.setMobile(mobile.getText().toString());
@@ -100,8 +110,8 @@ public class MemberAddController {
     	worker.setBirth(date);
     	
         wdao.create(worker);
-        
-        Stage stage = (Stage)name.getScene().getWindow();
+        this.mainController.getToolbarController().refreshTableView();
+        Stage stage = (Stage)first_name.getScene().getWindow();
         stage.close();
     }
 
