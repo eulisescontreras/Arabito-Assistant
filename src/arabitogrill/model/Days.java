@@ -1,12 +1,20 @@
 package arabitogrill.model;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class Days {
 	private Integer id;
 	private Date date;
 	private Integer worker;
-	
+	private Time hours;
+        
+        public Time getHours() {
+		return hours;
+	}
+	public void setHours(Time hours) {
+		this.hours = hours;
+	}
 	public Integer getId() {
 		return id;
 	}

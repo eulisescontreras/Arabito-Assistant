@@ -45,7 +45,13 @@ public class ListWorkerController {
     private WorkersDAO workerdao = new WorkersDAO();
 
     @FXML
-    private TableColumn<Workers,String> nameColumn = new TableColumn<Workers,String>("Name");
+    private TableColumn<Workers,String> firstNameColumn = new TableColumn<Workers,String>("First name");
+    @FXML
+    private TableColumn<Workers,String> secondNameColumn = new TableColumn<Workers,String>("Second name");
+    @FXML
+    private TableColumn<Workers,String> surnameColumn = new TableColumn<Workers,String>("Surname");
+    @FXML
+    private TableColumn<Workers,String> secondSurnameColumn = new TableColumn<Workers,String>("Second surname");
     @FXML
     private TableColumn<Workers,String> emailColumn = new TableColumn<Workers,String>("Email");
     @FXML
@@ -84,9 +90,27 @@ public class ListWorkerController {
     public void initialize() {
     	
     	// Colmuns
-        nameColumn.setCellValueFactory(new Callback<CellDataFeatures<Workers, String>, ObservableValue<String>>() {
+        firstNameColumn.setCellValueFactory(new Callback<CellDataFeatures<Workers, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(CellDataFeatures<Workers, String> p) {
-                return new ReadOnlyStringWrapper(p.getValue().getName());
+                return new ReadOnlyStringWrapper(p.getValue().getFirstName());
+            }
+         });
+        
+        secondNameColumn.setCellValueFactory(new Callback<CellDataFeatures<Workers, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Workers, String> p) {
+                return new ReadOnlyStringWrapper(p.getValue().getSecondName());
+            }
+         });
+        
+        surnameColumn.setCellValueFactory(new Callback<CellDataFeatures<Workers, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Workers, String> p) {
+                return new ReadOnlyStringWrapper(p.getValue().getSurname());
+            }
+         });
+        
+        secondSurnameColumn.setCellValueFactory(new Callback<CellDataFeatures<Workers, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Workers, String> p) {
+                return new ReadOnlyStringWrapper(p.getValue().getSecondSurname());
             }
          });
         
@@ -120,7 +144,10 @@ public class ListWorkerController {
             }
          });
         
-        nameColumn.setId("nameColumn");
+        firstNameColumn.setId("firstNameColumn");
+        secondNameColumn.setId("secondNameColumn");
+        surnameColumn.setId("surnameColumn");
+        secondSurnameColumn.setId("secondSurnameColumn");
         emailColumn.setId("emailColumn");
         mobileColumn.setId("mobileColumn");
         chargeColumn.setId("chargeColumn");
@@ -130,18 +157,24 @@ public class ListWorkerController {
         editColumn.setId("editColumn");
         deleteColumn.setId("deleteColumn");
         
-        nameColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        emailColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        mobileColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        chargeColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        dailyColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        birthColumn.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+        firstNameColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        secondNameColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        surnameColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        secondSurnameColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        emailColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        mobileColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        chargeColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        dailyColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        birthColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
         
         addButtonToTable();
         
         this.tableView.setItems(workerdao.getObservableWorker());
         tableView.getColumns().addAll(
-        		nameColumn,
+        		firstNameColumn,
+                        secondNameColumn,
+                        surnameColumn,
+                        secondSurnameColumn,
         		emailColumn,
         		mobileColumn,
         		birthColumn,
@@ -212,10 +245,16 @@ public class ListWorkerController {
         };
 
         deleteColumn.setCellFactory(cellFactory);
+<<<<<<< HEAD
         editColumn.setCellFactory(cellFactory2);
         actionColumn.getColumns().addAll(editColumn, deleteColumn);
         editColumn.prefWidthProperty().bind(tableView.widthProperty().divide(13));
         //deleteColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
+=======
+        actionColumn.getColumns().addAll(updateColumn, deleteColumn);
+        updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        deleteColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+>>>>>>> 806b3693ba71bbe5273de1ea4adf64081842259b
         //actionColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
     }
 }

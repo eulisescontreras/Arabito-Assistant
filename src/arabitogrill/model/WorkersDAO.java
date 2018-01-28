@@ -18,17 +18,24 @@ public class WorkersDAO {
 	}
 
 	public void create(Workers worker) {
+<<<<<<< HEAD
 		String sql = "INSERT INTO workers (NAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?)";
+=======
+		String sql = "INSERT INTO public.\"Workers\" (FIRST_NAME, SECOND_NAME, SURNAME, SECOND_SURNAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+>>>>>>> 806b3693ba71bbe5273de1ea4adf64081842259b
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			
-			statement.setString(1, worker.getName());
-			statement.setString(2, worker.getEmail());
-			statement.setString(3, worker.getMobile());
-			statement.setBigDecimal(4, worker.getDailyS());
-			statement.setString(5, worker.getCharge());
-			statement.setDate(6, worker.getBirth());
+			statement.setString(1, worker.getFirstName());
+                        statement.setString(2, worker.getSecondName());
+                        statement.setString(3, worker.getSurname());
+                        statement.setString(4, worker.getSecondSurname());
+			statement.setString(5, worker.getEmail());
+			statement.setString(6, worker.getMobile());
+			statement.setBigDecimal(7, worker.getDailyS());
+			statement.setString(8, worker.getCharge());
+			statement.setDate(9, worker.getBirth());
 			
 			statement.execute();
 			statement.close();
@@ -53,7 +60,10 @@ public class WorkersDAO {
 				Workers worker = new Workers();
 				
 				worker.setId(result.getInt("id"));
-				worker.setName(result.getString("name"));
+				worker.setFirstName(result.getString("first_name"));
+                                worker.setSecondName(result.getString("second_name"));
+                                worker.setSurname(result.getString("surname"));
+                                worker.setSecondSurname(result.getString("second_surname"));
 				worker.setEmail(result.getString("email"));
 				worker.setMobile(result.getString("mobile"));
 				worker.setCharge(result.getString("charge"));
@@ -90,7 +100,10 @@ public class WorkersDAO {
 				Workers worker = new Workers();
 				
 				worker.setId(result.getInt("id"));
-				worker.setName(result.getString("name"));
+                                worker.setFirstName(result.getString("first_name"));
+                                worker.setSecondName(result.getString("second_name"));
+                                worker.setSurname(result.getString("surname"));
+                                worker.setSecondSurname(result.getString("second_surname"));
 				worker.setEmail(result.getString("email"));
 				worker.setMobile(result.getString("mobile"));
 				worker.setCharge(result.getString("charge"));
@@ -112,6 +125,7 @@ public class WorkersDAO {
 	}
 	
 	public void update(Workers worker) {
+<<<<<<< HEAD
 		String sql = "UPDATE workers SET NAME='" + worker.getName() + "', "
 				+ "EMAIL='" + worker.getEmail() + "', "
 				+ "MOBILE='" + worker.getMobile() + "', "
@@ -119,10 +133,28 @@ public class WorkersDAO {
 				+ "CHARGE='"+ worker.getCharge() +"', "
 				+ "BIRTH='"+ worker.getBirth() +"' "
 				+ "WHERE ID=" + worker.getId() + ";";
+=======
+		String sql = "UPDATE public.\"Workers\" SET (FIRST_NAME, SECOND_NAME, SURNAME, SECOND_SURNAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE ID=?";
+>>>>>>> 806b3693ba71bbe5273de1ea4adf64081842259b
 		
 		try {
 			System.out.println(sql);
 			PreparedStatement statement = connection.prepareStatement(sql);
+<<<<<<< HEAD
+=======
+		
+                        statement.setString(1, worker.getFirstName());
+                        statement.setString(2, worker.getSecondName());
+                        statement.setString(3, worker.getSurname());
+                        statement.setString(4, worker.getSecondSurname());
+			statement.setString(5, worker.getEmail());
+			statement.setString(6, worker.getMobile());
+			statement.setBigDecimal(7, worker.getDailyS());
+			statement.setString(8, worker.getCharge());
+			statement.setDate(9, worker.getBirth());
+			statement.setInt(10, worker.getId());
+			
+>>>>>>> 806b3693ba71bbe5273de1ea4adf64081842259b
 			statement.execute();
 			statement.close();
 		} catch (SQLException e) {
