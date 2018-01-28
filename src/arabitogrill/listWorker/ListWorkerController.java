@@ -69,6 +69,7 @@ public class ListWorkerController {
     @FXML
     private TableColumn editColumn = new TableColumn("Edit");
     
+    
     @FXML
     private Label nameLabel;
     @FXML
@@ -226,7 +227,7 @@ public class ListWorkerController {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                         	Workers data = getTableView().getItems().get(getIndex());
-                        	arabitoGrill.showEditWorker(data);
+                        	arabitoGrill.showEditWorker(data,tableView);
                         });
                     }
 
@@ -245,16 +246,9 @@ public class ListWorkerController {
         };
 
         deleteColumn.setCellFactory(cellFactory);
-<<<<<<< HEAD
         editColumn.setCellFactory(cellFactory2);
         actionColumn.getColumns().addAll(editColumn, deleteColumn);
-        editColumn.prefWidthProperty().bind(tableView.widthProperty().divide(13));
-        //deleteColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
-=======
-        actionColumn.getColumns().addAll(updateColumn, deleteColumn);
-        updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
+        editColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
         deleteColumn.prefWidthProperty().bind(tableView.widthProperty().divide(11));
->>>>>>> 806b3693ba71bbe5273de1ea4adf64081842259b
-        //actionColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2));
     }
 }

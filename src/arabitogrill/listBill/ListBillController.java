@@ -162,7 +162,7 @@ public class ListBillController {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                         	Bills data = getTableView().getItems().get(getIndex());
-                        	arabitoGrill.showEditBill(data);
+                        	arabitoGrill.showEditBill(data,tableView);
                         });
                     }
 

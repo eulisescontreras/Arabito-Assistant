@@ -33,6 +33,8 @@ import javafx.stage.Stage;
  */
 public class BillEditController {
     
+    private BillsDAO billsdao = new BillsDAO();
+    
     @FXML
     private JFXTextField amount;
     @FXML
@@ -53,6 +55,7 @@ public class BillEditController {
     private BillsDAO bdao;
     
     private Bills billEdit;
+    private TableView tableView;
 
     // Public no-args constructor
     public BillEditController() {
@@ -101,16 +104,20 @@ public class BillEditController {
     	bill.setId(billEdit.getId());
     	
         bdao.update(bill);
+        tableView.refresh();
+        tableView.setItems(billsdao.getObservableBills());
+
         
         Stage stage = (Stage)amount.getScene().getWindow();
         stage.close();
     }
     
-    public void initData(Bills bill) {
-		billEdit = bill;
-		
-		amount.setText(bill.getAmount().toString());
-		createdAt.setValue(bill.getCreatedAt().toLocalDate());
+    public void initData(Bills bill, TableView tableView) {
+            billEdit = bill;
+
+            this.tableView = tableView;
+            amount.setText(bill.getAmount().toString());
+            createdAt.setValue(bill.getCreatedAt().toLocalDate());
 	    expirationAt.setValue(bill.getExpirationAt().toLocalDate());
 	}
 

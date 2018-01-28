@@ -18,11 +18,9 @@ public class WorkersDAO {
 	}
 
 	public void create(Workers worker) {
-<<<<<<< HEAD
-		String sql = "INSERT INTO workers (NAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?)";
-=======
+//		String sql = "INSERT INTO workers (NAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?)";
+
 		String sql = "INSERT INTO public.\"Workers\" (FIRST_NAME, SECOND_NAME, SURNAME, SECOND_SURNAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
->>>>>>> 806b3693ba71bbe5273de1ea4adf64081842259b
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -50,7 +48,7 @@ public class WorkersDAO {
 	public List<Workers> read(String nameWorker) {
 		List<Workers> workersList = new ArrayList<>();
 		
-		String sql = "SELECT * FROM workers WHERE NAME LIKE '%" + nameWorker + "%'";
+		String sql = "SELECT * FROM public.\"Workers\" WHERE NAME LIKE '%" + nameWorker + "%'";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -90,7 +88,7 @@ public class WorkersDAO {
 		String sql = "SELECT " +
                              "  * " +
                              "FROM " +
-                             "  workers;";
+                             "  public.\"Workers\";";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -125,36 +123,20 @@ public class WorkersDAO {
 	}
 	
 	public void update(Workers worker) {
-<<<<<<< HEAD
-		String sql = "UPDATE workers SET NAME='" + worker.getName() + "', "
+		String sql = "UPDATE public.\"Workers\" SET FIRST_NAME='" + worker.getFirstName()+ "', "
+                                + "SECOND_NAME='" + worker.getSecondName()+ "', "
+                                + "SURNAME='" + worker.getSurname()+ "', "
+                                + "SECOND_SURNAME='" + worker.getSecondSurname()+ "', "
 				+ "EMAIL='" + worker.getEmail() + "', "
 				+ "MOBILE='" + worker.getMobile() + "', "
 				+ "DAILY_S=" + worker.getDailyS() + ", "
 				+ "CHARGE='"+ worker.getCharge() +"', "
 				+ "BIRTH='"+ worker.getBirth() +"' "
-				+ "WHERE ID=" + worker.getId() + ";";
-=======
-		String sql = "UPDATE public.\"Workers\" SET (FIRST_NAME, SECOND_NAME, SURNAME, SECOND_SURNAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE ID=?";
->>>>>>> 806b3693ba71bbe5273de1ea4adf64081842259b
-		
+				+ "WHERE ID=" + worker.getId() + ";";		
 		try {
 			System.out.println(sql);
 			PreparedStatement statement = connection.prepareStatement(sql);
-<<<<<<< HEAD
-=======
-		
-                        statement.setString(1, worker.getFirstName());
-                        statement.setString(2, worker.getSecondName());
-                        statement.setString(3, worker.getSurname());
-                        statement.setString(4, worker.getSecondSurname());
-			statement.setString(5, worker.getEmail());
-			statement.setString(6, worker.getMobile());
-			statement.setBigDecimal(7, worker.getDailyS());
-			statement.setString(8, worker.getCharge());
-			statement.setDate(9, worker.getBirth());
-			statement.setInt(10, worker.getId());
 			
->>>>>>> 806b3693ba71bbe5273de1ea4adf64081842259b
 			statement.execute();
 			statement.close();
 		} catch (SQLException e) {
@@ -165,7 +147,7 @@ public class WorkersDAO {
 	}
 	
 	public void delete(Integer idWorker) {
-		String sql = "DELETE FROM workers WHERE ID=?";
+		String sql = "DELETE FROM public.\"Workers\" WHERE ID=?";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);

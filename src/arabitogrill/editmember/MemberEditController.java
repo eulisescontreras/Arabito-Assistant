@@ -34,7 +34,13 @@ import javafx.stage.Stage;
 public class MemberEditController {
     
     @FXML
-    private JFXTextField name;
+    private JFXTextField first_name;
+    @FXML
+    private JFXTextField second_name;
+    @FXML
+    private JFXTextField surname;
+    @FXML
+    private JFXTextField second_surname;
     @FXML
     private JFXTextField charge;
     @FXML
@@ -59,6 +65,8 @@ public class MemberEditController {
     private WorkersDAO wdao;
     
     private Workers workerEdit;
+    private TableView tableView;
+    private WorkersDAO workerdao = new WorkersDAO();
 
     // Public no-args constructor
     public MemberEditController() {
@@ -76,7 +84,7 @@ public class MemberEditController {
     
     @FXML
     private void cancel(ActionEvent event) {
-        Stage stage = (Stage)name.getScene().getWindow();
+        Stage stage = (Stage)first_name.getScene().getWindow();
         stage.close();
     }
     
@@ -92,7 +100,10 @@ public class MemberEditController {
     	
     	Date date = new Date(cal.getTimeInMillis());
     	
-    	worker.setName(name.getText().toString());
+    	worker.setFirstName(first_name.getText().toString());
+        worker.setSecondName(second_name.getText().toString());
+    	worker.setSurname(surname.getText().toString());
+    	worker.setSecondSurname(second_surname.getText().toString());
     	worker.setEmail(email.getText().toString());
     	worker.setCharge(charge.getText().toString());
     	worker.setMobile(mobile.getText().toString());
@@ -101,20 +112,25 @@ public class MemberEditController {
     	worker.setId(workerEdit.getId());
     	
         wdao.update(worker);
-        
-        Stage stage = (Stage)name.getScene().getWindow();
+        tableView.refresh();
+        tableView.setItems(workerdao.getObservableWorker());
+        Stage stage = (Stage)first_name.getScene().getWindow();
         stage.close();
     }
 
-	public void initData(Workers worker) {
+    public void initData(Workers worker, TableView tableView) {
 		workerEdit = worker;
 		
-		name.setText(worker.getName());
+                this.tableView = tableView;
+		first_name.setText(worker.getFirstName());
+                second_name.setText(worker.getSecondName());
+                surname.setText(worker.getSurname());
+                second_surname.setText(worker.getSecondSurname());
 		charge.setText(worker.getCharge());
-	    mobile.setText(worker.getMobile());
-	    email.setText(worker.getEmail());
-	    dailyS.setText(worker.getDailyS().toString());
-	    birth.setValue(worker.getBirth().toLocalDate());
+                mobile.setText(worker.getMobile());
+                email.setText(worker.getEmail());
+                dailyS.setText(worker.getDailyS().toString());
+                birth.setValue(worker.getBirth().toLocalDate());
 	}
 
 }

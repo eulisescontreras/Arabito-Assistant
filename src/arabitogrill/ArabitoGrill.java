@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TableView;
 
 
 /**
@@ -44,7 +45,7 @@ public class ArabitoGrill extends Application {
         launch(args);
     }
     
-    public static void showEditWorker(Workers worker) {
+    public static void showEditWorker(Workers worker, TableView tableView) {
     	FXMLLoader fxmlLoader = new FXMLLoader();
     	fxmlLoader.setLocation(ArabitoGrill.class.getResource("/arabitogrill/editmember/member_edit.fxml"));
 
@@ -52,18 +53,18 @@ public class ArabitoGrill extends Application {
 			Parent root;
 			root = (Parent)fxmlLoader.load();
 			MemberEditController controller = fxmlLoader.<MemberEditController>getController();
-        	controller.initData(worker);
-        	Scene scene = new Scene(root);
-        	Stage stage = new Stage();
-        	stage.setScene(scene);
-        	stage.show(); 
+                        controller.initData(worker,tableView);
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show(); 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
     
-    public static void showEditBill(Bills bill) {
+    public static void showEditBill(Bills bill, TableView tableView) {
     	FXMLLoader fxmlLoader = new FXMLLoader();
     	fxmlLoader.setLocation(ArabitoGrill.class.getResource("/arabitogrill/editbill/bill_edit.fxml"));
 
@@ -71,11 +72,11 @@ public class ArabitoGrill extends Application {
 			Parent root;
 			root = (Parent)fxmlLoader.load();
 			BillEditController controller = fxmlLoader.<BillEditController>getController();
-        	controller.initData(bill);
-        	Scene scene = new Scene(root);
-        	Stage stage = new Stage();
-        	stage.setScene(scene);
-        	stage.show(); 
+                        controller.initData(bill,tableView);
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show(); 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
