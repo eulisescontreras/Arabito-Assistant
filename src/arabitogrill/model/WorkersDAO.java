@@ -18,7 +18,7 @@ public class WorkersDAO {
 	}
 
 	public void create(Workers worker) {
-		String sql = "INSERT INTO public.\"Workers\" (NAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO workers (NAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -43,7 +43,7 @@ public class WorkersDAO {
 	public List<Workers> read(String nameWorker) {
 		List<Workers> workersList = new ArrayList<>();
 		
-		String sql = "SELECT * FROM public.\"Workers\" WHERE NAME LIKE '%" + nameWorker + "%'";
+		String sql = "SELECT * FROM workers WHERE NAME LIKE '%" + nameWorker + "%'";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -77,10 +77,10 @@ public class WorkersDAO {
 	public ObservableList<Workers> getObservableWorker() {
 		ObservableList<Workers> workersList = FXCollections.observableArrayList();
 		
-		String sql = "SELECT"+ 
-                             "   *  "+
-                             " FROM "+ 
-                             "   public.\"Workers\";";
+		String sql = "SELECT " +
+                             "  * " +
+                             "FROM " +
+                             "  workers;";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -112,7 +112,6 @@ public class WorkersDAO {
 	}
 	
 	public void update(Workers worker) {
-<<<<<<< HEAD
 		String sql = "UPDATE workers SET NAME='" + worker.getName() + "', "
 				+ "EMAIL='" + worker.getEmail() + "', "
 				+ "MOBILE='" + worker.getMobile() + "', "
@@ -120,9 +119,6 @@ public class WorkersDAO {
 				+ "CHARGE='"+ worker.getCharge() +"', "
 				+ "BIRTH='"+ worker.getBirth() +"' "
 				+ "WHERE ID=" + worker.getId() + ";";
-=======
-		String sql = "UPDATE public.\"Workers\" SET (NAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?) WHERE ID=?";
->>>>>>> aae8284bed494c8c3a270bef98146123a3584f3f
 		
 		try {
 			System.out.println(sql);
@@ -137,7 +133,7 @@ public class WorkersDAO {
 	}
 	
 	public void delete(Integer idWorker) {
-		String sql = "DELETE FROM public.\"Workers\" WHERE ID=?";
+		String sql = "DELETE FROM workers WHERE ID=?";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
