@@ -113,11 +113,11 @@ public class BillEditController {
     }
     
     public void initData(Bills bill, TableView tableView) {
-            billEdit = bill;
+        billEdit = bill;
 
-            this.tableView = tableView;
-            amount.setText(bill.getAmount().toString());
-            createdAt.setValue(bill.getCreatedAt().toLocalDate());
+        this.tableView = tableView;
+        amount.setText(bill.getAmount().toString());
+        createdAt.setValue(bill.getCreatedAt().toLocalDate());
 	    expirationAt.setValue(bill.getExpirationAt().toLocalDate());
 	}
 

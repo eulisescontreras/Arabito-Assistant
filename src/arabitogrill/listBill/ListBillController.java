@@ -53,6 +53,8 @@ public class ListBillController {
     private TableColumn deleteColumn = new TableColumn("Delete");
     @FXML
     private TableColumn updateColumn = new TableColumn("Update");
+    @FXML
+    private TableColumn payColumn = new TableColumn("Pay");
     
     @FXML
     private Label amountLabel;
@@ -102,6 +104,7 @@ public class ListBillController {
         actionColumn.setId("actionColumn");
         updateColumn.setId("updateColumn");
         deleteColumn.setId("deleteColumn");
+        payColumn.setId("payColumn");
         
         amountColumn.prefWidthProperty().bind(tableView.widthProperty().divide(5));
         spendColumn.prefWidthProperty().bind(tableView.widthProperty().divide(5));
@@ -179,10 +182,43 @@ public class ListBillController {
                 return cell;
             }
         };
+        
+        Callback<TableColumn<Bills, Void>, TableCell<Bills, Void>> cellFactory3 = new Callback<TableColumn<Bills, Void>, TableCell<Bills, Void>>() {
+            @Override
+            public TableCell<Bills, Void> call(final TableColumn<Bills, Void> param) {
+                final TableCell<Bills, Void> cell = new TableCell<Bills, Void>() {
+
+                    private final Button btn = new Button("Pay");
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                        	Bills data = getTableView().getItems().get(getIndex());
+                        	BillsDAO bdao = new BillsDAO();
+                        	
+                        	data.setSpend("PAID");
+                        	
+                        	bdao.update(data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
 
         deleteColumn.setCellFactory(cellFactory);
         updateColumn.setCellFactory(cellFactory2);
-        actionColumn.getColumns().addAll(updateColumn, deleteColumn);
+        payColumn.setCellFactory(cellFactory3);
+        actionColumn.getColumns().addAll(updateColumn, payColumn, deleteColumn);
         updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(8));
     }
 }
