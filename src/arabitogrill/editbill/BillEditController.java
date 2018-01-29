@@ -96,39 +96,6 @@ public class BillEditController {
     
     @FXML
     private void save(ActionEvent event) {
-<<<<<<< HEAD
-    	Bills bill = new Bills();
-    	String [] dateC = createdAt.getEditor().getText().split("/");
-    	String [] dateE = expirationAt.getEditor().getText().split("/");
-    	 
-    	Calendar cal = Calendar.getInstance();
-    	
-    	cal.set(Integer.parseInt(dateC[2]), 
-    			Integer.parseInt(dateC[0])-1, 
-    			Integer.parseInt(dateC[1]));
-    	
-    	Date dc = new Date(cal.getTimeInMillis());
-    	
-    	cal.set(Integer.parseInt(dateE[2]), 
-    			Integer.parseInt(dateE[0])-1, 
-    			Integer.parseInt(dateE[1]));
-    	
-    	Date de = new Date(cal.getTimeInMillis());
-    	
-    	bill.setAmount(new BigDecimal(amount.getText()));
-    	bill.setCreatedAt(dc);
-    	bill.setExpirationAt(de);
-    	bill.setSpend(billEdit.getSpend());
-    	bill.setId(billEdit.getId());
-    	
-        bdao.update(bill);
-        tableView.refresh();
-        tableView.setItems(billsdao.getObservableBills());
-
-        
-        Stage stage = (Stage)amount.getScene().getWindow();
-        stage.close();
-=======
     	if(amount.getText().trim().length()!=0) {
 	    	Bills bill = new Bills();
 	    	String [] dateC = createdAt.getEditor().getText().split("/");
@@ -161,7 +128,6 @@ public class BillEditController {
 	        Stage stage = (Stage)amount.getScene().getWindow();
 	        stage.close();
     	}
->>>>>>> 93792553443868b3e66e6dd2ca4296e22c9439fd
     }
     
     public void initData(Bills bill, TableView tableView) {

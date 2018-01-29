@@ -64,6 +64,6 @@ public class ToolbarController  implements Initializable {
     // Setting
     @FXML
     private void loadSetting(ActionEvent event) {
-        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/settings/settings.fxml"), "Settings", null,false,false);
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/settings/settings.fxml"), "Settings", null,false,false,null);
     }
 }
