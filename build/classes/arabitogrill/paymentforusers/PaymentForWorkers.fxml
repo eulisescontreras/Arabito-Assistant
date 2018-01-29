@@ -21,6 +21,11 @@
                   <Insets left="10.0" right="10.0" top="20.0" />
                </VBox.margin>
             </JFXTextField>
+            <JFXTextField fx:id="time" labelFloat="true" promptText="Time. Format (hh:mm:ss)">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="20.0" />
+               </VBox.margin>
+            </JFXTextField>
             <HBox alignment="CENTER" prefHeight="47.0" prefWidth="404.0" spacing="30.0">
                <children>
                   <JFXButton fx:id="saveButton" onAction="#save" prefHeight="66.0" prefWidth="100.0" text="Save" />

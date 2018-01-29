@@ -79,12 +79,7 @@ public class MemberEditController {
     	first_name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
                 if(first_name.getText().trim().length()==0){
-                	first_name.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	first_name.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                    first_name.getStyleClass().add("wrong-credentials");
                 }
             }
         });
@@ -92,12 +87,7 @@ public class MemberEditController {
     	second_name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
                 if(second_name.getText().trim().length()==0){
-                	second_name.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	second_name.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                    second_name.getStyleClass().add("wrong-credentials");
                 }
             }
         });
@@ -109,12 +99,7 @@ public class MemberEditController {
                 }
                 
                 if(dailyS.getText().trim().length()==0){
-                	dailyS.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	dailyS.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                	dailyS.getStyleClass().add("wrong-credentials");
                 }
             }
         });

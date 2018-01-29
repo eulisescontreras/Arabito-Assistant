@@ -5,6 +5,7 @@
  */
 package arabitogrill.main.toolbaruser;
 
+import arabitogrill.main.MainController;
 import arabitogrill.util.ArabitoGrillUtil;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import arabitogrill.model.*;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 /**
@@ -31,21 +35,29 @@ public class ToolbarController  implements Initializable {
     @FXML
     public TableView<Workers> tableView;
     @FXML
+    public TableView<Workers> tableViewCalendar;
+    @FXML
     public TableColumn nameCol;
+    @FXML
+    public String Id = "-1";
+    public MainController mainController;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         nameCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Workers, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Workers, String> p) {
-                return new ReadOnlyStringWrapper(p.getValue().getFirstName()+" "+p.getValue().getSecondName()+"\n"+p.getValue().getSurname()+" "+p.getValue().getSecondSurname());
+                return new ReadOnlyStringWrapper(p.getValue().getId()+"\n\n  "+p.getValue().getFirstName()+" "+p.getValue().getSecondName()+"\n  "+p.getValue().getSurname()+" "+p.getValue().getSecondSurname()+"\n\n"); 
             }
          });
         tableView.setItems(workerdao.getObservableWorker());
-        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                System.out.print("hola katty");
-            }
-        });
+        tableView.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler() {
+             @Override
+             public void handle(Event event) {
+                 String id = event.getTarget().toString().split("text=")[1].split("\n")[0].replace(""+'"',"");
+                 Id = id;
+                 mainController.initCalendar();
+             }
+         });
     }
     
     public TableView<Workers> getTableView() {
@@ -54,6 +66,14 @@ public class ToolbarController  implements Initializable {
     
     public void setTableView(TableView<Workers> tableView){
         this.tableView = tableView; 
+    }
+    
+    public void setMainController(MainController mainController){
+        this.mainController = mainController;
+    }
+    
+    public String getIdUser(){
+        return this.Id;
     }
     
     public void refreshTableView()

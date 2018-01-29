@@ -44,26 +44,26 @@ public class ToolbarController  implements Initializable {
     // Worker
     @FXML
     private void loadAddMember(ActionEvent event) {
-        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addmember/member_add.fxml"), "Add New Worker",this.mainController,true,false);
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addmember/member_add.fxml"), "Add New Worker",this.mainController,true,false,null);
     }
     @FXML
     private void loadListWorker(ActionEvent event) {
-    	ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listWorker/list_worker.fxml"), "Worker List",null,false,false);
+    	ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listWorker/list_worker.fxml"), "Worker List",null,false,false,null);
     }
     
     // Bill
     @FXML
     private void loadAddBill(ActionEvent event) {
-        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addbill/bill_add.fxml"), "Add New Bill", null,false,false);
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addbill/bill_add.fxml"), "Add New Bill", null,false,false,null);
     }
     @FXML
     private void loadListBill(ActionEvent event) {
-    	ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listBill/list_bill.fxml"), "Bill List", null,false,false);
+    	ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listBill/list_bill.fxml"), "Bill List", null,false,false,null);
     }
     
     // Setting
     @FXML
     private void loadSetting(ActionEvent event) {
-        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/settings/settings.fxml"), "Settings", null,false,false);
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/settings/settings.fxml"), "Settings", null,false,false,null);
     }
 }

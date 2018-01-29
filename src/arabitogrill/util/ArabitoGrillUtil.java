@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import arabitogrill.addmember.MemberAddController;
+import arabitogrill.model.InformationUserCalendar;
 import arabitogrill.paymentforusers.PaymentForWorkers;
 import java.sql.Date;
 import java.text.ParseException;
@@ -35,7 +36,7 @@ public class ArabitoGrillUtil {
         stage.getIcons().add(new Image(IMAGE_LOC));
     }
     
-    public static void loadWindow(URL loc, String title, MainController main, boolean isWorkers, boolean isCalendar) {
+    public static void loadWindow(URL loc, String title, MainController main, boolean isWorkers, boolean isCalendar, InformationUserCalendar iuc) {
         try {
             addmember = new FXMLLoader(loc);
             Parent parent = (Parent)addmember.load();
@@ -48,6 +49,14 @@ public class ArabitoGrillUtil {
             if(isCalendar)
             {
                 controllerPayment = (PaymentForWorkers)addmember.getController();   
+                controllerPayment.setAmount((""+iuc.getAmount()).toString());
+                controllerPayment.setTips((""+iuc.getTips()).toString());
+                controllerPayment.setUserId(iuc.getUserId());
+                controllerPayment.setTime((""+iuc.getHour()).toString().replace(".0","")+":"+iuc.getMinutes()+":00");
+                controllerPayment.setDate(iuc.getDate());
+                controllerPayment.setMain(main);
+                controllerPayment.setDayId(iuc.getDayId());
+                controllerPayment.setDaily_s(iuc.getDaily_s());
             }
             
             Stage stage = new Stage(StageStyle.DECORATED);

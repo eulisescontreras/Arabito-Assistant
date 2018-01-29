@@ -5,60 +5,62 @@
  */
 package arabitogrill.model;
 
+import arabitogrill.model.FieldOfCalendarPosition;
+
 /**
  *
  * @author eulis
  */
 public class DaysOfWeek {
-    private String mondayCol;
-    private String tuesdayCol;
-    private String wednesdayCol;
-    private String thursdayCol;
-    private String fridayCol;
-    private String saturdayCol;
-    private String sundayCol;
+    private FieldOfCalendarPosition mondayCol = new FieldOfCalendarPosition();
+    private FieldOfCalendarPosition tuesdayCol = new FieldOfCalendarPosition();
+    private FieldOfCalendarPosition wednesdayCol = new FieldOfCalendarPosition();
+    private FieldOfCalendarPosition thursdayCol = new FieldOfCalendarPosition();
+    private FieldOfCalendarPosition fridayCol = new FieldOfCalendarPosition();
+    private FieldOfCalendarPosition saturdayCol = new FieldOfCalendarPosition();
+    private FieldOfCalendarPosition sundayCol = new FieldOfCalendarPosition();
         
-    public String getMondayCol(){
+    public FieldOfCalendarPosition getMondayCol(){
         return mondayCol;
     }
-    public String getTuesdayCol(){
+    public FieldOfCalendarPosition getTuesdayCol(){
         return tuesdayCol;
     }
-    public String getWednesdayCol(){
+    public FieldOfCalendarPosition getWednesdayCol(){
         return wednesdayCol;
     }
-    public String getThursdayCol(){
+    public FieldOfCalendarPosition getThursdayCol(){
         return thursdayCol;
     }
-    public String getFridayCol(){
+    public FieldOfCalendarPosition getFridayCol(){
         return fridayCol;
     }
-    public String getSaturdayCol(){
+    public FieldOfCalendarPosition getSaturdayCol(){
         return saturdayCol;
     }
-    public String getSundayCol(){
+    public FieldOfCalendarPosition getSundayCol(){
         return sundayCol;
     }
     
-    public void setMondayCol(String mondayCol){
+    public void setMondayCol(FieldOfCalendarPosition mondayCol){
         this.mondayCol = mondayCol;
     }
-    public void setTuesdayCol(String tuesdayCol){
+    public void setTuesdayCol(FieldOfCalendarPosition tuesdayCol){
         this.tuesdayCol = tuesdayCol;
     }
-    public void setWednesdayCol(String wednesdayCol){
+    public void setWednesdayCol(FieldOfCalendarPosition wednesdayCol){
         this.wednesdayCol = wednesdayCol;
     }
-    public void setThursdayCol(String ThursdayCol){
+    public void setThursdayCol(FieldOfCalendarPosition ThursdayCol){
         this.thursdayCol = ThursdayCol;
     }
-    public void setFridayCol(String fridayCol){
+    public void setFridayCol(FieldOfCalendarPosition fridayCol){
         this.fridayCol = fridayCol;
     }
-    public void setSaturdayCol(String saturdayCol){
+    public void setSaturdayCol(FieldOfCalendarPosition saturdayCol){
         this.saturdayCol = saturdayCol;
     }
-    public void setSundayCol(String SundayCol){
+    public void setSundayCol(FieldOfCalendarPosition SundayCol){
         this.sundayCol = SundayCol;
     }
 }

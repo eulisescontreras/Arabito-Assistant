@@ -23,20 +23,20 @@ public class WorkersDAO {
 		String sql = "INSERT INTO public.\"Workers\" (FIRST_NAME, SECOND_NAME, SURNAME, SECOND_SURNAME, EMAIL, MOBILE, DAILY_S, CHARGE, BIRTH) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
-			PreparedStatement statement = connection.prepareStatement(sql);
-			
-			statement.setString(1, worker.getFirstName());
-            statement.setString(2, worker.getSecondName());
-            statement.setString(3, worker.getSurname());
-            statement.setString(4, worker.getSecondSurname());
-			statement.setString(5, worker.getEmail());
-			statement.setString(6, worker.getMobile());
-			statement.setBigDecimal(7, worker.getDailyS());
-			statement.setString(8, worker.getCharge());
-			statement.setDate(9, worker.getBirth());
-			
-			statement.execute();
-			statement.close();
+                    PreparedStatement statement = connection.prepareStatement(sql);
+
+                    statement.setString(1, worker.getFirstName());
+                    statement.setString(2, worker.getSecondName());
+                    statement.setString(3, worker.getSurname());
+                    statement.setString(4, worker.getSecondSurname());
+                    statement.setString(5, worker.getEmail());
+                    statement.setString(6, worker.getMobile());
+                    statement.setBigDecimal(7, worker.getDailyS());
+                    statement.setString(8, worker.getCharge());
+                    statement.setDate(9, worker.getBirth());
+
+                    statement.execute();
+                    statement.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,20 +55,20 @@ public class WorkersDAO {
 			ResultSet result = statement.executeQuery();
 			
 			while(result.next()) {
-				Workers worker = new Workers();
+                            Workers worker = new Workers();
+
+                            worker.setId(result.getInt("id"));
+                            worker.setFirstName(result.getString("first_name"));
+                            worker.setSecondName(result.getString("second_name"));
+                            worker.setSurname(result.getString("surname"));
+                            worker.setSecondSurname(result.getString("second_surname"));
+                            worker.setEmail(result.getString("email"));
+                            worker.setMobile(result.getString("mobile"));
+                            worker.setCharge(result.getString("charge"));
+                            worker.setDailyS(result.getBigDecimal("daily_s"));
+                            worker.setBirth(result.getDate("birth"));
 				
-				worker.setId(result.getInt("id"));
-				worker.setFirstName(result.getString("first_name"));
-                worker.setSecondName(result.getString("second_name"));
-                worker.setSurname(result.getString("surname"));
-                worker.setSecondSurname(result.getString("second_surname"));
-				worker.setEmail(result.getString("email"));
-				worker.setMobile(result.getString("mobile"));
-				worker.setCharge(result.getString("charge"));
-				worker.setDailyS(result.getBigDecimal("daily_s"));
-				worker.setBirth(result.getDate("birth"));
-				
-				workersList.add(worker);
+                            workersList.add(worker);
 			}
 			
 			result.close();
@@ -95,20 +95,20 @@ public class WorkersDAO {
 			ResultSet result = statement.executeQuery();
 			
 			while(result.next()) {
-				Workers worker = new Workers();
-				
-				worker.setId(result.getInt("id"));
-                worker.setFirstName(result.getString("first_name"));
-                worker.setSecondName(result.getString("second_name"));
-                worker.setSurname(result.getString("surname"));
-                worker.setSecondSurname(result.getString("second_surname"));
-				worker.setEmail(result.getString("email"));
-				worker.setMobile(result.getString("mobile"));
-				worker.setCharge(result.getString("charge"));
-				worker.setDailyS(result.getBigDecimal("daily_s"));
-				worker.setBirth(result.getDate("birth"));
-				
-				workersList.add(worker);
+                            Workers worker = new Workers();
+
+                            worker.setId(result.getInt("id"));
+                            worker.setFirstName(result.getString("first_name"));
+                            worker.setSecondName(result.getString("second_name"));
+                            worker.setSurname(result.getString("surname"));
+                            worker.setSecondSurname(result.getString("second_surname"));
+                            worker.setEmail(result.getString("email"));
+                            worker.setMobile(result.getString("mobile"));
+                            worker.setCharge(result.getString("charge"));
+                            worker.setDailyS(result.getBigDecimal("daily_s"));
+                            worker.setBirth(result.getDate("birth"));
+
+                            workersList.add(worker);
 			}
 			
 			result.close();
