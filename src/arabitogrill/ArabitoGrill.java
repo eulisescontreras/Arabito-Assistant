@@ -129,7 +129,7 @@ public class ArabitoGrill extends Application {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
+			
 			this.perH = BigDecimal.TEN;
         	this.perW = BigDecimal.TEN;
         	this.iniY = 2000;
