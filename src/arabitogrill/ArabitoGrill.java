@@ -10,7 +10,16 @@ import arabitogrill.editmember.MemberEditController;
 import arabitogrill.model.Bills;
 import arabitogrill.model.Workers;
 import arabitogrill.util.ArabitoGrillUtil;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javafx.application.Application;
 
 import javafx.scene.Parent;
@@ -25,6 +34,11 @@ import javafx.scene.control.TableView;
  * @author eulis
  */
 public class ArabitoGrill extends Application {
+	
+	private BigDecimal perH;
+	private BigDecimal perW;
+	private Integer iniY;
+	private Integer endY;
     
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -35,7 +49,7 @@ public class ArabitoGrill extends Application {
         primaryStage.setScene(scene);
         ArabitoGrillUtil.setStageIcon(primaryStage);
         primaryStage.show();
-        primaryStage.setTitle("Library Assistant Login");
+        primaryStage.setTitle("Arabito Assistant Login");
     }
 
     /**
@@ -82,5 +96,77 @@ public class ArabitoGrill extends Application {
 			e.printStackTrace();
 		}
     }
+    
+    public void getSetting() {
+    	Path currentRelativePath = Paths.get("");
+    	String s = currentRelativePath.toAbsolutePath().toString();
+    	File file = new File(s + "/settings_arabitogrill.txt");
+        
+        try {
+        	BufferedReader br = new BufferedReader(new FileReader(file));
+            
+            String st;
+        	
+			if ((st = br.readLine()) != null)
+				this.perH = new BigDecimal(st);
+			else
+				this.perH = BigDecimal.TEN;
+			if ((st = br.readLine()) != null)
+	            this.perW = new BigDecimal(st);
+	        else
+	        	this.perW = BigDecimal.TEN;
+	        
+	        if ((st = br.readLine()) != null)
+	            this.iniY = Integer.valueOf(st);
+	        else
+	        	this.iniY = 2000;
+	        
+	        if ((st = br.readLine()) != null)
+	            this.endY = Integer.valueOf(st);
+	        else
+	        	this.endY = 2018;
+	        
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			this.perH = BigDecimal.TEN;
+        	this.perW = BigDecimal.TEN;
+        	this.iniY = 2000;
+        	this.endY = 2018;
+		}
+    }
+
+	public BigDecimal getPerH() {
+		return perH;
+	}
+
+	public void setPerH(BigDecimal perH) {
+		this.perH = perH;
+	}
+
+	public BigDecimal getPerW() {
+		return perW;
+	}
+
+	public void setPerW(BigDecimal perW) {
+		this.perW = perW;
+	}
+
+	public Integer getIniY() {
+		return iniY;
+	}
+
+	public void setIniY(Integer iniY) {
+		this.iniY = iniY;
+	}
+
+	public Integer getEndY() {
+		return endY;
+	}
+
+	public void setEndY(Integer endY) {
+		this.endY = endY;
+	}
     
 }

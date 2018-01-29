@@ -60,4 +60,10 @@ public class ToolbarController  implements Initializable {
     private void loadListBill(ActionEvent event) {
     	ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listBill/list_bill.fxml"), "Bill List", null,false,false,null);
     }
+    
+    // Setting
+    @FXML
+    private void loadSetting(ActionEvent event) {
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/settings/settings.fxml"), "Settings", null,false,false);
+    }
 }

@@ -6,9 +6,9 @@ import java.sql.Date;
 public class Workers {
 	private Integer id;
 	private String first_name;
-        private String second_name;
-        private String surname;
-        private String second_surname;
+    private String second_name;
+    private String surname;
+    private String second_surname;
 	private String email;
 	private String mobile;
 	private String charge;
