@@ -20,11 +20,8 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.*;
 
-import arabitogrill.model.ConnectionFactory;
-import arabitogrill.model.Workers;
-import arabitogrill.model.WorkersDAO;
-
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -80,6 +77,74 @@ public class SettingsController {
     	workerPercent.setText(arabito.getPerW().toString());
     	initYear.setText(arabito.getIniY().toString());
     	endYear.setText(arabito.getEndY().toString());
+    	
+    	housePercent.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if(!housePercent.getText().matches("[0-9]{1,2}(\\.[0-9]{0,2}){0,1}")){
+                	housePercent.setText("");
+                }
+                
+                if(housePercent.getText().trim().length()==0){
+                	housePercent.setStyle("-fx-text-box-border: red ;\n" + 
+                			"  -fx-focus-color: red ;");
+                }
+                else {
+                	housePercent.setStyle("-fx-text-box-border: green ;\n" + 
+                			"  -fx-focus-color: green ;");
+                }
+            }
+        });
+    	
+    	workerPercent.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if(!workerPercent.getText().matches("[0-9]{1,2}(\\.[0-9]{0,2}){0,1}")){
+                	workerPercent.setText("");
+                }
+                
+                if(workerPercent.getText().trim().length()==0){
+                	workerPercent.setStyle("-fx-text-box-border: red ;\n" + 
+                			"  -fx-focus-color: red ;");
+                }
+                else {
+                	workerPercent.setStyle("-fx-text-box-border: green ;\n" + 
+                			"  -fx-focus-color: green ;");
+                }
+            }
+        });
+    	
+    	initYear.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if(!initYear.getText().matches("[0-9]*")){
+                	initYear.setText("");
+                }
+                
+                if(initYear.getText().trim().length()==0){
+                	initYear.setStyle("-fx-text-box-border: red ;\n" + 
+                			"  -fx-focus-color: red ;");
+                }
+                else {
+                	initYear.setStyle("-fx-text-box-border: green ;\n" + 
+                			"  -fx-focus-color: green ;");
+                }
+            }
+        });
+    	
+    	endYear.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if(!endYear.getText().matches("[0-9]*")){
+                	endYear.setText("");
+                }
+                
+                if(endYear.getText().trim().length()==0){
+                	endYear.setStyle("-fx-text-box-border: red ;\n" + 
+                			"  -fx-focus-color: red ;");
+                }
+                else {
+                	endYear.setStyle("-fx-text-box-border: green ;\n" + 
+                			"  -fx-focus-color: green ;");
+                }
+            }
+        });
     }
     
     @FXML
@@ -90,22 +155,27 @@ public class SettingsController {
     
     @FXML
     private void save(ActionEvent event) {
-	 try (BufferedWriter bw = new BufferedWriter(new FileWriter("settings_arabitogrill.txt", false))) {
-	        bw.write(housePercent.getText());
-	        bw.newLine();
-	        bw.write(workerPercent.getText());
-	        bw.newLine();
-	        bw.write(initYear.getText());
-	        bw.newLine();
-	        bw.write(endYear.getText());
-	        bw.close();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-        
-        /*this.mainController.getToolbarController().refreshTableView();*/
-        Stage stage = (Stage)housePercent.getScene().getWindow();
-        stage.close();
+    	if(endYear.getText().trim().length()!=0 &&
+    			initYear.getText().trim().length()!=0 &&
+    					workerPercent.getText().trim().length()!=0 &&
+    							housePercent.getText().trim().length()!=0) {
+		 try (BufferedWriter bw = new BufferedWriter(new FileWriter("settings_arabitogrill.txt", false))) {
+		        bw.write(housePercent.getText());
+		        bw.newLine();
+		        bw.write(workerPercent.getText());
+		        bw.newLine();
+		        bw.write(initYear.getText());
+		        bw.newLine();
+		        bw.write(endYear.getText());
+		        bw.close();
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+	        
+	        /*this.mainController.getToolbarController().refreshTableView();*/
+	        Stage stage = (Stage)housePercent.getScene().getWindow();
+	        stage.close();
+    	}
     }
 
 }

@@ -65,6 +65,23 @@ public class BillEditController {
     private void initialize() {
     	bdao = new BillsDAO();
     	
+    	amount.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if(!amount.getText().matches("[0-9]+(\\.[0-9]+)*")){
+                	amount.setText("");
+                }
+                
+                if(amount.getText().trim().length()==0){
+                	amount.setStyle("-fx-text-box-border: red ;\n" + 
+                			"  -fx-focus-color: red ;");
+                }
+                else {
+                	amount.setStyle("-fx-text-box-border: green ;\n" + 
+                			"  -fx-focus-color: green ;");
+                }
+            }
+        });
+    	
     	/*for(Bills worker : wdao.read("")) {
     		System.out.println(worker);
     	}*/
@@ -79,37 +96,38 @@ public class BillEditController {
     
     @FXML
     private void save(ActionEvent event) {
-    	Bills bill = new Bills();
-    	String [] dateC = createdAt.getEditor().getText().split("/");
-    	String [] dateE = expirationAt.getEditor().getText().split("/");
-    	
-    	Calendar cal = Calendar.getInstance();
-    	
-    	cal.set(Integer.parseInt(dateC[2]), 
-    			Integer.parseInt(dateC[0])-1, 
-    			Integer.parseInt(dateC[1]));
-    	
-    	Date dc = new Date(cal.getTimeInMillis());
-    	
-    	cal.set(Integer.parseInt(dateE[2]), 
-    			Integer.parseInt(dateE[0])-1, 
-    			Integer.parseInt(dateE[1]));
-    	
-    	Date de = new Date(cal.getTimeInMillis());
-    	
-    	bill.setAmount(new BigDecimal(amount.getText()));
-    	bill.setCreatedAt(dc);
-    	bill.setExpirationAt(de);
-    	bill.setSpend(billEdit.getSpend());
-    	bill.setId(billEdit.getId());
-    	
-        bdao.update(bill);
-        tableView.refresh();
-        tableView.setItems(billsdao.getObservableBills());
-
-        
-        Stage stage = (Stage)amount.getScene().getWindow();
-        stage.close();
+    	if(amount.getText().trim().length()!=0) {
+	    	Bills bill = new Bills();
+	    	String [] dateC = createdAt.getEditor().getText().split("/");
+	    	String [] dateE = expirationAt.getEditor().getText().split("/");
+	    	
+	    	Calendar cal = Calendar.getInstance();
+	    	
+	    	cal.set(Integer.parseInt(dateC[2]), 
+	    			Integer.parseInt(dateC[0])-1, 
+	    			Integer.parseInt(dateC[1]));
+	    	
+	    	Date dc = new Date(cal.getTimeInMillis());
+	    	
+	    	cal.set(Integer.parseInt(dateE[2]), 
+	    			Integer.parseInt(dateE[0])-1, 
+	    			Integer.parseInt(dateE[1]));
+	    	
+	    	Date de = new Date(cal.getTimeInMillis());
+	    	
+	    	bill.setAmount(new BigDecimal(amount.getText()));
+	    	bill.setCreatedAt(dc);
+	    	bill.setExpirationAt(de);
+	    	bill.setSpend(billEdit.getSpend());
+	    	bill.setId(billEdit.getId());
+	    	
+	        bdao.update(bill);
+	        tableView.refresh();
+	        tableView.setItems(billsdao.getObservableBills());
+	
+	        Stage stage = (Stage)amount.getScene().getWindow();
+	        stage.close();
+    	}
     }
     
     public void initData(Bills bill, TableView tableView) {
