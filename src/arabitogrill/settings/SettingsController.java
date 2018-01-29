@@ -38,6 +38,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import arabitogrill.main.toolbaruser.ToolbarController;
 import arabitogrill.model.*;
+import arabitogrill.ArabitoGrill;
 import arabitogrill.main.MainController;
 import static arabitogrill.main.MainController.toolbarUsersFXML;
 import javafx.fxml.FXMLLoader;
@@ -71,6 +72,14 @@ public class SettingsController {
     
     @FXML
     private void initialize() {
+    	ArabitoGrill arabito = new ArabitoGrill();
+    	
+    	arabito.getSetting();
+    	
+    	housePercent.setText(arabito.getPerH().toString());
+    	workerPercent.setText(arabito.getPerW().toString());
+    	initYear.setText(arabito.getIniY().toString());
+    	endYear.setText(arabito.getEndY().toString());
     }
     
     @FXML
