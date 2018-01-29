@@ -82,7 +82,7 @@ public class BillEditController {
     	Bills bill = new Bills();
     	String [] dateC = createdAt.getEditor().getText().split("/");
     	String [] dateE = expirationAt.getEditor().getText().split("/");
-    	
+    	 
     	Calendar cal = Calendar.getInstance();
     	
     	cal.set(Integer.parseInt(dateC[2]), 

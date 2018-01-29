@@ -38,14 +38,14 @@
                       </Menu>
                       <Menu mnemonicParsing="false" text="Add" styleClass="top-button">
                         <items>
-                            <MenuItem mnemonicParsing="false"  text="Add Bill" />
+                            <MenuItem mnemonicParsing="false" onAction="#handleMenuAddBills" text="Add Bill" />
                             <MenuItem mnemonicParsing="false" onAction="#handleMenuAddMember" text="Add Worker" />
                         </items>
                       </Menu>
                         <Menu mnemonicParsing="false" text="View" styleClass="top-button">
                            <items>
-                              <MenuItem mnemonicParsing="false"  text="View Bills" />
-                              <MenuItem mnemonicParsing="false"  text="View Workers" />
+                              <MenuItem mnemonicParsing="false" onAction="#handleMenuViewBills" text="View Bills" />
+                              <MenuItem mnemonicParsing="false" onAction="#handleMenuViewWorkers" text="View Workers" />
                               <MenuItem mnemonicParsing="false" onAction="#handleMenuFullScreen" text="Full Screen" />
                            </items>
                         </Menu>

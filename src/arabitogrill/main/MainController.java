@@ -28,6 +28,7 @@ import java.util.List;
 import javafx.scene.control.cell.PropertyValueFactory;
 import arabitogrill.main.toolbaruser.ToolbarController;
 import arabitogrill.consts.Consts;
+import arabitogrill.model.DaysDAO;
 import arabitogrill.model.Workers;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
@@ -38,12 +39,19 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import arabitogrill.model.DaysOfWeek;
+import arabitogrill.model.FieldOfCalendarPosition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import arabitogrill.paymentforusers.*;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import arabitogrill.model.InformationUserCalendar;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author eulis
@@ -81,6 +89,8 @@ public class MainController  implements Initializable {
     @FXML
     private JFXTabPane mainTabPane;
     
+    private MainController mc;
+    public DaysDAO daysdao = new DaysDAO();
     static public boolean firstCharge = false;
     static public VBox toolbar;
     static public FXMLLoader toolbarUsersFXML;
@@ -96,20 +106,47 @@ public class MainController  implements Initializable {
           tableView.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler() {
              @Override
              public void handle(Event event) {
-                 String day = event.getTarget().toString().split("text=")[1].split("Amount:")[0].trim().replace((""+'"'),"");
-                 String amount = event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[0].trim();
-                 String tips =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].trim();
-                 System.out.println(day);
-                 System.out.println(amount);
-                 System.out.println(tips);
-             }
+                 if(!controller.getIdUser().equals("-1"))
+                 {
+                    InformationUserCalendar iuc = new InformationUserCalendar();
+                    List<InformationUserCalendar> iucl = new ArrayList<>();
+                    String month = ArabitoGrillUtil.monthNumber(headerTabPane.getTabs().get(headerTabPane.getSelectionModel().getSelectedIndex()).getText()).toString();
+                    String year = footerTabPane.getTabs().get(footerTabPane.getSelectionModel().getSelectedIndex()).getText();
+                    String day = event.getTarget().toString().split("text=")[1].split("Amount:")[0].trim().replace((""+'"'),"");
+                    String amount = event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[0].trim().replace("$ ","");
+                    String tips =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[0];
+                    String time =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[3].trim();
+
+                    iucl = daysdao.read(Integer.parseInt(controller.getIdUser()));
+                    iuc.setDayId(-1);
+                    for(int k = 0; k < iucl.size(); k++)
+                    {
+                         if((""+iucl.get(k).getDay()).toString().equals(day) && (""+iucl.get(k).getMonth()).toString().equals(month) && (""+iucl.get(k).getYear()).toString().equals(year))
+                         {
+                             iuc.setDayId(iucl.get(k).getDayId());
+                         }
+                         iuc.setDaily_s(iucl.get(k).getDaily_s());
+                    }
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Integer.parseInt(year), 
+                           Integer.parseInt(month)-1, 
+                           Integer.parseInt(day));
+                    Date date = new Date(cal.getTimeInMillis());
+
+                    iuc.setDate(date);
+                    iuc.setDay(Integer.parseInt(day));
+                    iuc.setAmount(Double.parseDouble(amount));
+                    iuc.setTips(Double.parseDouble(tips));
+                    iuc.setHour(Double.parseDouble(time.split(":")[0]));
+                    iuc.setMinutes(Integer.parseInt(time.split(":")[1]));
+                    iuc.setUserId(controller.getIdUser());
+
+                    ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/paymentforusers/PaymentForWorkers.fxml"), "Payment for Workers",mc,false,true,iuc);
+                }
+            }
          });
-        /*tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            TableColumn value = (TableColumn)tableView.getColumns().get(tableView.getSelectionModel().getFocusedIndex());
-            System.out.println(value.getText());
-            ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/paymentforusers/PaymentForWorkers.fxml"), "Payment for Workers",null,false,true);
-        });*/
         
+        mc = this;
         for(int i = Consts.startYears; i <= Consts.endYears; i++)
             footerTabPane.getTabs().add(new Tab(""+i+""));
         
@@ -123,37 +160,37 @@ public class MainController  implements Initializable {
 
         mondayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
-                return new ReadOnlyStringWrapper((p.getValue().getMondayCol()==null ? "":p.getValue().getMondayCol()+"\n\n\n   Amount:\n   Tips:\n\n\n"));
+                return new ReadOnlyStringWrapper((p.getValue().getMondayCol().getDay()==null ? "":p.getValue().getMondayCol().getDay()+"\n\n\n   Amount: \n  $ "+p.getValue().getMondayCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getMondayCol().getTips()+"\n\n   Time: \n    "+p.getValue().getMondayCol().getTime()+"\n\n\n"));
             }
          });
         tuesdayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
-                return new ReadOnlyStringWrapper((p.getValue().getTuesdayCol()==null ? "":p.getValue().getTuesdayCol()+"\n\n\n   Amount:\n   Tips:\n\n\n"));
+                return new ReadOnlyStringWrapper((p.getValue().getTuesdayCol().getDay()==null ? "":p.getValue().getTuesdayCol().getDay()+"\n\n\n   Amount: \n  $ "+p.getValue().getTuesdayCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTuesdayCol().getTips()+"\n\n   Time: \n    "+p.getValue().getTuesdayCol().getTime()+"\n\n\n"));
             }
          });
         wednesdayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
-                return new ReadOnlyStringWrapper((p.getValue().getWednesdayCol()==null ? "":p.getValue().getWednesdayCol()+"\n\n\n   Amount:\n   Tips:\n\n\n"));
+                return new ReadOnlyStringWrapper((p.getValue().getWednesdayCol().getDay()==null ? "":p.getValue().getWednesdayCol().getDay()+"\n\n\n   Amount: \n  $ "+p.getValue().getWednesdayCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getWednesdayCol().getTips()+"\n\n   Time: \n    "+p.getValue().getWednesdayCol().getTime()+"\n\n\n"));
             }
          });
         thursdayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
-                return new ReadOnlyStringWrapper((p.getValue().getThursdayCol()==null ? "":p.getValue().getThursdayCol()+"\n\n\n   Amount:\n   Tips:\n\n\n"));
+                return new ReadOnlyStringWrapper((p.getValue().getThursdayCol().getDay()==null ? "":p.getValue().getThursdayCol().getDay()+"\n\n\n   Amount: \n  $ "+p.getValue().getThursdayCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getThursdayCol().getTips()+"\n\n   Time: \n    "+p.getValue().getThursdayCol().getTime()+"\n\n\n"));
             }
          });
         fridayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
-                return new ReadOnlyStringWrapper((p.getValue().getFridayCol()==null ? "":p.getValue().getFridayCol()+"\n\n\n   Amount:\n   Tips:\n\n\n"));
+                return new ReadOnlyStringWrapper((p.getValue().getFridayCol().getDay()==null ? "":p.getValue().getFridayCol().getDay()+"\n\n\n   Amount: \n  $ "+p.getValue().getFridayCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getFridayCol().getTips()+"\n\n   Time: \n    "+p.getValue().getFridayCol().getTime()+"\n\n\n"));
             }
          });
         saturdayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
-                return new ReadOnlyStringWrapper((p.getValue().getSaturdayCol()==null ? "":p.getValue().getSaturdayCol()+"\n\n\n   Amount:\n   Tips:\n\n\n"));
+                return new ReadOnlyStringWrapper((p.getValue().getSaturdayCol().getDay()==null ? "":p.getValue().getSaturdayCol().getDay()+"\n\n\n   Amount: \n  $ "+p.getValue().getSaturdayCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getSaturdayCol().getTips()+"\n\n   Time: \n    "+p.getValue().getSaturdayCol().getTime()+"\n\n\n"));
             }
          });
         sundayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
-                return new ReadOnlyStringWrapper((p.getValue().getSundayCol()==null ? "":p.getValue().getSundayCol()+"\n\n\n   Amount:\n   Tips:\n\n\n"));
+                return new ReadOnlyStringWrapper((p.getValue().getSundayCol().getDay()==null ? "":p.getValue().getSundayCol().getDay()+"\n\n\n   Amount: \n  $ "+p.getValue().getSundayCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getSundayCol().getTips()+"\n\n   Time: \n    "+p.getValue().getSundayCol().getTime()+"\n\n\n"));
             }
          });
         mainTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
@@ -168,60 +205,16 @@ public class MainController  implements Initializable {
 
         });
         
-        if(firstCharge == false)
-        {
-            ObservableList<DaysOfWeek> daysOfWeekList = null;
-            daysOfWeekList = FXCollections.observableArrayList();
-            try{
-                String month = ArabitoGrillUtil.monthNumber(headerTabPane.getTabs().get(headerTabPane.getSelectionModel().getSelectedIndex()).getText()).toString();
-                String year = footerTabPane.getTabs().get(footerTabPane.getSelectionModel().getSelectedIndex()).getText();                
-                Calendar cal1 = new GregorianCalendar(Integer.parseInt(year.trim()),Integer.parseInt(month.trim())-1,1);
-                DaysOfWeek dow = new DaysOfWeek();
-                for(int i = 1; i <= cal1.getMaximum(Calendar.DAY_OF_MONTH); i++){
-                    switch(ArabitoGrillUtil.dayName(year+"-"+month+"-"+i, ("yyyy-M-d").toString()).toString().toLowerCase())
-                    {
-                        case "monday":
-                            dow.setMondayCol(""+i+"");
-                            break;
-                        case "tuesday":
-                            dow.setTuesdayCol(""+i+"");
-                            break;
-                        case "wednesday":
-                            dow.setWednesdayCol(""+i+"");
-                            break;                                                         
-                        case "thursday":
-                            dow.setThursdayCol(""+i+"");
-                            break;
-                        case "friday":
-                            dow.setFridayCol(""+i+"");
-                            break;
-                        case "saturday":
-                            dow.setSaturdayCol(""+i+"");
-                            break;
-                        case "sunday":
-                            dow.setSundayCol(""+i+"");
-                            daysOfWeekList.add(dow);
-                            dow = new DaysOfWeek();
-                            break;
-                    }
-                }  
-                if(dow.getMondayCol() != null && dow.getSundayCol() == null){
-                    daysOfWeekList.add(dow);
-                }
-                tableView.setItems(daysOfWeekList);
-            }catch(Exception ex)
-            {
-                System.out.println(ex.getMessage());
-            }
-            firstCharge = true;
-        }
         headerTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> old, Tab oldTab, Tab newTab) {
                 //Check for Tab and call you method here
                 ObservableList<DaysOfWeek> daysOfWeekList = null;
+                List<InformationUserCalendar> iuc;
+                iuc = new ArrayList<>();
                 daysOfWeekList = FXCollections.observableArrayList();
-                try{
+                iuc = daysdao.read(Integer.parseInt(controller.getIdUser()));
+               try{
                     String month = ArabitoGrillUtil.monthNumber(newTab.getText().toString()).toString();
                     String year = footerTabPane.getTabs().get(footerTabPane.getSelectionModel().getSelectedIndex()).getText();                
                     Calendar cal1 = new GregorianCalendar(Integer.parseInt(year.trim()),Integer.parseInt(month.trim())-1,1);
@@ -230,31 +223,38 @@ public class MainController  implements Initializable {
                         switch(ArabitoGrillUtil.dayName(year+"-"+month+"-"+i, ("yyyy-M-d").toString()).toString().toLowerCase())
                         {
                             case "monday":
-                                dow.setMondayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getMondayCol());
+                                dow.getMondayCol().setDay(""+i+"");
                                 break;
                             case "tuesday":
-                                dow.setTuesdayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getTuesdayCol());
+                                dow.getTuesdayCol().setDay(""+i+"");
                                 break;
                             case "wednesday":
-                                dow.setWednesdayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getWednesdayCol());
+                                dow.getWednesdayCol().setDay(""+i+"");
                                 break;                                                         
                             case "thursday":
-                                dow.setThursdayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getThursdayCol());
+                                dow.getThursdayCol().setDay(""+i+"");
                                 break;
                             case "friday":
-                                dow.setFridayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getFridayCol());
+                                dow.getFridayCol().setDay(""+i+"");
                                 break;
                             case "saturday":
-                                dow.setSaturdayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getSaturdayCol());
+                                dow.getSaturdayCol().setDay(""+i+"");
                                 break;
                             case "sunday":
-                                dow.setSundayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getSundayCol());
+                                dow.getSundayCol().setDay(""+i+"");
                                 daysOfWeekList.add(dow);
                                 dow = new DaysOfWeek();
                                 break;
                         }
                     }  
-                    if(dow.getMondayCol() != null && dow.getSundayCol() == null){
+                    if(dow.getMondayCol().getDay() != null && dow.getSundayCol().getDay() == null){
                         daysOfWeekList.add(dow);
                     }
                     tableView.setItems(daysOfWeekList);
@@ -263,6 +263,18 @@ public class MainController  implements Initializable {
                     System.out.println(ex.getMessage());
                 }
             }
+
+              private void asignAmountTipsAndTime(List<InformationUserCalendar> iuc, int i, String month, String year, FieldOfCalendarPosition day) {
+                  for(int k = 0; k < iuc.size(); k++)
+                  {
+                      if((""+iuc.get(k).getDay()).toString().equals((""+i).toString()) && (""+iuc.get(k).getMonth()).toString().equals(month) && (""+iuc.get(k).getYear()).toString().equals(year))
+                      {
+                          day.setTips((""+iuc.get(k).getTips()).toString());
+                          day.setAmount((""+iuc.get(k).getAmount()).toString());
+                          day.setTime(((""+iuc.get(k).getHour()).toString().replace(".0","")+":"+iuc.get(k).getMinutes()+":00").toString());
+                      }
+                  }
+              }
 
         });
         
@@ -271,50 +283,71 @@ public class MainController  implements Initializable {
             public void changed(ObservableValue<? extends Tab> old, Tab oldTab, Tab newTab) {
                 //Check for Tab and call you method here
                 ObservableList<DaysOfWeek> daysOfWeekList = FXCollections.observableArrayList();
+                List<InformationUserCalendar> iuc;
+                iuc = new ArrayList<>();
+                daysOfWeekList = FXCollections.observableArrayList();
+                iuc = daysdao.read(Integer.parseInt(controller.getIdUser()));
                 try{
                     String year = newTab.getText().toString();
                     String month = ArabitoGrillUtil.monthNumber(headerTabPane.getTabs().get(headerTabPane.getSelectionModel().getSelectedIndex()).getText()).toString();
                     Calendar cal1 = new GregorianCalendar(Integer.parseInt(year.trim()),Integer.parseInt(month.trim())-1,1);
                     DaysOfWeek dow = new DaysOfWeek();
                     for(int i = 1; i <= cal1.getMaximum(Calendar.DAY_OF_MONTH); i++){
-                        System.out.println(year+"-"+month+"-"+i);
                         switch(ArabitoGrillUtil.dayName(year+"-"+month+"-"+i, ("yyyy-M-d").toString()).toString().toLowerCase())
                         {
                             case "monday":
-                                dow.setMondayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getMondayCol());
+                                dow.getMondayCol().setDay(""+i+"");
                                 break;
                             case "tuesday":
-                                dow.setTuesdayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getTuesdayCol());
+                                dow.getTuesdayCol().setDay(""+i+"");
                                 break;
                             case "wednesday":
-                                dow.setWednesdayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getWednesdayCol());
+                                dow.getWednesdayCol().setDay(""+i+"");
                                 break;                                                         
                             case "thursday":
-                                dow.setThursdayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getThursdayCol());
+                                dow.getThursdayCol().setDay(""+i+"");
                                 break;
                             case "friday":
-                                dow.setFridayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getFridayCol());
+                                dow.getFridayCol().setDay(""+i+"");
                                 break;
                             case "saturday":
-                                dow.setSaturdayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getSaturdayCol());
+                                dow.getSaturdayCol().setDay(""+i+"");
                                 break;
                             case "sunday":
-                                dow.setSundayCol(""+i+"");
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getSundayCol());
+                                dow.getSundayCol().setDay(""+i+"");
                                 daysOfWeekList.add(dow);
                                 dow = new DaysOfWeek();
-                                break;
-                        }
+                                break;                        }
                     }
-                    if(dow.getMondayCol() != null && dow.getSundayCol() == null){
+                    if(dow.getMondayCol().getDay() != null && dow.getSundayCol().getDay() == null){
                         daysOfWeekList.add(dow);
                     }
                     tableView.setItems(daysOfWeekList);
+                    System.out.println(controller.getIdUser());
                 }catch(Exception ex)
                 {
                     System.out.println(ex.getMessage());
                 }
             }
-
+            
+            private void asignAmountTipsAndTime(List<InformationUserCalendar> iuc, int i, String month, String year, FieldOfCalendarPosition day) {
+                  for(int k = 0; k < iuc.size(); k++)
+                  {
+                      if((""+iuc.get(k).getDay()).toString().equals((""+i).toString()) && (""+iuc.get(k).getMonth()).toString().equals(month) && (""+iuc.get(k).getYear()).toString().equals(year))
+                      {
+                          day.setTips((""+iuc.get(k).getTips()).toString());
+                          day.setAmount((""+iuc.get(k).getAmount()).toString());
+                          day.setTime(((""+iuc.get(k).getHour()).toString().replace(".0","")+":"+iuc.get(k).getMinutes()+":00").toString());
+                      }
+                  }
+              }
         });
         try {
             toolbarFXML  = new FXMLLoader(getClass().getResource("/arabitogrill/main/toolbar/toolbar.fxml"));
@@ -324,10 +357,14 @@ public class MainController  implements Initializable {
             controller = toolbarUsersFXML.getController();
             controllerMenu = toolbarFXML.getController();
             controllerMenu.setMainController(this);
+            controller.setMainController(this);
             drawer.setSidePane(toolbar);
             drawer.open();
             drawerUsers.setSidePane(toolbarUsers);
             drawerUsers.open();
+
+            initCalendar();
+            
              
         } catch (Exception ex) {
             System.out.print(ex.getMessage());
@@ -336,6 +373,78 @@ public class MainController  implements Initializable {
     
     public ToolbarController getToolbarController(){
         return controller;
+    }
+    
+    public void initCalendar()
+    {
+        if(Integer.parseInt(controller.getIdUser()) > 0 || !firstCharge)
+        {
+            ObservableList<DaysOfWeek> daysOfWeekList = null;
+            List<InformationUserCalendar> iuc;
+            iuc = new ArrayList<>();
+            daysOfWeekList = FXCollections.observableArrayList();
+            iuc = daysdao.read(Integer.parseInt(controller.getIdUser()));
+            try{
+                String month = ArabitoGrillUtil.monthNumber(headerTabPane.getTabs().get(headerTabPane.getSelectionModel().getSelectedIndex()).getText()).toString();
+                String year = footerTabPane.getTabs().get(footerTabPane.getSelectionModel().getSelectedIndex()).getText();                
+                Calendar cal1 = new GregorianCalendar(Integer.parseInt(year.trim()),Integer.parseInt(month.trim())-1,1);
+                DaysOfWeek dow = new DaysOfWeek();
+                for(int i = 1; i <= cal1.getMaximum(Calendar.DAY_OF_MONTH); i++){
+                    switch(ArabitoGrillUtil.dayName(year+"-"+month+"-"+i, ("yyyy-M-d").toString()).toString().toLowerCase())
+                    {
+                            case "monday":
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getMondayCol());
+                                dow.getMondayCol().setDay(""+i+"");
+                                break;
+                            case "tuesday":
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getTuesdayCol());
+                                dow.getTuesdayCol().setDay(""+i+"");
+                                break;
+                            case "wednesday":
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getWednesdayCol());
+                                dow.getWednesdayCol().setDay(""+i+"");
+                                break;                                                         
+                            case "thursday":
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getThursdayCol());
+                                dow.getThursdayCol().setDay(""+i+"");
+                                break;
+                            case "friday":
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getFridayCol());
+                                dow.getFridayCol().setDay(""+i+"");
+                                break;
+                            case "saturday":
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getSaturdayCol());
+                                dow.getSaturdayCol().setDay(""+i+"");
+                                break;
+                            case "sunday":
+                                asignAmountTipsAndTime(iuc, i, month, year, dow.getSundayCol());
+                                dow.getSundayCol().setDay(""+i+"");
+                                daysOfWeekList.add(dow);
+                                dow = new DaysOfWeek();
+                                break;                    }
+                }  
+                if(dow.getMondayCol().getDay() != null && dow.getSundayCol().getDay() == null){
+                    daysOfWeekList.add(dow);
+                }
+                tableView.setItems(daysOfWeekList);
+            }catch(Exception ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+            firstCharge = true;
+        }
+    }
+    
+    private void asignAmountTipsAndTime(List<InformationUserCalendar> iuc, int i, String month, String year, FieldOfCalendarPosition day) {
+        for(int k = 0; k < iuc.size(); k++)
+        {
+            if((""+iuc.get(k).getDay()).toString().equals((""+i).toString()) && (""+iuc.get(k).getMonth()).toString().equals(month) && (""+iuc.get(k).getYear()).toString().equals(year))
+            {
+                day.setTips((""+iuc.get(k).getTips()).toString());
+                day.setAmount((""+iuc.get(k).getAmount()).toString());
+                day.setTime(((""+iuc.get(k).getHour()).toString().replace(".0","")+":"+iuc.get(k).getMinutes()+":00").toString());
+            }
+        }
     }
     
     @FXML
@@ -355,6 +464,21 @@ public class MainController  implements Initializable {
     
     @FXML
     private void handleMenuAddMember(ActionEvent event) {
-        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addmember/member_add.fxml"), "Add New Member", null, false, false);
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addmember/member_add.fxml"), "Add New Member", null, false, false, null);
+    }
+    
+    @FXML
+    private void handleMenuAddBills(ActionEvent event) {
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/addbill/bill_add.fxml"), "Add New Bill", null, false, false, null);    
+    }
+    
+    @FXML
+    private void handleMenuViewBills(ActionEvent event) {
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listBill/list_bill.fxml"), "View Bills", null, false, false, null);    
+    }
+    
+    @FXML
+    private void handleMenuViewWorkers(ActionEvent event) {
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/listWorker/list_worker.fxml"), "View Workers", null, false, false, null);    
     }
 }

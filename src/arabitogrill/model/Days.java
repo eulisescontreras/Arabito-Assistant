@@ -8,12 +8,19 @@ public class Days {
 	private Date date;
 	private Integer worker;
 	private Time hours;
+        private double tips;
         
         public Time getHours() {
 		return hours;
 	}
 	public void setHours(Time hours) {
 		this.hours = hours;
+	}
+        public double getTips() {
+		return tips;
+	}
+	public void setTips(double tips) {
+		this.tips = tips;
 	}
 	public Integer getId() {
 		return id;
