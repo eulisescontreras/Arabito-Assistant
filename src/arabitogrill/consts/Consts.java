@@ -13,6 +13,6 @@ import java.util.List;
  * @author eulis
  */
 public class Consts {
-    static public final Integer startYears = 2018;
-    static public final Integer endYears = 2030;
+    static public  Integer startYears = 2018;
+    static public  Integer endYears = 2030;
 }

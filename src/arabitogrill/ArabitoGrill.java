@@ -103,38 +103,38 @@ public class ArabitoGrill extends Application {
     	File file = new File(s + "/settings_arabitogrill.txt");
         
         try {
-        	BufferedReader br = new BufferedReader(new FileReader(file));
-            
-            String st;
-        	
-			if ((st = br.readLine()) != null)
-				this.perH = new BigDecimal(st);
-			else
-				this.perH = BigDecimal.TEN;
-			if ((st = br.readLine()) != null)
-	            this.perW = new BigDecimal(st);
-	        else
-	        	this.perW = BigDecimal.TEN;
-	        
-	        if ((st = br.readLine()) != null)
-	            this.iniY = Integer.valueOf(st);
-	        else
-	        	this.iniY = 2000;
-	        
-	        if ((st = br.readLine()) != null)
-	            this.endY = Integer.valueOf(st);
-	        else
-	        	this.endY = 2018;
-	        
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			this.perH = BigDecimal.TEN;
-        	this.perW = BigDecimal.TEN;
-        	this.iniY = 2000;
-        	this.endY = 2018;
-		}
+                BufferedReader br = new BufferedReader(new FileReader(file));
+
+                String st;
+
+                if ((st = br.readLine()) != null)
+                    this.perH = new BigDecimal(st);
+                else
+                    this.perH = BigDecimal.TEN;
+                if ((st = br.readLine()) != null)
+                    this.perW = new BigDecimal(st);
+                else
+                    this.perW = BigDecimal.TEN;
+
+                if ((st = br.readLine()) != null)
+                    this.iniY = Integer.valueOf(st);
+                else
+                    this.iniY = 2000;
+
+                if ((st = br.readLine()) != null)
+                    this.endY = Integer.valueOf(st);
+                else
+                    this.endY = 2018;
+
+                } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                } finally {
+                        this.perH = BigDecimal.TEN;
+                this.perW = BigDecimal.TEN;
+                this.iniY = 2000;
+                this.endY = 2018;
+            }
     }
 
 	public BigDecimal getPerH() {

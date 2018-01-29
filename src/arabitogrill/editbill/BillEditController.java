@@ -72,19 +72,10 @@ public class BillEditController {
                 }
                 
                 if(amount.getText().trim().length()==0){
-                	amount.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	amount.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                	amount.getStyleClass().add("wrong-credentials");
                 }
             }
         });
-    	
-    	/*for(Bills worker : wdao.read("")) {
-    		System.out.println(worker);
-    	}*/
     	
     }
     

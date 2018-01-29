@@ -39,6 +39,7 @@ import arabitogrill.ArabitoGrill;
 import arabitogrill.main.MainController;
 import static arabitogrill.main.MainController.toolbarUsersFXML;
 import javafx.fxml.FXMLLoader;
+import arabitogrill.consts.Consts;
 /**
  *
  * @author eulis
@@ -85,12 +86,7 @@ public class SettingsController {
                 }
                 
                 if(housePercent.getText().trim().length()==0){
-                	housePercent.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	housePercent.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                	housePercent.getStyleClass().add("wrong-credentials");
                 }
             }
         });
@@ -102,12 +98,7 @@ public class SettingsController {
                 }
                 
                 if(workerPercent.getText().trim().length()==0){
-                	workerPercent.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	workerPercent.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                	workerPercent.getStyleClass().add("wrong-credentials");
                 }
             }
         });
@@ -119,12 +110,7 @@ public class SettingsController {
                 }
                 
                 if(initYear.getText().trim().length()==0){
-                	initYear.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	initYear.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                	initYear.getStyleClass().add("wrong-credentials");
                 }
             }
         });
@@ -136,12 +122,7 @@ public class SettingsController {
                 }
                 
                 if(endYear.getText().trim().length()==0){
-                	endYear.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	endYear.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                	endYear.getStyleClass().add("wrong-credentials");
                 }
             }
         });
@@ -171,7 +152,8 @@ public class SettingsController {
 		    } catch (IOException e) {
 		        e.printStackTrace();
 		    }
-	        
+	        Consts.endYears = Integer.parseInt(endYear.getText());
+                Consts.startYears = Integer.parseInt(initYear.getText());
 	        /*this.mainController.getToolbarController().refreshTableView();*/
 	        Stage stage = (Stage)housePercent.getScene().getWindow();
 	        stage.close();

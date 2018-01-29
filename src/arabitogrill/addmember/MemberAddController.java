@@ -80,12 +80,7 @@ public class MemberAddController {
     	first_name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
                 if(first_name.getText().trim().length()==0){
-                	first_name.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	first_name.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                	first_name.getStyleClass().add("wrong-credentials");
                 }
             }
         });
@@ -93,12 +88,7 @@ public class MemberAddController {
     	second_name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
                 if(second_name.getText().trim().length()==0){
-                	second_name.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	second_name.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                	second_name.getStyleClass().add("wrong-credentials");
                 }
             }
         });
@@ -110,18 +100,10 @@ public class MemberAddController {
                 }
                 
                 if(dailyS.getText().trim().length()==0){
-                	dailyS.setStyle("-fx-text-box-border: red ;\n" + 
-                			"  -fx-focus-color: red ;");
-                }
-                else {
-                	dailyS.setStyle("-fx-text-box-border: green ;\n" + 
-                			"  -fx-focus-color: green ;");
+                	dailyS.getStyleClass().add("wrong-credentials");
                 }
             }
         });
-    	/*for(Workers worker : wdao.read("")) {
-    		System.out.println(worker);
-    	}*/
     }
     
     @FXML
@@ -135,26 +117,26 @@ public class MemberAddController {
     	if(first_name.getText().trim().length()!=0 
     			&& second_name.getText().trim().length()!=0 
     			&& dailyS.getText().trim().length()!=0) {
-    		Workers worker = new Workers();
-        	String [] dateS = birth.getEditor().getText().split("/");
-        	
-        	Calendar cal = Calendar.getInstance();
-        	cal.set(Integer.parseInt(dateS[2]), 
-        			Integer.parseInt(dateS[0])-1, 
-        			Integer.parseInt(dateS[1]));
-        	
-        	Date date = new Date(cal.getTimeInMillis());
-        	
-        	worker.setFirstName(first_name.getText().toString());
+            Workers worker = new Workers();
+            String [] dateS = birth.getEditor().getText().split("/");
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(Integer.parseInt(dateS[2]), 
+                            Integer.parseInt(dateS[0])-1, 
+                            Integer.parseInt(dateS[1]));
+
+            Date date = new Date(cal.getTimeInMillis());
+
+            worker.setFirstName(first_name.getText().toString());
             worker.setSecondName(second_name.getText().toString());
             worker.setSurname(surname.getText().toString());
             worker.setSecondSurname(second_surname.getText().toString());
-        	worker.setEmail(email.getText().toString());
-        	worker.setCharge(charge.getText().toString());
-        	worker.setMobile(mobile.getText().toString());
-        	worker.setDailyS(new BigDecimal(dailyS.getText()));
-        	worker.setBirth(date);
-        	
+            worker.setEmail(email.getText().toString());
+            worker.setCharge(charge.getText().toString());
+            worker.setMobile(mobile.getText().toString());
+            worker.setDailyS(new BigDecimal(dailyS.getText()));
+            worker.setBirth(date);
+
             wdao.create(worker);
             this.mainController.getToolbarController().refreshTableView();
             Stage stage = (Stage)first_name.getScene().getWindow();
