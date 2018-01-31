@@ -75,11 +75,13 @@ public class MainController  implements Initializable {
     @FXML
     private TableColumn sundayCol;
     @FXML
+    private TableColumn totalWeekCol;
+    @FXML
     private TableView tableView;
     @FXML
     private StackPane rootPane;
     @FXML
-    private JFXTabPane footerTabPane;
+    public JFXTabPane footerTabPane;
     @FXML
     private JFXTabPane headerTabPane;    
     @FXML
@@ -99,64 +101,62 @@ public class MainController  implements Initializable {
     arabitogrill.main.toolbar.ToolbarController controllerMenu;
     private ToolbarController controller;
     
-    @Override
-    @FXML
-    public void initialize(URL url, ResourceBundle rb) {
+    public void Initialice(int startYear, int endYear){
+       tableView.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler() {
+       @Override
+       public void handle(Event event) {
+           if(!controller.getIdUser().equals("-1") && !(event.getTarget().toString().split("Total").length > 1) && !event.getTarget().toString().equals(""))
+           {
+              InformationUserCalendar iuc = new InformationUserCalendar();
+              List<InformationUserCalendar> iucl = new ArrayList<>();
+              String month = ArabitoGrillUtil.monthNumber(headerTabPane.getTabs().get(headerTabPane.getSelectionModel().getSelectedIndex()).getText()).toString();
+              String year = footerTabPane.getTabs().get(footerTabPane.getSelectionModel().getSelectedIndex()).getText();
+              String day = event.getTarget().toString().split("text=")[1].split("Amount:")[0].trim().replace((""+'"'),"");
+              String amount = event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[0].trim().replace("$ ","");
+              String tips =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[0];
+              String time =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[3].trim();
 
-          tableView.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler() {
-             @Override
-             public void handle(Event event) {
-                 if(!controller.getIdUser().equals("-1"))
-                 {
-                    InformationUserCalendar iuc = new InformationUserCalendar();
-                    List<InformationUserCalendar> iucl = new ArrayList<>();
-                    String month = ArabitoGrillUtil.monthNumber(headerTabPane.getTabs().get(headerTabPane.getSelectionModel().getSelectedIndex()).getText()).toString();
-                    String year = footerTabPane.getTabs().get(footerTabPane.getSelectionModel().getSelectedIndex()).getText();
-                    String day = event.getTarget().toString().split("text=")[1].split("Amount:")[0].trim().replace((""+'"'),"");
-                    String amount = event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[0].trim().replace("$ ","");
-                    String tips =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[0];
-                    String time =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[3].trim();
+              iucl = daysdao.read(Integer.parseInt(controller.getIdUser()));
+              iuc.setDayId(-1);
+              for(int k = 0; k < iucl.size(); k++)
+              {
+                   if((""+iucl.get(k).getDay()).toString().equals(day) && (""+iucl.get(k).getMonth()).toString().equals(month) && (""+iucl.get(k).getYear()).toString().equals(year))
+                   {
+                       iuc.setDayId(iucl.get(k).getDayId());
+                   }
+                   iuc.setDaily_s(iucl.get(k).getDaily_s());
+              }
+              Calendar cal = Calendar.getInstance();
+              cal.set(Integer.parseInt(year), 
+                     Integer.parseInt(month)-1, 
+                     Integer.parseInt(day));
+              Date date = new Date(cal.getTimeInMillis());
 
-                    iucl = daysdao.read(Integer.parseInt(controller.getIdUser()));
-                    iuc.setDayId(-1);
-                    for(int k = 0; k < iucl.size(); k++)
-                    {
-                         if((""+iucl.get(k).getDay()).toString().equals(day) && (""+iucl.get(k).getMonth()).toString().equals(month) && (""+iucl.get(k).getYear()).toString().equals(year))
-                         {
-                             iuc.setDayId(iucl.get(k).getDayId());
-                         }
-                         iuc.setDaily_s(iucl.get(k).getDaily_s());
-                    }
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(Integer.parseInt(year), 
-                           Integer.parseInt(month)-1, 
-                           Integer.parseInt(day));
-                    Date date = new Date(cal.getTimeInMillis());
+              iuc.setDate(date);
+              iuc.setDay(Integer.parseInt(day));
+              iuc.setAmount(Double.parseDouble(amount));
+              iuc.setTips(Double.parseDouble(tips));
+              iuc.setHour(Double.parseDouble(time.split(":")[0]));
+              iuc.setMinutes(Integer.parseInt(time.split(":")[1]));
+              iuc.setUserId(controller.getIdUser());
 
-                    iuc.setDate(date);
-                    iuc.setDay(Integer.parseInt(day));
-                    iuc.setAmount(Double.parseDouble(amount));
-                    iuc.setTips(Double.parseDouble(tips));
-                    iuc.setHour(Double.parseDouble(time.split(":")[0]));
-                    iuc.setMinutes(Integer.parseInt(time.split(":")[1]));
-                    iuc.setUserId(controller.getIdUser());
-
-                    ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/paymentforusers/PaymentForWorkers.fxml"), "Payment for Workers",mc,false,true,iuc);
-                }
-            }
-         });
+              ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/paymentforusers/PaymentForWorkers.fxml"), "Payment for Workers",mc,false,true,iuc);
+          }
+        }
+       });
         
         mc = this;
-        for(int i = Consts.startYears; i <= Consts.endYears; i++)
+        for(int i = startYear; i <= endYear; i++)
             footerTabPane.getTabs().add(new Tab(""+i+""));
         
-        mondayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        tuesdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        wednesdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        thursdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        fridayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        saturdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
-        sundayCol.prefWidthProperty().bind(tableView.widthProperty().divide(7));
+        mondayCol.prefWidthProperty().bind(tableView.widthProperty().divide(8));
+        tuesdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(8));
+        wednesdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(8));
+        thursdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(8));
+        fridayCol.prefWidthProperty().bind(tableView.widthProperty().divide(8));
+        saturdayCol.prefWidthProperty().bind(tableView.widthProperty().divide(8));
+        sundayCol.prefWidthProperty().bind(tableView.widthProperty().divide(8));
+        totalWeekCol.prefWidthProperty().bind(tableView.widthProperty().divide(8));
 
         mondayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
@@ -193,6 +193,12 @@ public class MainController  implements Initializable {
                 return new ReadOnlyStringWrapper((p.getValue().getSundayCol().getDay()==null ? "":p.getValue().getSundayCol().getDay()+"\n\n\n   Amount: \n  $ "+p.getValue().getSundayCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getSundayCol().getTips()+"\n\n   Time: \n    "+p.getValue().getSundayCol().getTime()+"\n\n\n"));
             }
          });
+        
+        totalWeekCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
+                return new ReadOnlyStringWrapper((p.getValue().getTotalWeekCol().getDay()==null ? "Total Month: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n":"Total Week: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n"));
+            }
+         });
         mainTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> old, Tab oldTab, Tab newTab) {
@@ -224,30 +230,58 @@ public class MainController  implements Initializable {
                         {
                             case "monday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getMondayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getMondayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getMondayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getMondayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getMondayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getMondayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getMondayCol().setDay(""+i+"");
                                 break;
                             case "tuesday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getTuesdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getTuesdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getTuesdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getTuesdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getTuesdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getTuesdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getTuesdayCol().setDay(""+i+"");
                                 break;
                             case "wednesday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getWednesdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getWednesdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getWednesdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getWednesdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getWednesdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getWednesdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getWednesdayCol().setDay(""+i+"");
                                 break;                                                         
                             case "thursday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getThursdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getThursdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getThursdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getThursdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getThursdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getThursdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getThursdayCol().setDay(""+i+"");
                                 break;
                             case "friday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getFridayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getFridayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getFridayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getFridayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getFridayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getFridayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getFridayCol().setDay(""+i+"");
                                 break;
                             case "saturday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getSaturdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getSaturdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getSaturdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getSaturdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getSaturdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getSaturdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getSaturdayCol().setDay(""+i+"");
                                 break;
                             case "sunday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getSundayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getSundayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getSundayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getSundayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getSundayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getSundayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getSundayCol().setDay(""+i+"");
                                 daysOfWeekList.add(dow);
                                 dow = new DaysOfWeek();
@@ -255,6 +289,14 @@ public class MainController  implements Initializable {
                         }
                     }  
                     if(dow.getMondayCol().getDay() != null && dow.getSundayCol().getDay() == null){
+                        daysOfWeekList.add(dow);
+                        dow = new DaysOfWeek();
+                        for(int i = 0; i < daysOfWeekList.size(); i++)
+                        {    
+                            dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTime().split(":")[2])));
+                            dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTips())));
+                            dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getAmount())));
+                        }
                         daysOfWeekList.add(dow);
                     }
                     tableView.setItems(daysOfWeekList);
@@ -264,17 +306,17 @@ public class MainController  implements Initializable {
                 }
             }
 
-              private void asignAmountTipsAndTime(List<InformationUserCalendar> iuc, int i, String month, String year, FieldOfCalendarPosition day) {
-                  for(int k = 0; k < iuc.size(); k++)
-                  {
-                      if((""+iuc.get(k).getDay()).toString().equals((""+i).toString()) && (""+iuc.get(k).getMonth()).toString().equals(month) && (""+iuc.get(k).getYear()).toString().equals(year))
-                      {
-                          day.setTips((""+iuc.get(k).getTips()).toString());
-                          day.setAmount((""+iuc.get(k).getAmount()).toString());
-                          day.setTime(((""+iuc.get(k).getHour()).toString().replace(".0","")+":"+iuc.get(k).getMinutes()+":00").toString());
-                      }
-                  }
-              }
+            private void asignAmountTipsAndTime(List<InformationUserCalendar> iuc, int i, String month, String year, FieldOfCalendarPosition day) {
+                for(int k = 0; k < iuc.size(); k++)
+                {
+                    if((""+iuc.get(k).getDay()).toString().equals((""+i).toString()) && (""+iuc.get(k).getMonth()).toString().equals(month) && (""+iuc.get(k).getYear()).toString().equals(year))
+                    {
+                        day.setTips((""+iuc.get(k).getTips()).toString());
+                        day.setAmount((""+iuc.get(k).getAmount()).toString());
+                        day.setTime(((""+iuc.get(k).getHour()).toString().replace(".0","")+":"+iuc.get(k).getMinutes()+":00").toString());
+                    }
+                }
+            }
 
         });
         
@@ -297,40 +339,77 @@ public class MainController  implements Initializable {
                         {
                             case "monday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getMondayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getMondayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getMondayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getMondayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getMondayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getMondayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getMondayCol().setDay(""+i+"");
                                 break;
                             case "tuesday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getTuesdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getTuesdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getTuesdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getTuesdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getTuesdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getTuesdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getTuesdayCol().setDay(""+i+"");
                                 break;
                             case "wednesday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getWednesdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getWednesdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getWednesdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getWednesdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getWednesdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getWednesdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getWednesdayCol().setDay(""+i+"");
                                 break;                                                         
                             case "thursday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getThursdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getThursdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getThursdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getThursdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getThursdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getThursdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getThursdayCol().setDay(""+i+"");
                                 break;
                             case "friday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getFridayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getFridayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getFridayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getFridayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getFridayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getFridayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getFridayCol().setDay(""+i+"");
                                 break;
                             case "saturday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getSaturdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getSaturdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getSaturdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getSaturdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getSaturdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getSaturdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getSaturdayCol().setDay(""+i+"");
                                 break;
                             case "sunday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getSundayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getSundayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getSundayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getSundayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getSundayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getSundayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getSundayCol().setDay(""+i+"");
                                 daysOfWeekList.add(dow);
                                 dow = new DaysOfWeek();
-                                break;                        }
+                                break;
+                        }                    
                     }
                     if(dow.getMondayCol().getDay() != null && dow.getSundayCol().getDay() == null){
                         daysOfWeekList.add(dow);
+                        dow = new DaysOfWeek();
+                        for(int i = 0; i < daysOfWeekList.size(); i++)
+                        {    
+                            dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTime().split(":")[2])));
+                            dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTips())));
+                            dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getAmount())));
+                        }
+                        daysOfWeekList.add(dow);
                     }
                     tableView.setItems(daysOfWeekList);
-                    System.out.println(controller.getIdUser());
+
                 }catch(Exception ex)
                 {
                     System.out.println(ex.getMessage());
@@ -371,6 +450,12 @@ public class MainController  implements Initializable {
         }
     }
     
+    @Override
+    @FXML
+    public void initialize(URL url, ResourceBundle rb) {
+        Initialice(Consts.startYears, Consts.endYears);
+    }
+    
     public ToolbarController getToolbarController(){
         return controller;
     }
@@ -394,36 +479,73 @@ public class MainController  implements Initializable {
                     {
                             case "monday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getMondayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getMondayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getMondayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getMondayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getMondayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getMondayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getMondayCol().setDay(""+i+"");
                                 break;
                             case "tuesday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getTuesdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getTuesdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getTuesdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getTuesdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getTuesdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getTuesdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getTuesdayCol().setDay(""+i+"");
                                 break;
                             case "wednesday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getWednesdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getWednesdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getWednesdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getWednesdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getWednesdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getWednesdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getWednesdayCol().setDay(""+i+"");
                                 break;                                                         
                             case "thursday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getThursdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getThursdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getThursdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getThursdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getThursdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getThursdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getThursdayCol().setDay(""+i+"");
                                 break;
                             case "friday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getFridayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getFridayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getFridayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getFridayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getFridayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getFridayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getFridayCol().setDay(""+i+"");
                                 break;
                             case "saturday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getSaturdayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getSaturdayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getSaturdayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getSaturdayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getSaturdayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getSaturdayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getSaturdayCol().setDay(""+i+"");
                                 break;
                             case "sunday":
                                 asignAmountTipsAndTime(iuc, i, month, year, dow.getSundayCol());
+                                dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(dow.getSundayCol().getTips())));
+                                dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(dow.getSundayCol().getAmount())));
+                                dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(dow.getSundayCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(dow.getSundayCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(dow.getSundayCol().getTime().split(":")[2])));
+                                dow.getTotalWeekCol().setDay("");
                                 dow.getSundayCol().setDay(""+i+"");
                                 daysOfWeekList.add(dow);
                                 dow = new DaysOfWeek();
-                                break;                    }
+                                break;
+                        }                
                 }  
                 if(dow.getMondayCol().getDay() != null && dow.getSundayCol().getDay() == null){
+                    daysOfWeekList.add(dow);
+                    dow = new DaysOfWeek();
+                    for(int i = 0; i < daysOfWeekList.size(); i++)
+                    {
+                        dow.getTotalWeekCol().setTime(""+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[0])+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTime().split(":")[0]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[1])+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTime().split(":")[1]))+":"+(Double.parseDouble(dow.getTotalWeekCol().getTime().split(":")[2])+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTime().split(":")[2])));
+                        dow.getTotalWeekCol().setTips(""+(Double.parseDouble(dow.getTotalWeekCol().getTips())+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getTips())));
+                        dow.getTotalWeekCol().setAmount(""+(Double.parseDouble(dow.getTotalWeekCol().getAmount())+Double.parseDouble(daysOfWeekList.get(i).getTotalWeekCol().getAmount())));
+                    }
                     daysOfWeekList.add(dow);
                 }
                 tableView.setItems(daysOfWeekList);

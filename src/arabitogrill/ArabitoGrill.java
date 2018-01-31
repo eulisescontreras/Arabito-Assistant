@@ -27,7 +27,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableView;
-
+import arabitogrill.consts.Consts;
 
 /**
  *
@@ -35,15 +35,16 @@ import javafx.scene.control.TableView;
  */
 public class ArabitoGrill extends Application {
 	
-	private BigDecimal perH;
-	private BigDecimal perW;
-	private Integer iniY;
-	private Integer endY;
+    private BigDecimal perH;
+    private BigDecimal perW;
+    private Integer iniY;
+    private Integer endY;
     
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/arabitogrill/login/login.fxml"));
 
+        getSetting();
         Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
@@ -103,6 +104,7 @@ public class ArabitoGrill extends Application {
     	File file = new File(s + "/settings_arabitogrill.txt");
         
         try {
+<<<<<<< Updated upstream
         	BufferedReader br = new BufferedReader(new FileReader(file));
             
             String st;
@@ -135,6 +137,40 @@ public class ArabitoGrill extends Application {
         	this.iniY = 2000;
         	this.endY = 2018;
 		}
+=======
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            String st;
+
+            if ((st = br.readLine()) != null)
+                this.perH = new BigDecimal(st);
+            else
+                this.perH = BigDecimal.TEN;
+            if ((st = br.readLine()) != null)
+                this.perW = new BigDecimal(st);
+            else
+                this.perW = BigDecimal.TEN;
+
+            if ((st = br.readLine()) != null)
+                this.iniY = Consts.startYears = Integer.valueOf(st);
+            else
+                this.iniY = 2018;
+
+            if ((st = br.readLine()) != null)
+                this.endY = Consts.endYears = Integer.valueOf(st);
+            else
+                this.endY = 2030;
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                this.perH = BigDecimal.TEN;
+                this.perW = BigDecimal.TEN;
+                this.iniY = 2018;
+                this.endY = 2030;
+            }
+>>>>>>> Stashed changes
     }
 
 	public BigDecimal getPerH() {
