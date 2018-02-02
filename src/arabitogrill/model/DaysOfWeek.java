@@ -19,7 +19,8 @@ public class DaysOfWeek {
     private FieldOfCalendarPosition fridayCol = new FieldOfCalendarPosition();
     private FieldOfCalendarPosition saturdayCol = new FieldOfCalendarPosition();
     private FieldOfCalendarPosition sundayCol = new FieldOfCalendarPosition();
-        
+    private FieldOfCalendarPosition totalWeekCol  = new FieldOfCalendarPosition();
+    
     public FieldOfCalendarPosition getMondayCol(){
         return mondayCol;
     }
@@ -41,7 +42,9 @@ public class DaysOfWeek {
     public FieldOfCalendarPosition getSundayCol(){
         return sundayCol;
     }
-    
+    public FieldOfCalendarPosition getTotalWeekCol(){
+        return totalWeekCol;
+    }
     public void setMondayCol(FieldOfCalendarPosition mondayCol){
         this.mondayCol = mondayCol;
     }
@@ -62,5 +65,8 @@ public class DaysOfWeek {
     }
     public void setSundayCol(FieldOfCalendarPosition SundayCol){
         this.sundayCol = SundayCol;
+    }
+    public void setTotalWeekCol(FieldOfCalendarPosition TotalWeekCol){
+        this.totalWeekCol = TotalWeekCol;
     }
 }

@@ -7,6 +7,7 @@ package arabitogrill.consts;
 
 import java.util.ArrayList;
 import java.util.List;
+import arabitogrill.main.MainController;
 
 /**
  *
@@ -15,4 +16,5 @@ import java.util.List;
 public class Consts {
     static public  Integer startYears = 2018;
     static public  Integer endYears = 2030;
+    static public  MainController main;
 }

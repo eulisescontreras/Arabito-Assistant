@@ -196,8 +196,9 @@ public class ListBillController {
                         	BillsDAO bdao = new BillsDAO();
                         	
                         	data.setSpend("PAID");
-                        	
                         	bdao.update(data);
+                                tableView.refresh();
+                                tableView.setItems(billsdao.getObservableBills());
                         });
                     }
 
@@ -219,6 +220,6 @@ public class ListBillController {
         updateColumn.setCellFactory(cellFactory2);
         payColumn.setCellFactory(cellFactory3);
         actionColumn.getColumns().addAll(updateColumn, payColumn, deleteColumn);
-        updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(8));
+        updateColumn.prefWidthProperty().bind(tableView.widthProperty().divide(12));
     }
 }

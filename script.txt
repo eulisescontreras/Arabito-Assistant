@@ -1,84 +1,92 @@
--- Database: "arabito-assistant"
+CREATE SEQUENCE public.sequence_bills
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 8
+  CACHE 1;
+ALTER TABLE public.sequence_bills
+  OWNER TO postgres;
 
--- DROP DATABASE "arabito-assistant";
+
+CREATE SEQUENCE public.sequence_days
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 21
+  CACHE 1;
+ALTER TABLE public.sequence_days
+  OWNER TO postgres;
+
+CREATE SEQUENCE public.sequence_worker
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 51
+  CACHE 1;
+ALTER TABLE public.sequence_worker
+  OWNER TO postgres;
+
 
 CREATE DATABASE "arabito-assistant"
-  WITH OWNER = root
+  WITH OWNER = postgres
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
-       LC_COLLATE = 'es_VE.UTF-8'
-       LC_CTYPE = 'es_VE.UTF-8'
+       LC_COLLATE = 'Spanish_Spain.1252'
+       LC_CTYPE = 'Spanish_Spain.1252'
        CONNECTION LIMIT = -1;
 
--- Schema: public
-
--- DROP SCHEMA public;
-
-CREATE SCHEMA public
-  AUTHORIZATION postgres;
-
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO public;
-COMMENT ON SCHEMA public
-  IS 'standard public schema';
-
--- Table: public.bills
-
--- DROP TABLE public.bills;
-
-CREATE TABLE public.bills
+CREATE TABLE public."Bills"
 (
-  id serial NOT NULL,
+  id integer NOT NULL DEFAULT nextval('sequence_bills'::regclass),
   amount real,
   created_at date,
   expiration_at date,
-  spend character varying(100) DEFAULT 'WAITING',
-  CONSTRAINT bills_pkey PRIMARY KEY (id)
+  spend character varying(100),
+  CONSTRAINT "Bills_pkey" PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public.bills
-  OWNER TO root;
-  
--- Table: public."workers"
-
--- DROP TABLE public."workers";
-
-CREATE TABLE public."workers"
-(
-  id serial NOT NULL,
-  name character varying(100),
-  email character varying(100),
-  mobile character varying(100),
-  daily_s real,
-  charge character varying(100),
-  birth date,
-  CONSTRAINT "workers_pkey" PRIMARY KEY (id)
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE public."workers"
+ALTER TABLE public."Bills"
   OWNER TO root;
 
--- Table: public."days"
 
--- DROP TABLE public."days";
-
-CREATE TABLE public."days"
+CREATE TABLE public."Days"
 (
-  id serial NOT NULL,
+  id integer NOT NULL DEFAULT nextval('sequence_days'::regclass),
   date date,
   worker integer,
-  CONSTRAINT "days_pkey" PRIMARY KEY (id),
-  CONSTRAINT "days_worker_fkey" FOREIGN KEY (worker)
-      REFERENCES public."workers" (id) MATCH SIMPLE
+  hours time without time zone,
+  tips double precision,
+  CONSTRAINT "Days_pkey" PRIMARY KEY (id),
+  CONSTRAINT "Days_worker_fkey" FOREIGN KEY (worker)
+      REFERENCES public."Workers" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public."days"
+ALTER TABLE public."Days"
+  OWNER TO root;
+
+
+CREATE TABLE public."Workers"
+(
+  id integer NOT NULL DEFAULT nextval('sequence_worker'::regclass),
+  first_name character varying(100),
+  second_name character varying(100),
+  surname character varying(100),
+  second_surname character varying(100),
+  email character varying(100),
+  mobile character varying(100),
+  daily_s real,
+  charge character varying(100),
+  birth date,
+  CONSTRAINT "Workers_pkey" PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public."Workers"
   OWNER TO root;
   

@@ -85,10 +85,10 @@ public class MemberAddController {
             }
         });
     	
-    	second_name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+    	surname.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
-                if(second_name.getText().trim().length()==0){
-                	second_name.getStyleClass().add("wrong-credentials");
+                if(surname.getText().trim().length()==0){
+                	surname.getStyleClass().add("wrong-credentials");
                 }
             }
         });
@@ -104,6 +104,14 @@ public class MemberAddController {
                 }
             }
         });
+        
+        charge.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if(charge.getText().trim().length()==0){
+                	charge.getStyleClass().add("wrong-credentials");
+                }
+            }
+        });
     }
     
     @FXML
@@ -115,25 +123,29 @@ public class MemberAddController {
     @FXML
     private void save(ActionEvent event) {
     	if(first_name.getText().trim().length()!=0 
-    			&& second_name.getText().trim().length()!=0 
-    			&& dailyS.getText().trim().length()!=0) {
+    			&& surname.getText().trim().length()!=0 
+    			&& dailyS.getText().trim().length()!=0
+                        && charge.getText().trim().length()!=0 ) {
             Workers worker = new Workers();
             String [] dateS = birth.getEditor().getText().split("/");
 
+            Date date = null;
             Calendar cal = Calendar.getInstance();
-            cal.set(Integer.parseInt(dateS[2]), 
-                            Integer.parseInt(dateS[0])-1, 
-                            Integer.parseInt(dateS[1]));
-
-            Date date = new Date(cal.getTimeInMillis());
-
+            if(dateS.length > 1)
+            {
+                cal.set(Integer.parseInt(dateS[2]), 
+                                Integer.parseInt(dateS[0])-1, 
+                                Integer.parseInt(dateS[1]));
+                date = new Date(cal.getTimeInMillis());
+            }
+            
             worker.setFirstName(first_name.getText().toString());
-            worker.setSecondName(second_name.getText().toString());
+            worker.setSecondName(second_name.getText().toString() != "" ? second_name.getText().toString(): null);
             worker.setSurname(surname.getText().toString());
-            worker.setSecondSurname(second_surname.getText().toString());
-            worker.setEmail(email.getText().toString());
+            worker.setSecondSurname(second_surname.getText().toString() != "" ? second_surname.getText().toString(): null);
+            worker.setEmail(email.getText().toString() != "" ? email.getText().toString(): null);
             worker.setCharge(charge.getText().toString());
-            worker.setMobile(mobile.getText().toString());
+            worker.setMobile(mobile.getText().toString() != "" ? mobile.getText().toString(): null);
             worker.setDailyS(new BigDecimal(dailyS.getText()));
             worker.setBirth(date);
 

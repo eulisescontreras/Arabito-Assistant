@@ -205,6 +205,8 @@
                                                        <TableColumn fx:id="fridayCol"  text="Friday" />
                                                        <TableColumn fx:id="saturdayCol"  text="Saturday" />
                                                        <TableColumn fx:id="sundayCol" text="Sunday" />
+                                                       <TableColumn fx:id="totalWeekCol" text="Total Week" />
+                                                       <TableColumn fx:id="Space" text="" />
                                                     </columns>
                                                  </TableView>
                                              </center>

@@ -5,6 +5,9 @@
  */
 package arabitogrill.login;
 
+import arabitogrill.ArabitoGrill;
+import arabitogrill.addmember.MemberAddController;
+import arabitogrill.consts.Consts;
 import arabitogrill.util.ArabitoGrillUtil;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -17,6 +20,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.commons.codec.digest.DigestUtils;
+import arabitogrill.main.MainController;
+import static arabitogrill.util.ArabitoGrillUtil.addmember;
 
 /**
  *
@@ -28,6 +33,9 @@ public class LoginController {
     private JFXTextField username;
     @FXML
     private JFXPasswordField password;
+    
+    private MainController main;
+    public ArabitoGrill arabitoGrill;
     
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
@@ -54,7 +62,11 @@ public class LoginController {
 
     void loadMain() {
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource("/arabitogrill/main/main.fxml"));
+            FXMLLoader fxmmain = new FXMLLoader(getClass().getResource("/arabitogrill/main/main.fxml"));
+            Parent parent = (Parent)fxmmain.load();
+            main = (MainController)fxmmain.getController();
+            main.arabitoGrill = this.arabitoGrill;
+            Consts.main = main;
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Arabito Assistant");
             stage.setScene(new Scene(parent));

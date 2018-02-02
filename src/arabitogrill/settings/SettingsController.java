@@ -40,11 +40,13 @@ import arabitogrill.main.MainController;
 import static arabitogrill.main.MainController.toolbarUsersFXML;
 import javafx.fxml.FXMLLoader;
 import arabitogrill.consts.Consts;
+import com.jfoenix.controls.JFXTabPane;
 /**
  *
  * @author eulis
  */
 public class SettingsController {
+    
     
     @FXML
     private JFXTextField housePercent;
@@ -69,7 +71,7 @@ public class SettingsController {
     }
     
     @FXML
-    private void initialize() {
+    private void initialize() throws IOException {
     	ArabitoGrill arabito = new ArabitoGrill();
     	
     	arabito.getSetting();
@@ -135,11 +137,12 @@ public class SettingsController {
     }
     
     @FXML
-    private void save(ActionEvent event) {
+    private void save(ActionEvent event) throws IOException {
     	if(endYear.getText().trim().length()!=0 &&
-    			initYear.getText().trim().length()!=0 &&
-    					workerPercent.getText().trim().length()!=0 &&
-    							housePercent.getText().trim().length()!=0) {
+           initYear.getText().trim().length()!=0 &&
+    	   workerPercent.getText().trim().length()!=0 &&
+    	   housePercent.getText().trim().length()!=0) {
+            
 		 try (BufferedWriter bw = new BufferedWriter(new FileWriter("settings_arabitogrill.txt", false))) {
 		        bw.write(housePercent.getText());
 		        bw.newLine();
@@ -152,8 +155,8 @@ public class SettingsController {
 		    } catch (IOException e) {
 		        e.printStackTrace();
 		    }
-	        Consts.endYears = Integer.parseInt(endYear.getText());
-                Consts.startYears = Integer.parseInt(initYear.getText());
+                Consts.main.footerTabPane.getTabs().clear();
+                Consts.main.Initialice(Integer.parseInt(initYear.getText()),Integer.parseInt(endYear.getText()));
 	        /*this.mainController.getToolbarController().refreshTableView();*/
 	        Stage stage = (Stage)housePercent.getScene().getWindow();
 	        stage.close();

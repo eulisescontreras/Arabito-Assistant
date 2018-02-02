@@ -46,7 +46,7 @@ public class ToolbarController  implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         nameCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Workers, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Workers, String> p) {
-                return new ReadOnlyStringWrapper(p.getValue().getId()+"\n\n  "+p.getValue().getFirstName()+" "+p.getValue().getSecondName()+"\n  "+p.getValue().getSurname()+" "+p.getValue().getSecondSurname()+"\n\n"); 
+                return new ReadOnlyStringWrapper(p.getValue().getId()+"\n\n  "+p.getValue().getFirstName()+" "+p.getValue().getSecondName()+"\n  "+p.getValue().getSurname()+" "+p.getValue().getSecondSurname()+"\n\n");
             }
          });
         tableView.setItems(workerdao.getObservableWorker());

@@ -27,7 +27,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableView;
-
+import arabitogrill.consts.Consts;
+import arabitogrill.login.LoginController;
 
 /**
  *
@@ -35,15 +36,19 @@ import javafx.scene.control.TableView;
  */
 public class ArabitoGrill extends Application {
 	
-	private BigDecimal perH;
-	private BigDecimal perW;
-	private Integer iniY;
-	private Integer endY;
+    private BigDecimal perH;
+    private BigDecimal perW;
+    private Integer iniY;
+    private Integer endY;
+    private LoginController login;
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/arabitogrill/login/login.fxml"));
-
+        FXMLLoader fxlogin = new FXMLLoader(getClass().getResource("/arabitogrill/login/login.fxml"));
+        Parent root = (Parent)fxlogin.load();
+        login = (LoginController)fxlogin.getController();
+        login.arabitoGrill = this;
+        getSetting();
         Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
@@ -97,45 +102,49 @@ public class ArabitoGrill extends Application {
 		}
     }
     
-    public void getSetting() {
+    public void getSetting() throws FileNotFoundException, IOException {
     	Path currentRelativePath = Paths.get("");
     	String s = currentRelativePath.toAbsolutePath().toString();
     	File file = new File(s + "/settings_arabitogrill.txt");
         
-        try {
-        	BufferedReader br = new BufferedReader(new FileReader(file));
-            
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
             String st;
-        	
-			if ((st = br.readLine()) != null)
-				this.perH = new BigDecimal(st);
-			else
-				this.perH = BigDecimal.TEN;
-			if ((st = br.readLine()) != null)
-	            this.perW = new BigDecimal(st);
-	        else
-	        	this.perW = BigDecimal.TEN;
-	        
-	        if ((st = br.readLine()) != null)
-	            this.iniY = Integer.valueOf(st);
-	        else
-	        	this.iniY = 2000;
-	        
-	        if ((st = br.readLine()) != null)
-	            this.endY = Integer.valueOf(st);
-	        else
-	        	this.endY = 2018;
-	        
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			this.perH = BigDecimal.TEN;
-        	this.perW = BigDecimal.TEN;
-        	this.iniY = 2000;
-        	this.endY = 2018;
-		}
-    }
+            
+            st = new String(br.readLine());
+            if ((st) != null)
+                this.perH = new BigDecimal(st);
+            else
+                this.perH = BigDecimal.TEN;
+            st =  new String(br.readLine());
+            if ((st) != null)
+                this.perW = new BigDecimal(st);
+            else
+                this.perW = BigDecimal.TEN;
+
+            st =  new String(br.readLine());
+            if ((st) != null)
+                this.iniY = Consts.startYears = Integer.valueOf(st);
+            else
+                this.iniY = 2018;
+
+            st =  new String(br.readLine());
+            if ((st) != null)
+                this.endY = Consts.endYears = Integer.valueOf(st);
+            else
+                this.endY = 2030;
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }/* finally {
+                this.perH = BigDecimal.TEN;
+                this.perW = BigDecimal.TEN;
+                this.iniY = 2018;
+                this.endY = 2030;
+            }*/
+        }
 
 	public BigDecimal getPerH() {
 		return perH;
