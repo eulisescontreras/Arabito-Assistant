@@ -137,7 +137,7 @@ public class SettingsController {
     }
     
     @FXML
-    private void save(ActionEvent event) {
+    private void save(ActionEvent event) throws IOException {
     	if(endYear.getText().trim().length()!=0 &&
            initYear.getText().trim().length()!=0 &&
     	   workerPercent.getText().trim().length()!=0 &&
