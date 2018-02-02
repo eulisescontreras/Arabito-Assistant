@@ -5,20 +5,26 @@
  */
 package arabitogrill.main;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.print.PageLayout;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 import arabitogrill.util.ArabitoGrillUtil;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import com.jfoenix.controls.JFXTabPane;
@@ -28,8 +34,12 @@ import java.util.List;
 import javafx.scene.control.cell.PropertyValueFactory;
 import arabitogrill.main.toolbaruser.ToolbarController;
 import arabitogrill.consts.Consts;
+import arabitogrill.model.Bills;
+import arabitogrill.model.BillsDAO;
+import arabitogrill.model.Days;
 import arabitogrill.model.DaysDAO;
 import arabitogrill.model.Workers;
+import arabitogrill.model.WorkersDAO;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -52,6 +62,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.File;
+
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+
+import org.apache.derby.iapi.store.raw.Page;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.printing.PDFPageable;
 /**
  *
  * @author eulis
@@ -59,6 +82,8 @@ import java.util.logging.Logger;
 public class MainController  implements Initializable {
 
     private final String CALENDAR_ID = "calendarTab";
+    private final String REPORT_ID = "reportTab";
+    private final int ALERT_DAY = 5;
     
     @FXML
     private TableColumn mondayCol;
@@ -368,6 +393,34 @@ public class MainController  implements Initializable {
              
         } catch (Exception ex) {
             System.out.print(ex.getMessage());
+        }
+        
+        // Alert Message
+        BillsDAO bdao = new BillsDAO();
+        Calendar cal = Calendar.getInstance();
+        Date dateNow = new Date(cal.getTimeInMillis());
+        cal.add(Calendar.DATE, -ALERT_DAY);
+        Date dateBefore = new Date(cal.getTimeInMillis());
+        int pl=0, up=0;
+        
+        for(Bills bill : bdao.read(null)) 
+        {
+        	if(dateNow.after(bill.getExpirationAt())) {
+	        	bill.setSpend("UNPAID");
+	        	bdao.update(bill);
+	        	up++;
+        	} else if(dateBefore.after(bill.getExpirationAt())) {
+        		pl++;
+        	}
+        }
+        
+        if(up>0 || pl>0) {
+	        Alert alert = new Alert(AlertType.WARNING);
+	        alert.setTitle("Warning Dialog");
+	        alert.setHeaderText("Warning, check your bills");
+	        alert.setContentText("You have (" + up + ") bill(s) UNPAID and (" + pl + ") that will expire in less than a week!");
+	
+	        alert.showAndWait();
         }
     }
     

@@ -48,7 +48,9 @@ public class WorkersDAO {
 	public List<Workers> read(String nameWorker) {
 		List<Workers> workersList = new ArrayList<>();
 		
-		String sql = "SELECT * FROM public.\"Workers\" WHERE NAME LIKE '%" + nameWorker + "%'";
+		String sql = "SELECT * FROM public.\"Workers\"" + 
+								((nameWorker==null)? 
+										"" : " WHERE FIRST_NAME LIKE '%" + nameWorker + "%'");
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
