@@ -71,7 +71,7 @@ public class SettingsController {
     }
     
     @FXML
-    private void initialize() {
+    private void initialize() throws IOException {
     	ArabitoGrill arabito = new ArabitoGrill();
     	
     	arabito.getSetting();

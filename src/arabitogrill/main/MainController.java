@@ -5,6 +5,7 @@
  */
 package arabitogrill.main;
 
+import arabitogrill.ArabitoGrill;
 import com.jfoenix.controls.JFXDrawer;
 import java.io.IOException;
 import java.net.URL;
@@ -52,6 +53,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author eulis
@@ -100,8 +102,9 @@ public class MainController  implements Initializable {
     static public VBox toolbarUsers;
     arabitogrill.main.toolbar.ToolbarController controllerMenu;
     private ToolbarController controller;
+    public ArabitoGrill arabitoGrill;
     
-    public void Initialice(int startYear, int endYear){
+    public void Initialice(int startYear, int endYear) throws IOException{
        tableView.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler() {
        @Override
        public void handle(Event event) {
@@ -196,9 +199,10 @@ public class MainController  implements Initializable {
         
         totalWeekCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
-                return new ReadOnlyStringWrapper((p.getValue().getTotalWeekCol().getDay()==null ? "Total Month: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n":"Total Week: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n"));
+                return new ReadOnlyStringWrapper((p.getValue().getTotalWeekCol().getDay()==null ? "Total Month: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Tips\n   percent home: \n  $ "+(Double.parseDouble(arabitoGrill.getPerH().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Tips\n   percent worker: \n  $ "+(Double.parseDouble(arabitoGrill.getPerW().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n":"Total Week: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Tips\n   percent home: \n  $ "+(Double.parseDouble(arabitoGrill.getPerH().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Tips\n   percent worker: \n  $ "+(Double.parseDouble(arabitoGrill.getPerW().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n"));
             }
          });
+  
         mainTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> old, Tab oldTab, Tab newTab) {
@@ -453,7 +457,11 @@ public class MainController  implements Initializable {
     @Override
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-        Initialice(Consts.startYears, Consts.endYears);
+        try {
+            Initialice(Consts.startYears, Consts.endYears);
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public ToolbarController getToolbarController(){
