@@ -46,6 +46,12 @@ public class BillAddController {
     private JFXButton saveButton;
     @FXML
     private JFXButton cancelButton;
+    @FXML
+    private JFXTextField nro;
+    @FXML
+    private JFXTextField name;
+    @FXML
+    private JFXTextField observation;
     
     // location and resources will be automatically injected by the FXML loader
     @FXML
@@ -106,6 +112,9 @@ public class BillAddController {
 	    	bill.setAmount(new BigDecimal(amount.getText()));
 	    	bill.setCreatedAt(dc);
 	    	bill.setExpirationAt(de);
+                bill.setNro(nro.getText());
+                bill.setName(name.getText());
+                bill.setObservation(observation.getText());
 	    	bill.setSpend("WAITING");
 	    	
 	        bdao.create(bill);

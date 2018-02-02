@@ -18,7 +18,7 @@ public class BillsDAO {
 	}
 
 	public void create(Bills bill) {
-		String sql = "INSERT INTO public.\"Bills\" (AMOUNT, CREATED_AT, EXPIRATION_AT, SPEND) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO public.\"Bills\" (AMOUNT, CREATED_AT, EXPIRATION_AT, SPEND, NRO, NAME, OBSERVATION) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -27,6 +27,9 @@ public class BillsDAO {
 			statement.setDate(2, bill.getCreatedAt());
 			statement.setDate(3, bill.getExpirationAt());
 			statement.setString(4, bill.getSpend());
+                        statement.setString(5, bill.getNro());
+                        statement.setString(6, bill.getName());
+                        statement.setString(7, bill.getObservation());
 			
 			statement.execute();
 			statement.close();
@@ -55,7 +58,9 @@ public class BillsDAO {
 				bill.setSpend(result.getString("spend"));
 				bill.setCreatedAt(result.getDate("created_at"));
 				bill.setExpirationAt(result.getDate("expiration_at"));
-				
+                                bill.setNro(result.getString("nro"));
+                                bill.setName(result.getString("name"));
+                                bill.setObservation(result.getString("observation"));
 				billsList.add(bill);
 			}
 			
@@ -90,7 +95,9 @@ public class BillsDAO {
 				bill.setSpend(result.getString("spend"));
 				bill.setCreatedAt(result.getDate("created_at"));
 				bill.setExpirationAt(result.getDate("expiration_at"));
-				
+			        bill.setNro(result.getString("nro"));
+                                bill.setName(result.getString("name"));
+                                bill.setObservation(result.getString("observation"));
 				billsList.add(bill);
 			}
 			
@@ -110,7 +117,10 @@ public class BillsDAO {
 				+ "AMOUNT=" + bill.getAmount() + ", "
 				+ "CREATED_AT='" + bill.getCreatedAt() + "', "
 				+ "EXPIRATION_AT='" + bill.getExpirationAt() + "', "
-				+ "SPEND='" + bill.getSpend() + "' "
+				+ "SPEND='" + bill.getSpend() + "', "
+                                + "NRO='" + bill.getNro()+ "', "
+                                + "NAME='" + bill.getName()+ "', "
+                                + "OBSERVATION='" + bill.getObservation()+ "' "
 				+ "WHERE ID=" + bill.getId() + ";";
 		
 		try {

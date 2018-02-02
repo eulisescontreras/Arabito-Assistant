@@ -9,6 +9,9 @@ public class Bills {
 	private String spend;
 	private Date createdAt;
 	private Date expirationAt;
+        private String nro;
+        private String name;
+        private String observation;
 	
 	public Integer getId() {
 		return id;
@@ -39,6 +42,24 @@ public class Bills {
 	}
 	public void setExpirationAt(Date expirationAt) {
 		this.expirationAt = expirationAt;
+	}
+        public String getNro() {
+		return nro;
+	}
+	public void setNro(String nro) {
+		this.nro = nro;
+	}
+        public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+        public String getObservation() {
+		return observation;
+	}
+	public void setObservation(String observation) {
+		this.observation = observation;
 	}
 	
 	
