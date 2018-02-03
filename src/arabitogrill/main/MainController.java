@@ -488,11 +488,13 @@ public class MainController  implements Initializable {
         
         for(Bills bill : bdao.read(null)) 
         {
-        	if(dateNow.after(bill.getExpirationAt())) {
+        	if(dateNow.after(bill.getExpirationAt()) && (bill.getSpend().equals("WAITING") || bill.getSpend().equals("UNPAID"))) {
 	        	bill.setSpend("UNPAID");
 	        	bdao.update(bill);
 	        	up++;
-        	} else if(dateBefore.after(bill.getExpirationAt())) {
+        	}
+                
+                if(dateBefore.after(bill.getExpirationAt())  && (bill.getSpend().equals("WAITING") || bill.getSpend().equals("UNPAID"))) {
         		pl++;
         	}
         }

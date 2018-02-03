@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="ArabitoGrill.jnlp">
+  <information>
+    <title>ArabitoGrill</title>
+    <vendor>eulis</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="ArabitoGrill.jar" size="164535" download="eager" />
+    <jar href="lib\commons-codec-1.4.jar" size="58160" download="eager" />
+    <jar href="lib\derby.jar" size="3224708" download="eager" />
+    <jar href="lib\derbyclient.jar" size="590087" download="eager" />
+    <jar href="lib\fontawesomefx-commons-8.15.jar" size="20957" download="eager" />
+    <jar href="lib\fontawesomefx-fontawesome-4.7.0-5.jar" size="136891" download="eager" />
+    <jar href="lib\gson-2.8.1.jar" size="232620" download="eager" />
+    <jar href="lib\jfoenix.jar" size="2390900" download="eager" />
+    <jar href="lib\pdfbox-app-2.0.8.jar" size="8029018" download="eager" />
+    <jar href="lib\postgresql-42.2.0.jar" size="777838" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="ArabitoGrill" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="arabitogrill.ArabitoGrill"  name="ArabitoGrill" />
+  <update check="always"/>
+</jnlp>
