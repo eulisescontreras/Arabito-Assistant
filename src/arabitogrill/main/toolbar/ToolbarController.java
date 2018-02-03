@@ -154,14 +154,14 @@ public class ToolbarController  implements Initializable {
 		float textx = margin+cellMargin;
 		float texty = y-15;
 		
-		String text = "Name";
+		String text = "Names:";
 		contentStream.beginText();
 		contentStream.moveTextPositionByAmount(textx,texty);
 		contentStream.drawString(text);
 		contentStream.endText();
 		textx += colWidth;
 		
-		text = "Amount";
+		text = "Amounts:";
 		contentStream.beginText();
 		contentStream.moveTextPositionByAmount(textx,texty);
 		contentStream.drawString(text);

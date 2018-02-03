@@ -273,3 +273,7 @@
 #observation{
     -fx-text-fill: derive(-fx-secondary, 20%);
 }
+
+.table-view .column-header-background .label{
+    -fx-text-fill: derive(-fx-secondary, 20%);
+}

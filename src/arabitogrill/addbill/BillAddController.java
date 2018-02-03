@@ -114,7 +114,7 @@ public class BillAddController {
 	    	bill.setExpirationAt(de);
                 bill.setNro(nro.getText());
                 bill.setName(name.getText());
-                bill.setObservation(observation.getText());
+                bill.setObservation(observation.getText().toString() == "" ? "" : observation.getText().toString());
 	    	bill.setSpend("WAITING");
 	    	
 	        bdao.create(bill);

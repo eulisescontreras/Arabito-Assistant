@@ -129,7 +129,7 @@ public class MainController  implements Initializable {
     private ToolbarController controller;
     public ArabitoGrill arabitoGrill;
     
-    public void Initialice(int startYear, int endYear) throws IOException{
+    public void Initialice(int startYear, int endYear, boolean isFromLogin) throws IOException{
        tableView.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler() {
        @Override
        public void handle(Event event) {
@@ -497,7 +497,7 @@ public class MainController  implements Initializable {
         	}
         }
         
-        if(up>0 || pl>0) {
+        if((up>0 || pl>0) && isFromLogin) {
 	        Alert alert = new Alert(AlertType.WARNING);
 	        alert.setTitle("Warning Dialog");
 	        alert.setHeaderText("Warning, check your bills");
@@ -519,7 +519,7 @@ public class MainController  implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            Initialice(Consts.startYears, Consts.endYears);
+            Initialice(Consts.startYears, Consts.endYears, true);
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }

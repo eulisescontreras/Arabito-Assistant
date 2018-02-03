@@ -156,7 +156,7 @@ public class SettingsController {
 		        e.printStackTrace();
 		    }
                 Consts.main.footerTabPane.getTabs().clear();
-                Consts.main.Initialice(Integer.parseInt(initYear.getText()),Integer.parseInt(endYear.getText()));
+                Consts.main.Initialice(Integer.parseInt(initYear.getText()),Integer.parseInt(endYear.getText()),false);
 	        /*this.mainController.getToolbarController().refreshTableView();*/
 	        Stage stage = (Stage)housePercent.getScene().getWindow();
 	        stage.close();
