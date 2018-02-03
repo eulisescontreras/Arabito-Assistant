@@ -92,7 +92,7 @@ public class ToolbarController  implements Initializable {
         doc.addPage( page );
         
         try {
-        	 PDPageContentStream contentStream = new PDPageContentStream(doc, page);
+             PDPageContentStream contentStream = new PDPageContentStream(doc, page);
              
              WorkersDAO wdao = new WorkersDAO();
              DaysDAO ddao = new DaysDAO();
@@ -110,21 +110,21 @@ public class ToolbarController  implements Initializable {
              }
              
         	drawTable(page, contentStream, 700, 100, workerList);
-			contentStream.close();
-			
-			Calendar cal = Calendar.getInstance();
-			
-			doc.save("bill_" + cal.getTime() + ".pdf" );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+                contentStream.close();
+
+                Calendar cal = Calendar.getInstance();
+
+                doc.save("bill_" + cal.getTime().getMonth() +"_"+  cal.getTime().getYear() +".pdf" );
+            } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            } 
     }
     
     public static void drawTable(PDPage page, PDPageContentStream contentStream,
             float y, float margin,
             List<Workers> workerList) throws IOException {
-		final int rows = workerList.size();
+		final int rows = workerList.size()+1;
 		final int cols = 1;
 		final float rowHeight = 20f;
 		final float tableWidth = page.getCropBox().getWidth() - margin - margin;
@@ -135,8 +135,8 @@ public class ToolbarController  implements Initializable {
 		//draw the rows
 		float nexty = y ;
 		for (int i = 0; i <= rows; i++) {
-		contentStream.drawLine(margin, nexty, margin+tableWidth, nexty);
-		nexty-= rowHeight;
+                    contentStream.drawLine(margin, nexty, margin+tableWidth, nexty);
+                    nexty-= rowHeight;
 		}
 		
 		//draw the columns

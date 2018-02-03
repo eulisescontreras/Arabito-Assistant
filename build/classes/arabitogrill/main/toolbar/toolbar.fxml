@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="445.0" prefWidth="154.0" 
+	stylesheets="@../../../../../resources/dark-theme.css" 
+	xmlns="http://javafx.com/javafx/8.0.141" 
+	xmlns:fx="http://javafx.com/fxml/1" 
+	fx:controller="arabitogrill.main.toolbar.ToolbarController">
+   <children>
+      <JFXButton contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Add Worker">
+         <graphic>
+            <FontAwesomeIconView glyphName="USER" size="25" />
+         </graphic>
+      </JFXButton>
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" onAction="#loadAddBill" mnemonicParsing="false"  prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Add Bill">
+         <graphic>
+            <FontAwesomeIconView glyphName="BOOK" size="25" />
+         </graphic>
+      </JFXButton>
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadListWorker"  prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Workers List">
+         <graphic>
+            <FontAwesomeIconView glyphName="TABLE" size="25" />
+         </graphic>
+      </JFXButton>
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="81.0" mnemonicParsing="false" onAction="#loadListBill"  prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Bills List">
+         <graphic>
+            <FontAwesomeIconView glyphName="TABLE" size="25" />
+         </graphic>
+      </JFXButton>
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="223.0" mnemonicParsing="false" onAction="#print"  prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Print">
+         <graphic>
+            <FontAwesomeIconView glyphName="PRINT" size="25" />
+         </graphic>
+      </JFXButton>
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="223.0" mnemonicParsing="false" onAction="#loadSetting"  prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Settings">
+         <graphic>
+            <FontAwesomeIconView glyphName="COG" size="25" />
+         </graphic>
+      </JFXButton>
+   </children>
+</VBox>
+

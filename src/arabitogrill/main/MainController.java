@@ -5,11 +5,8 @@
  */
 package arabitogrill.main;
 
-<<<<<<< HEAD
 import com.jfoenix.controls.JFXButton;
-=======
 import arabitogrill.ArabitoGrill;
->>>>>>> ab35e79873237524cdeb9875d33b170abaddc376
 import com.jfoenix.controls.JFXDrawer;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -66,7 +63,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-<<<<<<< HEAD
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
@@ -75,14 +71,11 @@ import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 
 import org.apache.derby.iapi.store.raw.Page;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.printing.PDFPageable;
-=======
 
->>>>>>> ab35e79873237524cdeb9875d33b170abaddc376
 /**
  *
  * @author eulis

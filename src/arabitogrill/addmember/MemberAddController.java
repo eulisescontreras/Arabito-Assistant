@@ -129,8 +129,8 @@ public class MemberAddController {
             Workers worker = new Workers();
             String [] dateS = birth.getEditor().getText().split("/");
 
-            Date date = null;
             Calendar cal = Calendar.getInstance();
+            Date date = new Date(cal.getTimeInMillis());
             if(dateS.length > 1)
             {
                 cal.set(Integer.parseInt(dateS[2]), 
@@ -140,12 +140,12 @@ public class MemberAddController {
             }
             
             worker.setFirstName(first_name.getText().toString());
-            worker.setSecondName(second_name.getText().toString() != "" ? second_name.getText().toString(): null);
+            worker.setSecondName(second_name.getText().toString() != "" ? "-----" : second_name.getText().toString());
             worker.setSurname(surname.getText().toString());
-            worker.setSecondSurname(second_surname.getText().toString() != "" ? second_surname.getText().toString(): null);
-            worker.setEmail(email.getText().toString() != "" ? email.getText().toString(): null);
+            worker.setSecondSurname(second_surname.getText().toString() != "" ? "-----" : second_surname.getText().toString());
+            worker.setEmail(email.getText().toString() != "" ? "-----" : email.getText().toString());
             worker.setCharge(charge.getText().toString());
-            worker.setMobile(mobile.getText().toString() != "" ? mobile.getText().toString(): null);
+            worker.setMobile(mobile.getText().toString() != "" ? "-----" : mobile.getText().toString());
             worker.setDailyS(new BigDecimal(dailyS.getText()));
             worker.setBirth(date);
 
