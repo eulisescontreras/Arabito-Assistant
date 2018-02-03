@@ -1,0 +1,45 @@
+* {
+    -fx-primary : rgb(60, 0, 0);
+    -fx-secondary : #FFFF8D;
+    -fx-primarytext : #B2B2B2;
+    -fx-blue: #1976D2;
+    -fx-red: #FF0000;
+}
+
+.myDialog{
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-secondary;
+}
+.myDialog > *.button-bar > *.container{
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-secondary;
+}
+.myDialog > *.label.content{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-secondary;
+    -fx-background-color: -fx-primary;
+}
+.myDialog:header *.header-panel{
+    -fx-background-color: -fx-primary;
+}
+.myDialog:header *.header-panel *.label{
+    -fx-font-size: 18px;
+    -fx-fill: -fx-secondary;
+    -fx-text-fill: -fx-secondary;
+}
+
+.myDialog > *.button-bar{
+    -fx-text-fill: -fx-primarytext;
+    -fx-background-color: -fx-primary;
+    -fx-border-color: -fx-secondary;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-font-size: 13pt;
+}
+
+.myDialog > *.button-bar:hover{
+    -fx-border-color: -fx-secondary;
+    -fx-background-color: -fx-secondary;
+    -fx-text-fill: -fx-primary;
+}

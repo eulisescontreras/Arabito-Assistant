@@ -45,8 +45,12 @@ public class BillEditController {
     private JFXButton saveButton;
     @FXML
     private JFXButton cancelButton;
-    
-    // location and resources will be automatically injected by the FXML loader
+    @FXML
+    private JFXTextField nro;
+    @FXML
+    private JFXTextField name;
+    @FXML
+    private TextArea observation;
     @FXML
     private URL location;
     @FXML
@@ -111,6 +115,9 @@ public class BillEditController {
 	    	bill.setExpirationAt(de);
 	    	bill.setSpend(billEdit.getSpend());
 	    	bill.setId(billEdit.getId());
+                bill.setNro(nro.getText());
+                bill.setName(name.getText());
+                bill.setObservation(observation.getText());
 	    	
 	        bdao.update(bill);
 	        tableView.refresh();
@@ -127,7 +134,10 @@ public class BillEditController {
         this.tableView = tableView;
         amount.setText(bill.getAmount().toString());
         createdAt.setValue(bill.getCreatedAt().toLocalDate());
-	    expirationAt.setValue(bill.getExpirationAt().toLocalDate());
-	}
+	expirationAt.setValue(bill.getExpirationAt().toLocalDate());
+        nro.setText(bill.getNro().toString());
+        name.setText(bill.getName().toString());
+        observation.setText(bill.getObservation().toString());        
+    }
 
 }

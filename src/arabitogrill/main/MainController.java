@@ -66,6 +66,7 @@ import java.util.logging.Logger;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
+import javafx.scene.control.DialogPane;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -501,8 +502,16 @@ public class MainController  implements Initializable {
 	        alert.setTitle("Warning Dialog");
 	        alert.setHeaderText("Warning, check your bills");
 	        alert.setContentText("You have (" + up + ") bill(s) UNPAID and (" + pl + ") that will expire in less than a week!");
-	
-	        alert.showAndWait();
+                
+                try{
+                    DialogPane dialogPane = alert.getDialogPane();
+                    dialogPane.getStylesheets().add(getClass().getResource("/resources/myDialogs.css").toExternalForm());
+                    dialogPane.getStyleClass().add("myDialog");
+	        }catch(Exception e)
+                {
+                    System.out.println("Error");
+                }
+                alert.showAndWait();
         }
     }
     

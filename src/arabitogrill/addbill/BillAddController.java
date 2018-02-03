@@ -51,7 +51,7 @@ public class BillAddController {
     @FXML
     private JFXTextField name;
     @FXML
-    private JFXTextField observation;
+    private TextArea observation;
     
     // location and resources will be automatically injected by the FXML loader
     @FXML

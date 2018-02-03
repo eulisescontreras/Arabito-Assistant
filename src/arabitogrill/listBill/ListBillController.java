@@ -48,6 +48,12 @@ public class ListBillController {
     @FXML
     private TableColumn<Bills,String> spendColumn = new TableColumn<Bills,String>("Status");
     @FXML
+    private TableColumn<Bills,String> nroColumn = new TableColumn<Bills,String>("Nro");
+    @FXML
+    private TableColumn<Bills,String> nameColumn = new TableColumn<Bills,String>("Name");
+    @FXML
+    private TableColumn<Bills,String> observationColumn = new TableColumn<Bills,String>("Observation");
+    @FXML
     private TableColumn actionColumn = new TableColumn("Action");
     @FXML
     private TableColumn deleteColumn = new TableColumn("Delete");
@@ -73,6 +79,24 @@ public class ListBillController {
     public void initialize() {
     	
     	// Colmuns
+        nroColumn.setCellValueFactory(new Callback<CellDataFeatures<Bills, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Bills, String> p) {
+            	return new SimpleObjectProperty<String>(p.getValue().getNro());
+            }
+         });
+        
+         nameColumn.setCellValueFactory(new Callback<CellDataFeatures<Bills, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Bills, String> p) {
+            	return new SimpleObjectProperty<String>(p.getValue().getName());
+            }
+         });
+         
+         observationColumn.setCellValueFactory(new Callback<CellDataFeatures<Bills, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Bills, String> p) {
+            	return new SimpleObjectProperty<String>(p.getValue().getObservation());
+            }
+         });
+         
     	amountColumn.setCellValueFactory(new Callback<CellDataFeatures<Bills, BigDecimal>, ObservableValue<BigDecimal>>() {
             public ObservableValue<BigDecimal> call(CellDataFeatures<Bills, BigDecimal> p) {
             	return new SimpleObjectProperty<BigDecimal>(p.getValue().getAmount());
@@ -97,6 +121,10 @@ public class ListBillController {
             }
          });
         
+        
+        nroColumn.setId("nroColumn");
+        nameColumn.setId("nameColumn");
+        observationColumn.setId("observationColumn");
     	amountColumn.setId("amountColumn");
     	spendColumn.setId("spendColumn");
     	expirationAtColumn.setId("expirationAtColumn");
@@ -106,19 +134,25 @@ public class ListBillController {
         deleteColumn.setId("deleteColumn");
         payColumn.setId("payColumn");
         
-        amountColumn.prefWidthProperty().bind(tableView.widthProperty().divide(5));
-        spendColumn.prefWidthProperty().bind(tableView.widthProperty().divide(5));
-        expirationAtColumn.prefWidthProperty().bind(tableView.widthProperty().divide(5));
-        createdAtColumn.prefWidthProperty().bind(tableView.widthProperty().divide(5));
+        amountColumn.prefWidthProperty().bind(tableView.widthProperty().divide(9));
+        spendColumn.prefWidthProperty().bind(tableView.widthProperty().divide(9));
+        expirationAtColumn.prefWidthProperty().bind(tableView.widthProperty().divide(9));
+        createdAtColumn.prefWidthProperty().bind(tableView.widthProperty().divide(9));
+        nroColumn.prefWidthProperty().bind(tableView.widthProperty().divide(9));
+        nameColumn.prefWidthProperty().bind(tableView.widthProperty().divide(9));
+        observationColumn.prefWidthProperty().bind(tableView.widthProperty().divide(9));
         
         addButtonToTable();
         
         this.tableView.setItems(billsdao.getObservableBills());
         tableView.getColumns().addAll(
+                        nroColumn,
+                        nameColumn,
         		amountColumn,
         		createdAtColumn,
         		expirationAtColumn,
         		spendColumn,
+                        observationColumn,
         		actionColumn);
 
     }

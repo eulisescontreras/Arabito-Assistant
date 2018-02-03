@@ -41,6 +41,7 @@ import java.math.RoundingMode;
 import arabitogrill.addmember.MemberAddController;
 import static arabitogrill.main.MainController.toolbar;
 import static arabitogrill.main.MainController.toolbarFXML;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.VBox;
 /**
  *
@@ -122,7 +123,7 @@ public class ToolbarController  implements Initializable {
             } 
     }
     
-    public static void drawTable(PDPage page, PDPageContentStream contentStream,
+    public void drawTable(PDPage page, PDPageContentStream contentStream,
             float y, float margin,
             List<Workers> workerList) throws IOException {
 		final int rows = workerList.size()+1;
@@ -194,7 +195,15 @@ public class ToolbarController  implements Initializable {
 		alert.setTitle("Information Dialog");
 		alert.setHeaderText(null);
 		alert.setContentText("Successful Printing!");
-
-		alert.showAndWait();
+                try{
+                    DialogPane dialogPane = alert.getDialogPane();
+                    dialogPane.getStylesheets().add(getClass().getResource("/resources/myDialogs.css").toExternalForm());
+                    dialogPane.getStyleClass().add("myDialog");
+		}catch(Exception e)
+                {
+                    System.out.println("Error");
+                }
+                
+                alert.showAndWait();
 	}
 }
