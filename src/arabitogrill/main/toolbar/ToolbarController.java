@@ -36,6 +36,7 @@ import arabitogrill.model.WorkersDAO;
 import static arabitogrill.main.MainController.toolbarFXML;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import arabitogrill.addmember.MemberAddController;
 import static arabitogrill.main.MainController.toolbar;
@@ -159,7 +160,7 @@ public class ToolbarController  implements Initializable {
 		contentStream.endText();
 		textx += colWidth;
 		
-		text = "Tips";
+		text = "Amount";
 		contentStream.beginText();
 		contentStream.moveTextPositionByAmount(textx,texty);
 		contentStream.drawString(text);
@@ -178,7 +179,7 @@ public class ToolbarController  implements Initializable {
 			contentStream.endText();
 			textx += colWidth;
 			
-			text = worker.getDailyS().toString();
+			text = worker.getDailyS().setScale(2, RoundingMode.DOWN).toString();
 			contentStream.beginText();
 			contentStream.moveTextPositionByAmount(textx,texty);
 			contentStream.drawString(text);
