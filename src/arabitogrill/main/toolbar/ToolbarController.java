@@ -116,7 +116,7 @@ public class ToolbarController  implements Initializable {
 
                 Calendar cal = Calendar.getInstance();
 
-                doc.save("bill_" + cal.getTime().getMonth() +"_"+  cal.getTime().getYear() +".pdf" );
+                doc.save("C:\\Users\\eulis\\Desktop\\bill_" + cal.getTime().getMonth() +"_"+  cal.getTime().getYear() +".pdf" );
             } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
