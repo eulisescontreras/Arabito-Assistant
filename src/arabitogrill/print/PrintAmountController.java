@@ -159,7 +159,7 @@ public class PrintAmountController {
             if(band) 
             {
             	Calendar cal = Calendar.getInstance();
-                doc.save("bill_" + currentMonth +"_"+  currentYear +".pdf" );
+                doc.save("C:\\Users\\eulis\\Desktop\\bill_" + currentMonth +"_"+  currentYear +".pdf" );
                 
             	Alert alert = new Alert(AlertType.INFORMATION);
         		alert.setTitle("Information Dialog");

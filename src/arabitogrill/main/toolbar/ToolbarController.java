@@ -89,41 +89,6 @@ public class ToolbarController  implements Initializable {
     
     @FXML
     private void print(ActionEvent event) {
-<<<<<<< HEAD
-    	PDDocument doc = new PDDocument();
-        PDPage page = new PDPage();
-        doc.addPage( page );
-        
-        try {
-             PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-             
-             WorkersDAO wdao = new WorkersDAO();
-             DaysDAO ddao = new DaysDAO();
-             List<Workers> workerList = new ArrayList<Workers>();
-             
-             for(Workers worker : wdao.read(null)) 
-             {
-            	 Double tot = new Double(0);
-            	 
-            	 for(InformationUserCalendar inf : ddao.read(worker.getId()))
-            		tot = tot + inf.getAmount();
-            	 
-            	 worker.setDailyS(new BigDecimal(tot));
-            	 workerList.add(worker);
-             }
-             
-        	drawTable(page, contentStream, 700, 100, workerList);
-                contentStream.close();
-
-                Calendar cal = Calendar.getInstance();
-
-                doc.save("C:\\Users\\eulis\\Desktop\\bill_" + cal.getTime().getMonth() +"_"+  cal.getTime().getYear() +".pdf" );
-            } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-            } 
-=======
         ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/print/print_amount.fxml"), "Print workers Amount", null,false,false,null);
->>>>>>> 690c464bdab43ddaac5593caea5c38a6839652e6
     }
 }
