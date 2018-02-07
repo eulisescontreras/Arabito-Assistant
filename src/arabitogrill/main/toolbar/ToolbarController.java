@@ -89,6 +89,7 @@ public class ToolbarController  implements Initializable {
     
     @FXML
     private void print(ActionEvent event) {
+<<<<<<< HEAD
     	PDDocument doc = new PDDocument();
         PDPage page = new PDPage();
         doc.addPage( page );
@@ -121,89 +122,8 @@ public class ToolbarController  implements Initializable {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
             } 
+=======
+        ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/print/print_amount.fxml"), "Print workers Amount", null,false,false,null);
+>>>>>>> 690c464bdab43ddaac5593caea5c38a6839652e6
     }
-    
-    public void drawTable(PDPage page, PDPageContentStream contentStream,
-            float y, float margin,
-            List<Workers> workerList) throws IOException {
-		final int rows = workerList.size()+1;
-		final int cols = 1;
-		final float rowHeight = 20f;
-		final float tableWidth = page.getCropBox().getWidth() - margin - margin;
-		final float tableHeight = rowHeight * rows;
-		final float colWidth = tableWidth/(float)cols;
-		final float cellMargin=5f;
-		
-		//draw the rows
-		float nexty = y ;
-		for (int i = 0; i <= rows; i++) {
-                    contentStream.drawLine(margin, nexty, margin+tableWidth, nexty);
-                    nexty-= rowHeight;
-		}
-		
-		//draw the columns
-		float nextx = margin;
-		for (int i = 0; i <= cols; i++) {
-		contentStream.drawLine(nextx, y, nextx, y-tableHeight);
-		nextx += colWidth;
-		}
-		
-		//now add the text
-		contentStream.setFont( PDType1Font.HELVETICA_BOLD , 12 );
-		
-		float textx = margin+cellMargin;
-		float texty = y-15;
-		
-		String text = "Names:";
-		contentStream.beginText();
-		contentStream.moveTextPositionByAmount(textx,texty);
-		contentStream.drawString(text);
-		contentStream.endText();
-		textx += colWidth;
-		
-		text = "Amounts:";
-		contentStream.beginText();
-		contentStream.moveTextPositionByAmount(textx,texty);
-		contentStream.drawString(text);
-		contentStream.endText();
-		textx += colWidth;
-		
-		texty-=rowHeight;
-		textx = margin+cellMargin;
-		
-		for(Workers worker : workerList) 
-		{
-			text = worker.getFirstName() + " " + worker.getSecondName();
-			contentStream.beginText();
-			contentStream.moveTextPositionByAmount(textx,texty);
-			contentStream.drawString(text);
-			contentStream.endText();
-			textx += colWidth;
-			
-			text = worker.getDailyS().setScale(2, RoundingMode.DOWN).toString();
-			contentStream.beginText();
-			contentStream.moveTextPositionByAmount(textx,texty);
-			contentStream.drawString(text);
-			contentStream.endText();
-			textx += colWidth;
-			
-			texty-=rowHeight;
-			textx = margin+cellMargin;
-		}
-		
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText("Successful Printing!");
-                try{
-                    DialogPane dialogPane = alert.getDialogPane();
-                    dialogPane.getStylesheets().add(getClass().getResource("/resources/myDialogs.css").toExternalForm());
-                    dialogPane.getStyleClass().add("myDialog");
-		}catch(Exception e)
-                {
-                    System.out.println("Error");
-                }
-                
-                alert.showAndWait();
-	}
 }
