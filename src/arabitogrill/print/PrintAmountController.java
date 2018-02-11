@@ -140,7 +140,7 @@ public class PrintAmountController {
 	                   	 for(InformationUserCalendar inf : ddao.read(worker.getId())) 
 	                   	 {
 	                   		 if(inf.getYear()==startDate.get(Calendar.YEAR) 
-	                   				 && inf.getMonth()==startDate.get(Calendar.MONTH)
+	                   				 && inf.getMonth()==(startDate.get(Calendar.MONTH)+1)
 	                   				 && (
                    						 inf.getDay() <= startDate.get(Calendar.DAY_OF_MONTH)
                    						 &&
