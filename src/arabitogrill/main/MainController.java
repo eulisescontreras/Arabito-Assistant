@@ -172,6 +172,9 @@ public class MainController  implements Initializable {
           }
         }
        });
+       
+       arabitoGrill = new ArabitoGrill();
+       arabitoGrill.getSetting();
         
         mc = this;
         for(int i = startYear; i <= endYear; i++)
@@ -224,7 +227,10 @@ public class MainController  implements Initializable {
         
         totalWeekCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DaysOfWeek, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DaysOfWeek, String> p) {
-                return new ReadOnlyStringWrapper((p.getValue().getTotalWeekCol().getDay()==null ? "Total Month: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Tips\n   percent home: \n  $ "+(Double.parseDouble(arabitoGrill.getPerH().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Tips\n   percent worker: \n  $ "+(Double.parseDouble(arabitoGrill.getPerW().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n":"Total Week: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Tips\n   percent home: \n  $ "+(Double.parseDouble(arabitoGrill.getPerH().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Tips\n   percent worker: \n  $ "+(Double.parseDouble(arabitoGrill.getPerW().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n"));
+                return new ReadOnlyStringWrapper((p.getValue().getTotalWeekCol().getDay()==null ? 
+                		"Total Month: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Tips\n   percent home: \n  $ "+(Double.parseDouble(arabitoGrill.getPerH().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Tips\n   percent worker: \n  $ "+(Double.parseDouble(arabitoGrill.getPerW().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Total: \n  $ "+ ( Double.parseDouble(p.getValue().getTotalWeekCol().getAmount()) + (Double.parseDouble(arabitoGrill.getPerW().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)) +"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n"
+                		:
+                		"Total Week: \n\n\n   Amount: \n  $ "+p.getValue().getTotalWeekCol().getAmount()+"\n\n   Tips: \n  $ "+p.getValue().getTotalWeekCol().getTips()+"\n\n   Tips\n   percent home: \n  $ "+(Double.parseDouble(arabitoGrill.getPerH().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Tips\n   percent worker: \n  $ "+(Double.parseDouble(arabitoGrill.getPerW().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)+"\n\n   Total: \n  $ "+ ( Double.parseDouble(p.getValue().getTotalWeekCol().getAmount()) + (Double.parseDouble(arabitoGrill.getPerW().toString())*Double.parseDouble(p.getValue().getTotalWeekCol().getTips())/100)) +"\n\n   Time: \n    "+p.getValue().getTotalWeekCol().getTime()+"\n\n\n"));
             }
          });
   
