@@ -118,9 +118,70 @@ public class PrintAmountController {
         }
         
         try {
-             for(int y=Integer.parseInt(initD.getText());y<=Integer.parseInt(endD.getText());y++) 
+        	int dayOfWeek=1; //SunDay
+        	Calendar startDate = Calendar.getInstance();
+            Calendar endDate = Calendar.getInstance();
+            int initY=650;
+            int antW=1;
+            WorkersDAO wdao = new WorkersDAO();
+            DaysDAO ddao = new DaysDAO();
+   		 	List<Workers> workerList = new ArrayList<Workers>();
+
+            startDate.set(Integer.parseInt(initD.getText()), 0, 1);
+            endDate.set(Integer.parseInt(endD.getText()), 11, 31);
+
+            while (startDate.getTimeInMillis() <= endDate.getTimeInMillis()) {
+                if (startDate.get(Calendar.DAY_OF_WEEK) == dayOfWeek) {
+                	
+                	for(Workers worker : wdao.read(null)) 
+                    {
+	                   	 Double tot = new Double(0);
+	                   	 
+	                   	 for(InformationUserCalendar inf : ddao.read(worker.getId())) 
+	                   	 {
+	                   		 if(inf.getYear()==startDate.get(Calendar.YEAR) 
+	                   				 && inf.getMonth()==startDate.get(Calendar.MONTH)
+	                   				 && (
+                   						 inf.getDay() <= startDate.get(Calendar.DAY_OF_MONTH)
+                   						 &&
+                   						 inf.getDay() >= antW
+                   						 ))
+	                   			 tot = tot + inf.getAmount();
+	                   	 }
+	                   	
+	                   	 worker.setDailyS(new BigDecimal(tot));
+	                   	 workerList.add(worker);
+                    }
+                	
+                	if(workerList.size() > 0) 
+	           		 {
+	           			 /* PRINT */
+	           			 PDPage page = new PDPage();
+	               	     doc.addPage( page );
+	               		 PDPageContentStream contentStream = new PDPageContentStream(doc, page);
+	           			 drawTable(page, 
+	           					 contentStream, 
+	           					 initY, 
+	           					 100, 
+	           					 workerList, 
+	           					 getMonthForInt(startDate.get(Calendar.MONTH)), 
+	           					 startDate.get(Calendar.YEAR),
+	           					 startDate.get(Calendar.DAY_OF_MONTH),
+	           					 antW);
+	           			 contentStream.close();
+	           			 band=true;
+	           			 
+	           			initY=650;
+	           			antW=startDate.get(Calendar.DAY_OF_MONTH);
+	           		 	workerList = new ArrayList<Workers>();
+	           		 }
+                }
+                
+                startDate.add(Calendar.DAY_OF_MONTH, 1);
+            }
+        	
+             /*for(int y=Integer.parseInt(initD.getText());y<=Integer.parseInt(endD.getText());y++) 
              {
-            	 
             	 for(int m=1;m<=12;m++) 
             	 {
             		 int initY=650;
@@ -144,7 +205,6 @@ public class PrintAmountController {
                     
             		 if(workerList.size() > 0) 
             		 {
-            			 /* PRINT */
             			 PDPage page = new PDPage();
                 	     doc.addPage( page );
                 		 PDPageContentStream contentStream = new PDPageContentStream(doc, page);
@@ -154,12 +214,12 @@ public class PrintAmountController {
             		 }
             		 
             	 }
-             }
+             }*/
              
             if(band) 
             {
             	Calendar cal = Calendar.getInstance();
-                doc.save("C:\\Users\\eulis\\Desktop\\bill_" + currentMonth +"_"+  currentYear +".pdf" );
+                doc.save("bill_" + currentMonth +"_"+  currentYear +".pdf" );
                 
             	Alert alert = new Alert(AlertType.INFORMATION);
         		alert.setTitle("Information Dialog");
@@ -204,7 +264,7 @@ public class PrintAmountController {
 
     public void drawTable(PDPage page, PDPageContentStream contentStream,
             float y, float margin,
-            List<Workers> workerList, String month, int year) throws IOException {
+            List<Workers> workerList, String month, int year, int week1, int week2) throws IOException {
 		final int rows = workerList.size()+1;
 		final int cols = 2;
 		final float rowHeight = 20f;
@@ -232,7 +292,7 @@ public class PrintAmountController {
 		
 		// Year
 		contentStream.drawLine(margin, 700, margin+tableWidth, 700);
-		String text = year + "";
+		String text = year + " " + month;
 		contentStream.beginText();
 		contentStream.moveTextPositionByAmount(margin,700);
 		contentStream.drawString(text);
@@ -255,7 +315,7 @@ public class PrintAmountController {
 		contentStream.endText();
 		textx += colWidth;
 		
-		text = month;
+		text = week2 + " to " + week1;
 		contentStream.beginText();
 		contentStream.moveTextPositionByAmount(textx,texty);
 		contentStream.drawString(text);
