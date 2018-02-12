@@ -32,6 +32,7 @@ import arabitogrill.model.DaysDAO;
 import arabitogrill.model.InformationUserCalendar;
 import arabitogrill.model.Workers;
 import arabitogrill.model.WorkersDAO;
+import arabitogrill.ArabitoGrill;
 import arabitogrill.model.Bills;
 
 import java.io.File;
@@ -109,6 +110,7 @@ public class PrintAmountController {
     	PDDocument doc = new PDDocument();
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+        ArabitoGrill arabitoGrill = new ArabitoGrill();
         Boolean band = false;
         
         if(initD.getText().trim().length()==0
@@ -118,15 +120,17 @@ public class PrintAmountController {
         }
         
         try {
+        	arabitoGrill.getSetting();
         	int dayOfWeek=1; //SunDay
         	Calendar startDate = Calendar.getInstance();
             Calendar endDate = Calendar.getInstance();
+            Calendar antDate = Calendar.getInstance();
             int initY=650;
-            int antW=1;
             WorkersDAO wdao = new WorkersDAO();
             DaysDAO ddao = new DaysDAO();
    		 	List<Workers> workerList = new ArrayList<Workers>();
-
+   		 	
+   		 	antDate.set(Integer.parseInt(initD.getText()), 0, 1);
             startDate.set(Integer.parseInt(initD.getText()), 0, 1);
             endDate.set(Integer.parseInt(endD.getText()), 11, 31);
 
@@ -136,6 +140,7 @@ public class PrintAmountController {
                 	for(Workers worker : wdao.read(null)) 
                     {
 	                   	 Double tot = new Double(0);
+	                   	 Double totTip = new Double(0);
 	                   	 
 	                   	 for(InformationUserCalendar inf : ddao.read(worker.getId())) 
 	                   	 {
@@ -144,9 +149,14 @@ public class PrintAmountController {
 	                   				 && (
                    						 inf.getDay() <= startDate.get(Calendar.DAY_OF_MONTH)
                    						 &&
-                   						 inf.getDay() >= antW
+                   						 inf.getDay() >= antDate.get(Calendar.DAY_OF_MONTH)
                    						 ))
-	                   			 tot = tot + inf.getAmount();
+	                   		 {
+	                   			tot = tot + inf.getAmount();
+	                   			totTip = totTip + inf.getTips();
+	                   		 }
+	                   			 
+	                   		tot = tot + Double.parseDouble(arabitoGrill.getPerW().toString())*totTip/100;
 	                   	 }
 	                   	
 	                   	 worker.setDailyS(new BigDecimal(tot));
@@ -167,12 +177,13 @@ public class PrintAmountController {
 	           					 getMonthForInt(startDate.get(Calendar.MONTH)), 
 	           					 startDate.get(Calendar.YEAR),
 	           					 startDate.get(Calendar.DAY_OF_MONTH),
-	           					 antW);
+	           					antDate.get(Calendar.DAY_OF_MONTH));
 	           			 contentStream.close();
 	           			 band=true;
 	           			 
 	           			initY=650;
-	           			antW=startDate.get(Calendar.DAY_OF_MONTH);
+	           			antDate.setTime(startDate.getTime());
+	           			antDate.add(Calendar.DAY_OF_MONTH, 1);
 	           		 	workerList = new ArrayList<Workers>();
 	           		 }
                 }
