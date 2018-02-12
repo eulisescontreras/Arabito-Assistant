@@ -106,6 +106,10 @@ public class ArabitoGrill extends Application {
     	Path currentRelativePath = Paths.get("");
     	String s = currentRelativePath.toAbsolutePath().toString();
     	File file = new File(s + "/settings_arabitogrill.txt");
+        this.perH = BigDecimal.TEN;
+        this.perW = BigDecimal.TEN;
+        this.iniY = 2018;
+        this.endY = 2030;
         
         try{
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -115,25 +119,18 @@ public class ArabitoGrill extends Application {
             st = new String(br.readLine());
             if ((st) != null)
                 this.perH = new BigDecimal(st);
-            else
-                this.perH = BigDecimal.TEN;
+            
             st =  new String(br.readLine());
             if ((st) != null)
                 this.perW = new BigDecimal(st);
-            else
-                this.perW = BigDecimal.TEN;
 
             st =  new String(br.readLine());
             if ((st) != null)
                 this.iniY = Consts.startYears = Integer.valueOf(st);
-            else
-                this.iniY = 2018;
 
             st =  new String(br.readLine());
             if ((st) != null)
                 this.endY = Consts.endYears = Integer.valueOf(st);
-            else
-                this.endY = 2030;
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block

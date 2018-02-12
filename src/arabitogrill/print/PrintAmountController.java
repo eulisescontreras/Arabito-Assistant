@@ -155,10 +155,10 @@ public class PrintAmountController {
 	                   			tot = tot + inf.getAmount();
 	                   			totTip = totTip + inf.getTips();
 	                   		 }
-	                   			 
-	                   		tot = tot + Double.parseDouble(arabitoGrill.getPerW().toString())*totTip/100;
 	                   	 }
 	                   	
+	                   	 tot = tot + ((Double.parseDouble(arabitoGrill.getPerW().toString())*totTip)/100);
+	                   	 
 	                   	 worker.setDailyS(new BigDecimal(tot));
 	                   	 workerList.add(worker);
                     }
