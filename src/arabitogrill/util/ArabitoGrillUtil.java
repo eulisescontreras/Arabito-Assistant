@@ -52,7 +52,10 @@ public class ArabitoGrillUtil {
                 controllerPayment.setAmount((""+iuc.getAmount()).toString());
                 controllerPayment.setTips((""+iuc.getTips()).toString());
                 controllerPayment.setUserId(iuc.getUserId());
-                controllerPayment.setTime((""+iuc.getHour()).toString().replace(".0","")+":"+iuc.getMinutes()+":00");
+                if((""+iuc.getHour()).toString().replace(".0","").equals("0") && (""+iuc.getMinutes()).toString().equals("0"))
+                    controllerPayment.setTime((""+iuc.getHour()).toString().replace(".0","")+"0"+":"+iuc.getMinutes()+"0"+":00");
+                else
+                    controllerPayment.setTime((""+iuc.getHour()).toString().replace(".0","")+":"+iuc.getMinutes()+":00");
                 controllerPayment.setDate(iuc.getDate());
                 controllerPayment.setMain(main);
                 controllerPayment.setDayId(iuc.getDayId());
@@ -64,7 +67,7 @@ public class ArabitoGrillUtil {
             stage.setScene(new Scene(parent));
             setStageIcon(stage);
             stage.show();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }   

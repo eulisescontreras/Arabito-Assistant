@@ -76,7 +76,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.printing.PDFPageable;
-
+import java.util.concurrent.TimeUnit;
 /**
  *
  * @author eulis
@@ -128,48 +128,94 @@ public class MainController  implements Initializable {
     arabitogrill.main.toolbar.ToolbarController controllerMenu;
     private ToolbarController controller;
     public ArabitoGrill arabitoGrill;
+    public int count = 0;
     
     public void Initialice(int startYear, int endYear, boolean isFromLogin) throws IOException{
        tableView.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler() {
        @Override
        public void handle(Event event) {
-           if(!controller.getIdUser().equals("-1") && !(event.getTarget().toString().split("Total").length > 1) && !event.getTarget().toString().equals(""))
-           {
-              InformationUserCalendar iuc = new InformationUserCalendar();
-              List<InformationUserCalendar> iucl = new ArrayList<>();
-              String month = ArabitoGrillUtil.monthNumber(headerTabPane.getTabs().get(headerTabPane.getSelectionModel().getSelectedIndex()).getText()).toString();
-              String year = footerTabPane.getTabs().get(footerTabPane.getSelectionModel().getSelectedIndex()).getText();
-              String day = event.getTarget().toString().split("text=")[1].split("Amount:")[0].trim().replace((""+'"'),"");
-              String amount = event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[0].trim().replace("$ ","");
-              String tips =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[0];
-              String time =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[3].trim();
+           try{
+                TimeUnit.SECONDS.sleep(1);
+                count++;
+                if(count==2 && !controller.getIdUser().equals("-1") && !(event.getTarget().toString().split("Total").length > 1) && !event.getTarget().toString().equals(""))
+                {
+                   count = 0;
+                   InformationUserCalendar iuc = new InformationUserCalendar();
+                   List<InformationUserCalendar> iucl = new ArrayList<>();
+                   String month = ArabitoGrillUtil.monthNumber(headerTabPane.getTabs().get(headerTabPane.getSelectionModel().getSelectedIndex()).getText()).toString();
+                   String year = footerTabPane.getTabs().get(footerTabPane.getSelectionModel().getSelectedIndex()).getText();
+                   String day = event.getTarget().toString().split("text=")[1].split("Amount:")[0].trim().replace((""+'"'),"");
+                   String amount = event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[0].trim().replace("$ ","");
+                   String tips =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[0];
+                   String time =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[3].trim();
 
-              iucl = daysdao.read(Integer.parseInt(controller.getIdUser()));
-              iuc.setDayId(-1);
-              for(int k = 0; k < iucl.size(); k++)
-              {
-                   if((""+iucl.get(k).getDay()).toString().equals(day) && (""+iucl.get(k).getMonth()).toString().equals(month) && (""+iucl.get(k).getYear()).toString().equals(year))
+                   iucl = daysdao.read(Integer.parseInt(controller.getIdUser()));
+                   iuc.setDayId(-1);
+                   for(int k = 0; k < iucl.size(); k++)
                    {
-                       iuc.setDayId(iucl.get(k).getDayId());
+                        if((""+iucl.get(k).getDay()).toString().equals(day) && (""+iucl.get(k).getMonth()).toString().equals(month) && (""+iucl.get(k).getYear()).toString().equals(year))
+                        {
+                            iuc.setDayId(iucl.get(k).getDayId());
+                        }
+                        iuc.setDaily_s(iucl.get(k).getDaily_s());
                    }
-                   iuc.setDaily_s(iucl.get(k).getDaily_s());
-              }
-              Calendar cal = Calendar.getInstance();
-              cal.set(Integer.parseInt(year), 
-                     Integer.parseInt(month)-1, 
-                     Integer.parseInt(day));
-              Date date = new Date(cal.getTimeInMillis());
+                   Calendar cal = Calendar.getInstance();
+                   cal.set(Integer.parseInt(year), 
+                          Integer.parseInt(month)-1, 
+                          Integer.parseInt(day));
+                   Date date = new Date(cal.getTimeInMillis());
 
-              iuc.setDate(date);
-              iuc.setDay(Integer.parseInt(day));
-              iuc.setAmount(Double.parseDouble(amount));
-              iuc.setTips(Double.parseDouble(tips));
-              iuc.setHour(Double.parseDouble(time.split(":")[0]));
-              iuc.setMinutes(Integer.parseInt(time.split(":")[1]));
-              iuc.setUserId(controller.getIdUser());
+                   iuc.setDate(date);
+                   iuc.setDay(Integer.parseInt(day));
+                   iuc.setAmount(Double.parseDouble(amount));
+                   iuc.setTips(Double.parseDouble(tips));
+                   iuc.setHour(Double.parseDouble(time.split(":")[0]));
+                   iuc.setMinutes(Integer.parseInt(time.split(":")[1]));
+                   iuc.setUserId(controller.getIdUser());
+                   ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/paymentforusers/PaymentForWorkers.fxml"), "Payment for Workers",mc,false,true,iuc);
+               }
+            }catch(Exception ex)
+            {
+                if(count==2 && !controller.getIdUser().equals("-1") && !(event.getTarget().toString().split("Total").length > 1) && !event.getTarget().toString().equals(""))
+                {
+                   count = 0;
+                   InformationUserCalendar iuc = new InformationUserCalendar();
+                   List<InformationUserCalendar> iucl = new ArrayList<>();
+                   String month = ArabitoGrillUtil.monthNumber(headerTabPane.getTabs().get(headerTabPane.getSelectionModel().getSelectedIndex()).getText()).toString();
+                   String year = footerTabPane.getTabs().get(footerTabPane.getSelectionModel().getSelectedIndex()).getText();
+                   String day = event.getTarget().toString().split("text=")[1].split("Amount:")[0].trim().replace((""+'"'),"");
+                   String amount = event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[0].trim().replace("$ ","");
+                   String tips =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[0];
+                   String time =  event.getTarget().toString().split("text=")[1].split("Amount:")[1].split("Tips:")[1].split(""+'"')[0].trim().replace("$ ","").split("\n")[3].trim();
 
-              ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/paymentforusers/PaymentForWorkers.fxml"), "Payment for Workers",mc,false,true,iuc);
-          }
+                   iucl = daysdao.read(Integer.parseInt(controller.getIdUser()));
+                   iuc.setDayId(-1);
+                   for(int k = 0; k < iucl.size(); k++)
+                   {
+                        if((""+iucl.get(k).getDay()).toString().equals(day) && (""+iucl.get(k).getMonth()).toString().equals(month) && (""+iucl.get(k).getYear()).toString().equals(year))
+                        {
+                            iuc.setDayId(iucl.get(k).getDayId());
+                        }
+                        iuc.setDaily_s(iucl.get(k).getDaily_s());
+                   }
+                   Calendar cal = Calendar.getInstance();
+                   cal.set(Integer.parseInt(year), 
+                          Integer.parseInt(month)-1, 
+                          Integer.parseInt(day));
+                   Date date = new Date(cal.getTimeInMillis());
+
+                   iuc.setDate(date);
+                   iuc.setDay(Integer.parseInt(day));
+                   iuc.setAmount(Double.parseDouble(amount));
+                   iuc.setTips(Double.parseDouble(tips));
+                   iuc.setHour(Double.parseDouble(time.split(":")[0]));
+                   iuc.setMinutes(Integer.parseInt(time.split(":")[1]));
+                   iuc.setUserId(controller.getIdUser());
+
+                   ArabitoGrillUtil.loadWindow(getClass().getResource("/arabitogrill/paymentforusers/PaymentForWorkers.fxml"), "Payment for Workers",mc,false,true,iuc);
+               } 
+                System.out.println(ex.getMessage());
+            }
         }
        });
        

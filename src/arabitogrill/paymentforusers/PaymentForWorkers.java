@@ -55,10 +55,10 @@ public class PaymentForWorkers implements Initializable  {
                 {
                     double firstValue = Double.parseDouble(newValue.toString().split(":")[0])*this.daily_s;
                     double secondValue = (Double.parseDouble(newValue.toString().split(":")[1])*this.daily_s)/60;
-                    firstIntValue = (int)firstValue;
+                    /*firstIntValue = (int)firstValue;
                     secondIntValue = (int)secondValue;
-                    value = firstIntValue+"."+secondIntValue;
-                    amount.setText(value);
+                    value = firstIntValue+"."+secondIntValue;*/
+                    amount.setText((""+(firstValue+secondValue)).toString());
                 }
                 isExecute = true;
             }catch(Exception ex){}

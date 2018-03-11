@@ -109,10 +109,11 @@ public class DaysDAO {
         public List<InformationUserCalendar> read(int userId) {
             
             List<InformationUserCalendar> listInformation = new ArrayList<>();
-            String sql = "SELECT w.daily_s,d.id,d.tips, cast((cast(cast(to_char(((d.hours)::time),'HH24') as real)*w.daily_s as character varying(100)) || '.' || cast(cast(to_char(((d.hours)::time),'MI') as real)*w.daily_s as character varying(100))) as real) as amount,d.date,to_char(((d.date)::date),'YYYY') as year ,to_char(((d.date)::date),'MM') as month ,to_char(((d.date)::date),'DD') as day, cast(to_char(((d.hours)::time),'MI') as real) as minutes, cast(to_char(((d.hours)::time),'HH24') as real) as hour "+
+            String sql = "select x.daily_s, x.id, x.tips, (x.minutes*(x.daily_s/60))+(x.hour*x.daily_s) as amount, x.date, x.year, x.month, x.day, x.minutes, x.hour from "+
+                         "(SELECT w.daily_s,d.id,d.tips, cast((cast(cast(to_char(((d.hours)::time),'HH24') as real)*w.daily_s as character varying(100)) || '.' || cast(cast(to_char(((d.hours)::time),'MI') as real)*w.daily_s as character varying(100))) as real) as amount,d.date,to_char(((d.date)::date),'YYYY') as year ,to_char(((d.date)::date),'MM') as month ,to_char(((d.date)::date),'DD') as day, cast(to_char(((d.hours)::time),'MI') as real) as minutes, cast(to_char(((d.hours)::time),'HH24') as real) as hour "+
                          "FROM public.\"Days\" d "+
                          "INNER JOIN public.\"Workers\" w on d.worker = w.id "+
-                         "WHERE w.id = ?;";
+                         "WHERE w.id = ?) x ";
             try {
                     PreparedStatement statement = connection.prepareStatement(sql);
                     statement.setInt(1, userId);
