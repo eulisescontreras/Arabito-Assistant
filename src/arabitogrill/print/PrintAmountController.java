@@ -157,6 +157,11 @@ public class PrintAmountController {
 	                   		 }
 	                   	 }
 	                   	
+	                   	 worker.setSurname(tot.toString());
+	                   	 worker.setSecondSurname(
+	                   			((Double.parseDouble(arabitoGrill.getPerW().toString())*totTip)/100) + ""
+	                   			 );
+	                   	 
 	                   	 tot = tot + ((Double.parseDouble(arabitoGrill.getPerW().toString())*totTip)/100);
 	                   	 
 	                   	 worker.setDailyS(new BigDecimal(tot));
@@ -277,7 +282,7 @@ public class PrintAmountController {
             float y, float margin,
             List<Workers> workerList, String month, int year, int week1, int week2) throws IOException {
 		final int rows = workerList.size()+1;
-		final int cols = 2;
+		final int cols = 4;
 		final float rowHeight = 20f;
 		final float tableWidth = page.getCropBox().getWidth() - margin - margin;
 		final float tableHeight = rowHeight * rows;
@@ -319,6 +324,20 @@ public class PrintAmountController {
 		contentStream.endText();
 		textx += colWidth;
 		
+		text = "Hours:";
+		contentStream.beginText();
+		contentStream.moveTextPositionByAmount(textx,texty);
+		contentStream.drawString(text);
+		contentStream.endText();
+		textx += colWidth;
+		
+		text = "Tips:";
+		contentStream.beginText();
+		contentStream.moveTextPositionByAmount(textx,texty);
+		contentStream.drawString(text);
+		contentStream.endText();
+		textx += colWidth;
+		
 		text = "Amounts:";
 		contentStream.beginText();
 		contentStream.moveTextPositionByAmount(textx,texty);
@@ -339,6 +358,20 @@ public class PrintAmountController {
 		for(Workers worker : workerList) 
 		{
 			text = worker.getFirstName() + " " + worker.getSecondName();
+			contentStream.beginText();
+			contentStream.moveTextPositionByAmount(textx,texty);
+			contentStream.drawString(text);
+			contentStream.endText();
+			textx += colWidth;
+			
+			text = worker.getSurname();
+			contentStream.beginText();
+			contentStream.moveTextPositionByAmount(textx,texty);
+			contentStream.drawString(text);
+			contentStream.endText();
+			textx += colWidth;
+			
+			text = worker.getSecondSurname();
 			contentStream.beginText();
 			contentStream.moveTextPositionByAmount(textx,texty);
 			contentStream.drawString(text);
